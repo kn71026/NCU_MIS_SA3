@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="statics/css/personal.css">
+</head>
+
+<body>
+    <div id="logoBar">
+        <img class="logo" src="statics/icon/Charlie_the_unicorn.png">
+        <h1 class="logo">Charlie Clinic</h1>
+    </div>
+
+    <div id="navBar">
+        <div class="page appointment">掛號管理系統</div>
+        <div class="page patient">病歷管理系統</div>
+        <div class="page medicine">藥品管理系統</div>
+        <div class="page hr">人事管理系統</div>
+        <div class="page personal" style="background-color: rgb(178, 166, 142);">個人資料頁面</div>
+        <div class="page logout"><button id="logoutBtn" type="button">登出</button></div>
+    </div>
+
+    <div id="container">
+        <div id="functions">
+            <div id="titleOfSystem">個人資料頁面</div>
+        </div>
+        <div id="upperContainer">
+            <div id="imgContainer">
+                <img src="statics/img/personalPhoto.png" width="150px">
+            </div>
+            <div id="titleContainer">
+                <div class="title name">姓名</div>
+                <div class="title dob">生日</div>
+                <div class="title phone">聯絡電話</div>
+                <div class="title address">聯絡地址</div>
+                <div class="title position">職位</div>
+            </div>
+            <div id="infoContainer">
+                <div class="info name">楊先名</div>
+                <div class="info dob">1999/01/01</div>
+                <div class="info phone">0912345678</div>
+                <div class="info address">桃園區</div>
+                <div class="info position">醫師</div>
+            </div>
+        </div>
+        <div id="tableContainer">
+            <table>
+                <thead id="tableTitle">
+                    <tr>
+                        <th></th>
+                        <th>星期一</th>
+                        <th>星期二</th>
+                        <th>星期三</th>
+                        <th>星期四</th>
+                        <th>星期五</th>
+                        <th>星期六</th>
+                        <th>星期日</th>
+                    </tr>
+                </thead>
+                <tbody id="tableInfo">
+                    <tr>
+                        <td>上午班</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>下午班</td>
+                        <td></td>
+                        <td><img src="statics/icon/check.png" style="width: 30px;"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>晚班</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button type="button" class="btn editBtn" style="cursor: pointer;">修改密碼</button>
+    </div>
+</body>
+
+<script type="text/javascript" crossorigin="anonymous">
+    $(".logo").click(function () {
+        window.location.href = 'appointment.html';
+    });
+
+    $(".appointment").click(function () {
+        window.location.href = 'appointment.html';
+    });
+    $(".patient").click(function () {
+        window.location.href = 'patient.html';
+    });
+    $(".medicine").click(function () {
+        window.location.href = 'medicine.html';
+    });
+    $(".hr").click(function () {
+        window.location.href = 'humanResource.html';
+    });
+    $(".personal").click(function () {
+        window.location.href = 'personal.html';
+    });
+    $('#logoutBtn').click(function () {
+        window.location.href = 'logout.html';
+    });
+
+    $(".editBtn").click(function () {
+        window.location.href = 'editPasswd.html';
+    });
+</script>
+
+</html>

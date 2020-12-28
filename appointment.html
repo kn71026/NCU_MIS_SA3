@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="statics/css/appointment.css">
+</head>
+
+<body>
+    <div id="logoBar">
+        <img class="logo" src="statics/icon/Charlie_the_unicorn.png" style="cursor: pointer;">
+        <h1 class="logo" style="cursor: pointer;">Charlie Clinic</h1>
+    </div>
+
+    <div id="navBar">
+        <div class="page appointment" style="background-color: rgb(178, 166, 142);">掛號管理系統</div>
+        <div class="page patient">病歷管理系統</div>
+        <div class="page medicine">藥品管理系統</div>
+        <div class="page hr">人事管理系統</div>
+        <div class="page personal">個人資料頁面</div>
+        <div class="page logout"><button id="logoutBtn" type="button">登出</button></div>
+    </div>
+
+    <div id="container">
+        <button type="button" class="btn passNumBtn">過號</button>
+        <button type="button" class="btn checkInBtn">補報到</button>
+        <button type="button" class="btn deleteBtn">刪除</button>
+        <div id="functions">
+            <div id="titleOfSystem">掛號管理系統</div>
+            <div class="subFunction table">
+                <img src="statics/icon/play-button-arrowhead.png" width="17px">
+                <p style="text-decoration: underline">掛號清單列表</p>
+            </div>
+            <div class="subFunction add">
+                <img src="statics/icon/plus.png" width="17px">
+                <p style="cursor: pointer;">新增掛號</p>
+            </div>
+            <div id="search">
+                <input type="text" id="searchTarget" placeholder="搜尋" />
+            </div>
+            <div id="schedule">
+                看診進度
+                <p>109</p>
+            </div>
+        </div>
+        <div id="listTitleContainer">
+            <div class="listTitle name">姓名</div>
+            <div class="listTitle id">身分證字號</div>
+            <div class="listTitle doctor">看診醫師</div>
+            <div class="listTitle time">時段</div>
+            <div class="listTitle number">看診序號</div>
+            <div class="listTitle checker">選取</div>
+        </div>
+        <div id="listContainer">
+            <div class="list">
+                <div class="listContent name">周靖軒</div>
+                <div class="listContent id">A123456789</div>
+                <div class="listContent doctor">顏婷蓁 醫師</div>
+                <div class="listContent time">上午</div>
+                <div class="listContent number">001</div>
+                <div class="listContent checker"><input type="checkbox" id="functionChecker"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" crossorigin="anonymous">
+    $(".logo").click(function () {
+        window.location.href = 'appointment.html';
+    });
+
+    $(".appointment").click(function () {
+        window.location.href = 'appointment.html';
+    });
+    $(".patient").click(function () {
+        window.location.href = 'patient.html';
+    });
+    $(".medicine").click(function () {
+        window.location.href = 'medicine.html';
+    });
+    $(".hr").click(function () {
+        window.location.href = 'humanResource.html';
+    });
+    $(".personal").click(function () {
+        window.location.href = 'personal.html';
+    });
+    $('#logoutBtn').click(function () {
+        window.location.href = 'logout.html';
+    });
+
+    $(".add").click(function () {
+        window.location.href = 'addAppointment.html';
+    });
+</script>
+
+</html>
