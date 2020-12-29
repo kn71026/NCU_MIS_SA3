@@ -88,7 +88,6 @@ public class PatientHelper {
             pres.setTimestamp(11, Timestamp.valueOf(LocalDateTime.now()));
             pres.setString(12, editedby);
 
-
             /** 執行新增之SQL指令並記錄影響之行數 */
             row = pres.executeUpdate();
 
@@ -154,7 +153,6 @@ public class PatientHelper {
             String specialDisease = p.getSpecialDisease();
             String drugAllergy = p.getDrugAllergy();
             String editedby = p.geteditedby();
-
 
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
