@@ -39,9 +39,9 @@ public class DoctorHelper {
     
     /**
      * 靜態方法<br>
-     * 實作Singleton（單例模式），僅允許建立一個MemberHelper物件
+     * 實作Singleton（單例模式），僅允許建立一個DoctorHelper物件
      *
-     * @return the helper 回傳MemberHelper物件
+     * @return the helper 回傳DoctorHelper物件
      */
     public static DoctorHelper getHelper() {
         /** Singleton檢查是否已經有MemberHelper物件，若無則new一個，若有則直接回傳 */

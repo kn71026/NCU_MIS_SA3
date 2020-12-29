@@ -54,21 +54,22 @@ public class DoctorController extends HttpServlet {
         Doctor m = new Doctor(account, password, name, dob, phone, address);
         
         /** 後端檢查是否有欄位為空值，若有則回傳錯誤訊息 */
-        if(email.isEmpty() || password.isEmpty() || name.isEmpty()) {
+        if(account.isEmpty() || password.isEmpty() || name.isEmpty() || dob.isEmpty() || phone.isEmpty() || address.isEmpty()) 
+        {
             /** 以字串組出JSON格式之資料 */
             String resp = "{\"status\": \'400\', \"message\": \'欄位不能有空值\', \'response\': \'\'}";
             /** 透過JsonReader物件回傳到前端（以字串方式） */
             jsr.response(resp, response);
         }
-        /** 透過MemberHelper物件的checkDuplicate()檢查該會員電子郵件信箱是否有重複 */
-        else if (!mh.checkDuplicate(m)) {
-            /** 透過MemberHelper物件的create()方法新建一個會員至資料庫 */
-            JSONObject data = mh.create(m);
+        /** 透過DoctorHelper物件的checkDuplicate()檢查該會員帳號是否有重複 */
+        else if (!dh.checkDuplicate(d)) {
+            /** 透過DoctorHelper物件的create()方法新建一個醫師至資料庫 */
+            JSONObject data = dh.create(d);
             
             /** 新建一個JSONObject用於將回傳之資料進行封裝 */
             JSONObject resp = new JSONObject();
             resp.put("status", "200");
-            resp.put("message", "成功! 註冊會員資料...");
+            resp.put("message", "成功! 註冊醫師資料！");
             resp.put("response", data);
             
             /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
@@ -76,7 +77,7 @@ public class DoctorController extends HttpServlet {
         }
         else {
             /** 以字串組出JSON格式之資料 */
-            String resp = "{\"status\": \'400\', \"message\": \'新增帳號失敗，此E-Mail帳號重複！\', \'response\': \'\'}";
+            String resp = "{\"status\": \'400\', \"message\": \'新增資料失敗，此帳號重複！\', \'response\': \'\'}";
             /** 透過JsonReader物件回傳到前端（以字串方式） */
             jsr.response(resp, response);
         }
