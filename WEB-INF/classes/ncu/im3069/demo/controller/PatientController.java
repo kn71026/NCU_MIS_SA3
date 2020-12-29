@@ -2,7 +2,7 @@ package ncu.im3069.demo.controller;
 
 
 import java.io.*;
-
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import org.json.*;
@@ -10,7 +10,7 @@ import ncu.im3069.demo.app.Patient;
 import ncu.im3069.demo.app.PatientHelper;
 import ncu.im3069.tools.JsonReader;
 
-
+@WebServlet("/api/patient.do")
 public class PatientController extends HttpServlet {
 
     /** The Constant serialVersionUID. */

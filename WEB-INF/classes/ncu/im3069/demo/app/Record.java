@@ -8,22 +8,22 @@ import org.json.*;
 
 public class Record {
 
-    /** id，訂單編號 */
+    /** id，看診紀錄編號 */
     private int id;
 
-    /** first_name，會員姓名 */
+    /** first_name，看診紀錄姓名 */
     private String first_name;
 
-    /** last_name，會員姓 */
+    /** last_name，看診紀錄姓 */
     private String last_name;
 
-    /** email，會員電子郵件信箱 */
+    /** email，看診紀錄電子郵件信箱 */
     private String email;
 
-    /** address，會員地址 */
+    /** address，看診紀錄地址 */
     private String address;
 
-    /** phone，會員手機 */
+    /** phone，看診紀錄手機 */
 
     private String phone;
     /** list，訂單列表 */
@@ -42,13 +42,13 @@ public class Record {
      * 實例化（Instantiates）一個新的（new）Order 物件<br>
      * 採用多載（overload）方法進行，此建構子用於建立訂單資料時，產生一個新的訂單
      *
-     * @param first_name 會員名
-     * @param last_name 會員姓
-     * @param email 會員電子信箱
-     * @param address 會員地址
-     * @param phone 會員姓名
+     * @param first_name 看診紀錄名
+     * @param last_name 看診紀錄姓
+     * @param email 看診紀錄電子信箱
+     * @param address 看診紀錄地址
+     * @param phone 看診紀錄姓名
      */
-    public Order(String first_name, String last_name, String email, String address, String phone) {
+    public Record(String first_name, String last_name, String email, String address, String phone) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
@@ -62,15 +62,15 @@ public class Record {
      * 實例化（Instantiates）一個新的（new）Order 物件<br>
      * 採用多載（overload）方法進行，此建構子用於修改訂單資料時，新改資料庫已存在的訂單
      *
-     * @param first_name 會員名
-     * @param last_name 會員姓
-     * @param email 會員電子信箱
-     * @param address 會員地址
-     * @param phone 會員姓名
+     * @param first_name 看診紀錄名
+     * @param last_name 看診紀錄姓
+     * @param email 看診紀錄電子信箱
+     * @param address 看診紀錄地址
+     * @param phone 看診紀錄姓名
      * @param create 訂單創建時間
      * @param modify 訂單修改時間
      */
-    public Order(int id, String first_name, String last_name, String email, String address, String phone, Timestamp create, Timestamp modify) {
+    public Record(int id, String first_name, String last_name, String email, String address, String phone, Timestamp create, Timestamp modify) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -113,18 +113,18 @@ public class Record {
     }
 
     /**
-     * 取得訂單會員的名
+     * 取得訂單看診紀錄的名
      *
-     * @return String 回傳訂單會員的名
+     * @return String 回傳訂單看診紀錄的名
      */
     public String getFirstName() {
         return this.first_name;
     }
 
     /**
-     * 取得訂單會員的姓
+     * 取得訂單看診紀錄的姓
      *
-     * @return String 回傳訂單會員的姓
+     * @return String 回傳訂單看診紀錄的姓
      */
     public String getLastName() {
         return this.last_name;
@@ -176,9 +176,9 @@ public class Record {
     }
 
     /**
-     * 取得該名會員所有資料
+     * 取得該名看診紀錄所有資料
      *
-     * @return the data 取得該名會員之所有資料並封裝於JSONObject物件內
+     * @return the data 取得該名看診紀錄之所有資料並封裝於JSONObject物件內
      */
     public ArrayList<OrderItem> getOrderProduct() {
         return this.list;
