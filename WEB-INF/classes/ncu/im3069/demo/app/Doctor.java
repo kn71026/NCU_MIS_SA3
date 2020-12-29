@@ -140,7 +140,7 @@ public class Doctor {
      *
      * @return the account 回傳會員地址
      */
-    public String getaccount() {
+    public String getAccount() {
         return this.account;
     }
     
@@ -165,19 +165,10 @@ public class Doctor {
     /**
      * 取得更新資料時間之分鐘數
      *
-     * @return the login times 回傳更新資料時間之分鐘數
+     * @return the modify times 回傳更新資料時間之分鐘數
      */
-    public int getLoginTimes() {
-        return this.login_times;
-    }
-    
-    /**
-     * 取得會員資料之會員組別
-     *
-     * @return the status 回傳會員組別
-     */
-    public String getStatus() {
-        return this.status;
+    public int getModify_date() {
+        return this.modify_date;
     }
     
     /**
@@ -189,17 +180,17 @@ public class Doctor {
         /** 新建一個JSONObject用以儲存更新後之資料 */
         JSONObject data = new JSONObject();
         /** 取得更新資料時間（即現在之時間）之分鐘數 */
-        Calendar calendar = Calendar.getInstance();
-        this.login_times = calendar.get(Calendar.MINUTE);
+        /**Calendar calendar = Calendar.getInstance();
+        this.login_times = calendar.get(Calendar.MINUTE);*/
         /** 計算帳戶所屬之組別 */
-        calcAccName();
+        /**calcAccName();*/
         
         /** 檢查該名會員是否已經在資料庫 */
         if(this.id != 0) {
             /** 若有則將目前更新後之資料更新至資料庫中 */
-            mh.updateLoginTimes(this);
+            dh.updateLoginTimes(this);
             /** 透過MemberHelper物件，更新目前之會員資料置資料庫中 */
-            data = mh.update(this);
+            data = dh.update(this);
         }
         
         return data;
@@ -215,10 +206,13 @@ public class Doctor {
         JSONObject jso = new JSONObject();
         jso.put("id", getID());
         jso.put("name", getName());
-        jso.put("email", getEmail());
+        jso.put("account", getAccount());
         jso.put("password", getPassword());
-        jso.put("login_times", getLoginTimes());
-        jso.put("status", getStatus());
+        jso.put("dob", getDob());
+        jso.put("phone", getPhone());
+        jso.put("address", getAddress());
+        jso.put("create_date", getCreate_date());
+        jso.put("modify_date", getModify_date());
         
         return jso;
     }
@@ -227,19 +221,21 @@ public class Doctor {
      * 取得資料庫內之更新資料時間分鐘數與會員組別
      *
      */
-    private void getLoginTimesStatus() {
+    /**private void getLoginTimesStatus()*/ 
+     /{
         /** 透過MemberHelper物件，取得儲存於資料庫的更新時間分鐘數與會員組別 */
         JSONObject data = mh.getLoginTimesStatus(this);
         /** 將資料庫所儲存該名會員之相關資料指派至Member物件之屬性 */
         this.login_times = data.getInt("login_times");
         this.status = data.getString("status");
-    }
+    }    
     
     /**
      * 計算會員之組別<br>
      * 若為偶數則為「偶數會員」，若為奇數則為「奇數會員」
      */
-    private void calcAccName() {
+    private void calcAccName() 
+    {
         /** 計算目前分鐘數為偶數或奇數 */
         String curr_status = (this.login_times % 2 == 0) ? "偶數會員" : "奇數會員";
         /** 將新的會員組別指派至Member之屬性 */

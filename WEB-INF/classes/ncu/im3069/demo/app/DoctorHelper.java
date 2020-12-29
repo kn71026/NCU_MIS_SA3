@@ -51,9 +51,9 @@ public class DoctorHelper {
     }
     
     /**
-     * 透過會員編號（ID）刪除會員
+     * 透過醫師編號（ID）刪除醫師
      *
-     * @param id 會員編號
+     * @param id 醫師編號
      * @return the JSONObject 回傳SQL執行結果
      */
     public JSONObject deleteByID(int id) {
@@ -71,7 +71,7 @@ public class DoctorHelper {
             conn = DBMgr.getConnection();
             
             /** SQL指令 */
-            String sql = "DELETE FROM `missa`.`members` WHERE `id` = ? LIMIT 1";
+            String sql = "DELETE FROM `sa_project`.`doctor` WHERE `id` = ? LIMIT 1";
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
@@ -109,14 +109,14 @@ public class DoctorHelper {
     }
     
     /**
-     * 取回所有會員資料
+     * 取回所有醫師資料
      *
      * @return the JSONObject 回傳SQL執行結果與自資料庫取回之所有資料
      */
     public JSONObject getAll() {
-        /** 新建一個 Member 物件之 m 變數，用於紀錄每一位查詢回之會員資料 */
-        Member m = null;
-        /** 用於儲存所有檢索回之會員，以JSONArray方式儲存 */
+        /** 新建一個 Doctor 物件之 d 變數，用於紀錄每一位查詢回之醫師資料 */
+        Doctor d = null;
+        /** 用於儲存所有檢索回之醫師，以JSONArray方式儲存 */
         JSONArray jsa = new JSONArray();
         /** 記錄實際執行之SQL指令 */
         String exexcute_sql = "";
@@ -131,7 +131,7 @@ public class DoctorHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT * FROM `missa`.`members`";
+            String sql = "SELECT * FROM `sa_project`.`doctor`";
             
             /** 將參數回填至SQL指令當中，若無則不用只需要執行 prepareStatement */
             pres = conn.prepareStatement(sql);
@@ -148,17 +148,20 @@ public class DoctorHelper {
                 row += 1;
                 
                 /** 將 ResultSet 之資料取出 */
-                int member_id = rs.getInt("id");
+                int doctor_id = rs.getInt("id");
                 String name = rs.getString("name");
-                String email = rs.getString("email");
+                String account = rs.getString("account");
                 String password = rs.getString("password");
-                int login_times = rs.getInt("login_times");
-                String status = rs.getString("status");
+                String dob = jso.getString("dob");
+                int phone = jso.getInt("phone");
+                String address = jso.getString("address");
+                Timestamp create_date = jso.getTimestamp("create_date");
+                Timestamp modify_date = jso.getTimestamp("modify_date");
                 
-                /** 將每一筆會員資料產生一名新Member物件 */
-                m = new Member(member_id, email, password, name, login_times, status);
-                /** 取出該名會員之資料並封裝至 JSONsonArray 內 */
-                jsa.put(m.getData());
+                /** 將每一筆醫師資料產生一名新Doctor物件 */
+                d = new Doctor(doctor_id, name, account, password, dob, phone, address, create_date, modify_date);
+                /** 取出該名醫師之資料並封裝至 JSONsonArray 內 */
+                jsa.put(d.getData());
             }
 
         } catch (SQLException e) {
@@ -177,7 +180,7 @@ public class DoctorHelper {
         /** 紀錄程式執行時間 */
         long duration = (end_time - start_time);
         
-        /** 將SQL指令、花費時間、影響行數與所有會員資料之JSONArray，封裝成JSONObject回傳 */
+        /** 將SQL指令、花費時間、影響行數與所有醫師資料之JSONArray，封裝成JSONObject回傳 */
         JSONObject response = new JSONObject();
         response.put("sql", exexcute_sql);
         response.put("row", row);
@@ -188,15 +191,15 @@ public class DoctorHelper {
     }
     
     /**
-     * 透過會員編號（ID）取得會員資料
+     * 透過醫師編號（ID）取得醫師資料
      *
-     * @param id 會員編號
-     * @return the JSON object 回傳SQL執行結果與該會員編號之會員資料
+     * @param id 醫師編號
+     * @return the JSON object 回傳SQL執行結果與該醫師編號之醫師資料
      */
     public JSONObject getByID(String id) {
-        /** 新建一個 Member 物件之 m 變數，用於紀錄每一位查詢回之會員資料 */
-        Member m = null;
-        /** 用於儲存所有檢索回之會員，以JSONArray方式儲存 */
+        /** 新建一個 Doctor 物件之 d 變數，用於紀錄每一位查詢回之醫師資料 */
+        Doctor d = null;
+        /** 用於儲存所有檢索回之醫師，以JSONArray方式儲存 */
         JSONArray jsa = new JSONArray();
         /** 記錄實際執行之SQL指令 */
         String exexcute_sql = "";
@@ -211,7 +214,7 @@ public class DoctorHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT * FROM `missa`.`members` WHERE `id` = ? LIMIT 1";
+            String sql = "SELECT * FROM `sa_project`.`doctor` WHERE `id` = ? LIMIT 1";
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
@@ -224,7 +227,7 @@ public class DoctorHelper {
             System.out.println(exexcute_sql);
             
             /** 透過 while 迴圈移動pointer，取得每一筆回傳資料 */
-            /** 正確來說資料庫只會有一筆該會員編號之資料，因此其實可以不用使用 while 迴圈 */
+            /** 正確來說資料庫只會有一筆該醫師編號之資料，因此其實可以不用使用 while 迴圈 */
             while(rs.next()) {
                 /** 每執行一次迴圈表示有一筆資料 */
                 row += 1;
@@ -232,15 +235,18 @@ public class DoctorHelper {
                 /** 將 ResultSet 之資料取出 */
                 int member_id = rs.getInt("id");
                 String name = rs.getString("name");
-                String email = rs.getString("email");
+                String account = rs.getString("account");
                 String password = rs.getString("password");
-                int login_times = rs.getInt("login_times");
-                String status = rs.getString("status");
+                String dob = rs.getString("dob");
+                int phone = rs.getInt("phone");
+                String address = rs.String("address");
+                Timestamp create_date = jso.getTimestamp("create_date");
+                Timestamp modify_date = jso.getTimestamp("modify_date");
                 
-                /** 將每一筆會員資料產生一名新Member物件 */
-                m = new Member(member_id, email, password, name, login_times, status);
-                /** 取出該名會員之資料並封裝至 JSONsonArray 內 */
-                jsa.put(m.getData());
+                /** 將每一筆醫師資料產生一名新Member物件 */
+                d = new Doctor(member_id, name, account, password, dob, phone, address, create_date, modify_date);
+                /** 取出該名醫師之資料並封裝至 JSONsonArray 內 */
+                jsa.put(d.getData());
             }
             
         } catch (SQLException e) {
@@ -259,7 +265,7 @@ public class DoctorHelper {
         /** 紀錄程式執行時間 */
         long duration = (end_time - start_time);
         
-        /** 將SQL指令、花費時間、影響行數與所有會員資料之JSONArray，封裝成JSONObject回傳 */
+        /** 將SQL指令、花費時間、影響行數與所有醫師資料之JSONArray，封裝成JSONObject回傳 */
         JSONObject response = new JSONObject();
         response.put("sql", exexcute_sql);
         response.put("row", row);
@@ -270,61 +276,12 @@ public class DoctorHelper {
     }
     
     /**
-     * 取得該名會員之更新時間與所屬之會員組別
+     * 檢查該名醫師之帳號是否重複註冊
      *
-     * @param m 一名會員之Member物件
-     * @return the JSON object 回傳該名會員之更新時間與所屬組別（以JSONObject進行封裝）
+     * @param d 一名醫師之Doctor物件
+     * @return boolean 若重複註冊回傳False，若該帳號不存在則回傳True
      */
-    public JSONObject getLoginTimesStatus(Member m) {
-        /** 用於儲存該名會員所檢索之更新時間分鐘數與會員組別之資料 */
-        JSONObject jso = new JSONObject();
-        /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
-        ResultSet rs = null;
-
-        try {
-            /** 取得資料庫之連線 */
-            conn = DBMgr.getConnection();
-            /** SQL指令 */
-            String sql = "SELECT * FROM `missa`.`members` WHERE `id` = ? LIMIT 1";
-            
-            /** 將參數回填至SQL指令當中 */
-            pres = conn.prepareStatement(sql);
-            pres.setInt(1, m.getID());
-            /** 執行查詢之SQL指令並記錄其回傳之資料 */
-            rs = pres.executeQuery();
-            
-            /** 透過 while 迴圈移動pointer，取得每一筆回傳資料 */
-            /** 正確來說資料庫只會有一筆該電子郵件之資料，因此其實可以不用使用 while迴圈 */
-            while(rs.next()) {
-                /** 將 ResultSet 之資料取出 */
-                int login_times = rs.getInt("login_times");
-                String status = rs.getString("status");
-                /** 將其封裝至JSONObject資料 */
-                jso.put("login_times", login_times);
-                jso.put("status", status);
-            }
-            
-        } catch (SQLException e) {
-            /** 印出JDBC SQL指令錯誤 **/
-            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
-        } catch (Exception e) {
-            /** 若錯誤則印出錯誤訊息 */
-            e.printStackTrace();
-        } finally {
-            /** 關閉連線並釋放所有資料庫相關之資源 **/
-            DBMgr.close(rs, pres, conn);
-        }
-
-        return jso;
-    }
-    
-    /**
-     * 檢查該名會員之電子郵件信箱是否重複註冊
-     *
-     * @param m 一名會員之Member物件
-     * @return boolean 若重複註冊回傳False，若該信箱不存在則回傳True
-     */
-    public boolean checkDuplicate(Member m){
+    public boolean checkDuplicate(Doctor d){
         /** 紀錄SQL總行數，若為「-1」代表資料庫檢索尚未完成 */
         int row = -1;
         /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
@@ -334,14 +291,14 @@ public class DoctorHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT count(*) FROM `missa`.`members` WHERE `email` = ?";
+            String sql = "SELECT count(*) FROM `sa_project`.`doctor` WHERE `account` = ?";
             
             /** 取得所需之參數 */
-            String email = m.getEmail();
+            String account = d.getAccount();
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
-            pres.setString(1, email);
+            pres.setString(1, account);
             /** 執行查詢之SQL指令並記錄其回傳之資料 */
             rs = pres.executeQuery();
 
@@ -362,19 +319,19 @@ public class DoctorHelper {
         }
         
         /** 
-         * 判斷是否已經有一筆該電子郵件信箱之資料
+         * 判斷是否已經有一筆該帳號之資料
          * 若無一筆則回傳False，否則回傳True 
          */
         return (row == 0) ? false : true;
     }
     
     /**
-     * 建立該名會員至資料庫
+     * 建立該名醫師至資料庫
      *
-     * @param m 一名會員之Member物件
+     * @param d 一名醫師之Doctor物件
      * @return the JSON object 回傳SQL指令執行之結果
      */
-    public JSONObject create(Member m) {
+    public JSONObject create(Doctor d) {
         /** 記錄實際執行之SQL指令 */
         String exexcute_sql = "";
         /** 紀錄程式開始執行時間 */
@@ -386,25 +343,29 @@ public class DoctorHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "INSERT INTO `missa`.`members`(`name`, `email`, `password`, `modified`, `created`, `login_times`, `status`)"
+            String sql = "INSERT INTO `sa_project`.`doctor`(`account`, `password`, `name`, `dob`, `phone`,`address`, `create_date`, `modify_date`)"
                     + " VALUES(?, ?, ?, ?, ?, ?, ?)";
             
             /** 取得所需之參數 */
-            String name = m.getName();
-            String email = m.getEmail();
-            String password = m.getPassword();
-            int login_times = m.getLoginTimes();
-            String status = m.getStatus();
+            String name = rs.getString();
+            String account = rs.getString();
+            String password = rs.getString();
+            String dob = rs.getString();
+            int phone = rs.getInt();
+            String address = rs.String();
+            Timestamp create_date = jso.getTimestamp();
+            Timestamp modify_date = jso.getTimestamp();
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
-            pres.setString(1, name);
-            pres.setString(2, email);
-            pres.setString(3, password);
-            pres.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
-            pres.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
-            pres.setInt(6, login_times);
-            pres.setString(7, status);
+            pres.setString(1, account);
+            pres.setString(2, password);
+            pres.setString(3, name);
+            pres.setString(4, dob);
+            pres.setInt(5, phone);
+            pres.setString(6, address);
+            pres.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+            pres.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
             
             /** 執行新增之SQL指令並記錄影響之行數 */
             row = pres.executeUpdate();
@@ -439,9 +400,9 @@ public class DoctorHelper {
     }
     
     /**
-     * 更新一名會員之會員資料
+     * 更新一名醫師之醫師資料
      *
-     * @param m 一名會員之Member物件
+     * @param m 一名醫師之Member物件
      * @return the JSONObject 回傳SQL指令執行結果與執行之資料
      */
     public JSONObject update(Member m) {
@@ -504,13 +465,13 @@ public class DoctorHelper {
     }
     
     /**
-     * 更新會員更新資料之分鐘數
+     * 更新醫師更新資料之分鐘數
      *
-     * @param m 一名會員之Member物件
+     * @param d 一名醫師之Doctor物件
      */
-    public void updateLoginTimes(Member m) {
+    public void updateModifyTimes(Doctor d) {
         /** 更新時間之分鐘數 */
-        int new_times = m.getLoginTimes();
+        int new_times = d.getModify_date();
         
         /** 記錄實際執行之SQL指令 */
         String exexcute_sql = "";
@@ -520,7 +481,7 @@ public class DoctorHelper {
             conn = DBMgr.getConnection();
             /** SQL指令 */
             String sql = "Update `missa`.`members` SET `login_times` = ? WHERE `id` = ?";
-            /** 取得會員編號 */
+            /** 取得醫師編號 */
             int id = m.getID();
             
             /** 將參數回填至SQL指令當中 */
@@ -547,10 +508,10 @@ public class DoctorHelper {
     }
     
     /**
-     * 更新會員之會員組別
+     * 更新醫師之醫師組別
      *
-     * @param m 一名會員之Member物件
-     * @param status 會員組別之字串（String）
+     * @param m 一名醫師之Member物件
+     * @param status 醫師組別之字串（String）
      */
     public void updateStatus(Member m, String status) {      
         /** 記錄實際執行之SQL指令 */
@@ -561,7 +522,7 @@ public class DoctorHelper {
             conn = DBMgr.getConnection();
             /** SQL指令 */
             String sql = "Update `missa`.`members` SET `status` = ? WHERE `id` = ?";
-            /** 取得會員編號 */
+            /** 取得醫師編號 */
             int id = m.getID();
             
             /** 將參數回填至SQL指令當中 */
