@@ -11,7 +11,7 @@ public class Patient {
     /** id 病患編號 */
     private int id;
 
-    /** account 病患身分證字號 */
+    /** pid 病患身分證字號 */
     private String pid;
 
     /** name 病患姓名 */
@@ -63,10 +63,11 @@ public class Patient {
      * @param address        病患地址
      * @param specialDisease 病患特特殊病史
      * @param drugAllergy    病患過敏藥物
+     * @param edited_by      最後修改人員
      *
      */
     public Patient(String pid, String name, String gender, String dob, String bloodType, int phone, String address,
-            String specialDisease, String drugAllergy) {
+            String specialDisease, String drugAllergy, String edited_by) {
         this.pid = pid;
         this.name = name;
         this.gender = gender;
@@ -78,6 +79,7 @@ public class Patient {
         this.drugAllergy = drugAllergy;
         this.create_date = Timestamp.valueOf(LocalDateTime.now());
         this.modify_date = Timestamp.valueOf(LocalDateTime.now());
+        this.edited_by = edited_by;
 
         update();
     }
@@ -101,7 +103,8 @@ public class Patient {
      *
      */
     public Patient(int id, String pid, String name, String gender, String dob, String bloodType, int phone,
-            String address, String specialDisease, String drugAllergy, Timestamp create_date, Timestamp modify_date) {
+            String address, String specialDisease, String drugAllergy, Timestamp create_date, Timestamp modify_date,
+            String edited_by) {
         this.id = id;
         this.pid = pid;
         this.name = name;
@@ -114,13 +117,13 @@ public class Patient {
         this.drugAllergy = drugAllergy;
         this.create_date = create_date;
         this.modify_date = modify_date;
-        /** 取回資料庫內病患資料 */
-        getPatientFromDB();
+        this.edited_by = edited_by;
+
     }
 
     /**
      * 實例化（Instantiates）一個新的（new）Patient物件<br>
-     * 採用多載（overload）方法進行，此建構子用於查詢會員資料時，產生一名新的病患
+     * 採用多載（overload）方法進行，此建構子用於查詢病患資料時，產生一名新的病患
      *
      * @param id             病患編號
      * @param pid            病患身分證字號
@@ -160,7 +163,7 @@ public class Patient {
     /**
      * 取得病患之身分證字號
      *
-     * @return the id 回傳病患編號
+     * @return the pid 回傳病患編號
      */
     public String getPID() {
         return this.pid;
@@ -169,7 +172,7 @@ public class Patient {
     /**
      * 取得病患之編號
      *
-     * @return the id 回傳病患編號
+     * @return the name 回傳病患姓名
      */
     public String getName() {
         return this.name;
@@ -257,6 +260,15 @@ public class Patient {
     }
 
     /**
+     * 取得病患之資料修改人員
+     *
+     * @return the editedby 病患之資料修改人員
+     */
+    public String geteditedby() {
+        return this.edited_by;
+    }
+
+    /**
      * 更新病患資料
      *
      * @return the JSON object 回傳SQL更新之結果與相關封裝之資料
@@ -265,21 +277,14 @@ public class Patient {
         /** 新建一個JSONObject用以儲存更新後之資料 */
         JSONObject data = new JSONObject();
 
-        /** 檢查該名會員是否已經在資料庫 */
+        /** 檢查該名病患是否已經在資料庫 */
         if (this.id != 0) {
-            /** 透過MemberHelper物件，更新目前之會員資料置資料庫中 */
+            /** 透過MemberHelper物件，更新目前之病患資料置資料庫中 */
             data = ph.update(this);
         }
 
         return data;
     }
-    // /**
-    // * 從 DB 中取得病患資料
-    // */
-    // private void getPatientFromDB() {
-    // ArrayList<OrderItem> data = ph.getPatientByPatientpId(this.pid);
-    // this.list = data;
-    // }
 
     /**
      * 取得該名病患所有資料
@@ -301,6 +306,7 @@ public class Patient {
         jso.put("drugAllergy", getDrugAllergy());
         jso.put("create_date", getCreateTime());
         jso.put("modify_date", getModifyTime());
+        jso.put("edited_by", geteditedby());
 
         return jso;
     }

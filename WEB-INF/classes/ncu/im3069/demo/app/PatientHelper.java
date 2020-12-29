@@ -58,8 +58,8 @@ public class PatientHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "INSERT INTO `missa`.`members`(`name`, `email`, `password`, `modified`, `created`, `login_times`, `status`)"
-                    + " VALUES(?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO `sa_project`.`patient`(`pid`, `name`, `gender`,`dob`, `bloodType`,`phone`,`address`,`specialDisease`,`drugAllergy`,`created_date`,`modified_date`, `edited_by`)"
+                    + " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             /** 取得所需之參數 */
             String pid = p.getPID();
@@ -71,6 +71,7 @@ public class PatientHelper {
             String address = p.getAddress();
             String specialDisease = p.getSpecialDisease();
             String drugAllergy = p.getDrugAllergy();
+            String editedby = p.geteditedby();
 
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
@@ -85,6 +86,8 @@ public class PatientHelper {
             pres.setString(9, drugAllergy);
             pres.setTimestamp(10, Timestamp.valueOf(LocalDateTime.now()));
             pres.setTimestamp(11, Timestamp.valueOf(LocalDateTime.now()));
+            pres.setString(12, editedby);
+
 
             /** 執行新增之SQL指令並記錄影響之行數 */
             row = pres.executeUpdate();
@@ -138,7 +141,7 @@ public class PatientHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "Update `missa`.`members` SET `name` = ? ,`password` = ? , `modified` = ? WHERE `email` = ?";
+            String sql = "Update `sa_project`.`patient` SET `pid` = ?,`name` = ? ,`gender` = ? ,`dob` = ? ,`bloodType` = ? ,`phone` = ? ,`address` = ? ,`specialDisease` = ? ,`drugAllergy` = ? , `modified_date` = ? WHERE `pid` = ?";
 
             /** 取得所需之參數 */
             String pid = p.getPID();
@@ -150,6 +153,8 @@ public class PatientHelper {
             String address = p.getAddress();
             String specialDisease = p.getSpecialDisease();
             String drugAllergy = p.getDrugAllergy();
+            String editedby = p.geteditedby();
+
 
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
@@ -163,6 +168,8 @@ public class PatientHelper {
             pres.setString(8, specialDisease);
             pres.setString(9, drugAllergy);
             pres.setTimestamp(10, Timestamp.valueOf(LocalDateTime.now()));
+            pres.setString(11, editedby);
+
             /** 執行更新之SQL指令並記錄影響之行數 */
             row = pres.executeUpdate();
 
@@ -196,65 +203,6 @@ public class PatientHelper {
         return response;
     }
 
-    // /**
-    // * 透過病患編號（ID）刪除病患
-    // *
-    // * @param id 病患編號
-    // * @return the JSONObject 回傳SQL執行結果
-    // */
-    // public JSONObject deleteByID(int id) {
-    // /** 記錄實際執行之SQL指令 */
-    // String exexcute_sql = "";
-    // /** 紀錄程式開始執行時間 */
-    // long start_time = System.nanoTime();
-    // /** 紀錄SQL總行數 */
-    // int row = 0;
-    // /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
-    // ResultSet rs = null;
-
-    // try {
-    // /** 取得資料庫之連線 */
-    // conn = DBMgr.getConnection();
-
-    // /** SQL指令 */
-    // String sql = "DELETE FROM `missa`.`members` WHERE `id` = ? LIMIT 1";
-
-    // /** 將參數回填至SQL指令當中 */
-    // pres = conn.prepareStatement(sql);
-    // pres.setInt(1, id);
-    // /** 執行刪除之SQL指令並記錄影響之行數 */
-    // row = pres.executeUpdate();
-
-    // /** 紀錄真實執行的SQL指令，並印出 **/
-    // exexcute_sql = pres.toString();
-    // System.out.println(exexcute_sql);
-
-    // } catch (SQLException e) {
-    // /** 印出JDBC SQL指令錯誤 **/
-    // System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(),
-    // e.getMessage());
-    // } catch (Exception e) {
-    // /** 若錯誤則印出錯誤訊息 */
-    // e.printStackTrace();
-    // } finally {
-    // /** 關閉連線並釋放所有資料庫相關之資源 **/
-    // DBMgr.close(rs, pres, conn);
-    // }
-
-    // /** 紀錄程式結束執行時間 */
-    // long end_time = System.nanoTime();
-    // /** 紀錄程式執行時間 */
-    // long duration = (end_time - start_time);
-
-    // /** 將SQL指令、花費時間與影響行數，封裝成JSONObject回傳 */
-    // JSONObject response = new JSONObject();
-    // response.put("sql", exexcute_sql);
-    // response.put("row", row);
-    // response.put("time", duration);
-
-    // return response;
-    // }
-
     /**
      * 取回所有病患資料
      *
@@ -278,7 +226,7 @@ public class PatientHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT * FROM `missa`.`members`";
+            String sql = "SELECT * FROM `sa_project`.`patient`";
 
             /** 將參數回填至SQL指令當中，若無則不用只需要執行 prepareStatement */
             pres = conn.prepareStatement(sql);
@@ -363,7 +311,7 @@ public class PatientHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT * FROM `missa`.`members` WHERE `id` = ? LIMIT 1";
+            String sql = "SELECT * FROM `sa_project`.`patient` WHERE `id` = ? LIMIT 1";
 
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
@@ -450,7 +398,7 @@ public class PatientHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT * FROM `missa`.`members` WHERE `pid` = ? LIMIT 1";
+            String sql = "SELECT * FROM `sa_project`.`patient` WHERE `pid` = ? LIMIT 1";
 
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
