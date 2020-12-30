@@ -117,6 +117,7 @@ public class PatientHelper {
         response.put("time", duration);
         response.put("row", row);
 
+
         return response;
     }
 
@@ -168,6 +169,7 @@ public class PatientHelper {
             pres.setTimestamp(10, Timestamp.valueOf(LocalDateTime.now()));
             pres.setString(11, editedby);
             pres.setString(12, pid);
+
 
             /** 執行更新之SQL指令並記錄影響之行數 */
             row = pres.executeUpdate();
