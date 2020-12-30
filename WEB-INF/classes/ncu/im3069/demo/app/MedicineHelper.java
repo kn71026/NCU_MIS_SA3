@@ -130,7 +130,7 @@ public class MedicineHelper {
             int id = med.getID();
             String name = med.getName();
             String quantity = med.getQuantity();
-            String category = med.getQuantity();
+            String category = med.getCategory();
 
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
@@ -353,7 +353,7 @@ public class MedicineHelper {
             conn = DBMgr.getConnection();
 
             /** SQL指令 */
-            String sql = "DELETE FROM `missa`.`medicine` WHERE `id` = ? LIMIT 1";
+            String sql = "DELETE FROM `sa_project`.`medicine` WHERE `id` = ? LIMIT 1";
 
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
