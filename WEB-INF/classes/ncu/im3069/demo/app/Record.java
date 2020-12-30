@@ -152,12 +152,12 @@ public class Record {
     }
 
     /**
-     * 從 DB 中取得訂單產品
+     * 從 DB 中取得藥品
      */
     private void getMedicineFromDB(int medicine_id) {
         String id = String.valueOf(medicine_id);
 
-        this.md = mdh.getById(id);
+        this.md = mdh.getByID(id);
     }
 
 }

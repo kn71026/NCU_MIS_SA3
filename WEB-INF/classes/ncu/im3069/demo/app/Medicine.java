@@ -1,5 +1,7 @@
 package ncu.im3069.demo.app;
 
+import java.time.LocalDateTime;
+
 import org.json.*;
 
 public class Medicine {
@@ -7,17 +9,15 @@ public class Medicine {
     /** id，藥品編號 */
     private int id;
 
-    /** id，會員編號 */
     private String name;
 
-    /** id，會員編號 */
-    private String price;
+    private String quantity;
 
-    /** id，會員編號 */
-    private String image;
+    private String category;
 
-    /** id，會員編號 */
-    private String describe;
+    private LocalDateTime modify_date;
+
+    private MedicineHelper mdh = MedicineHelper.getHelper();
 
     /**
      * 實例化（Instantiates）一個新的（new）Product 物件<br>
@@ -32,33 +32,26 @@ public class Medicine {
     /**
      * 實例化（Instantiates）一個新的（new）Product 物件<br>
      * 採用多載（overload）方法進行，此建構子用於新增產品時
-     *
-     * @param name  產品名稱
-     * @param price 產品價格
-     * @param image 產品圖片
      */
-    public Medicine(String name, double price, String image) {
+    public Medicine(String name, String quantity, String category) {
         this.name = name;
-        this.price = price;
-        this.image = image;
+        this.quantity = quantity;
+        this.category = category;
+        this.modify_date = LocalDateTime.now();
     }
 
     /**
      * 實例化（Instantiates）一個新的（new）Product 物件<br>
      * 採用多載（overload）方法進行，此建構子用於修改產品時
      *
-     * @param id       產品編號
-     * @param name     產品名稱
-     * @param price    產品價格
-     * @param image    產品圖片
-     * @param describe 產品敘述
      */
-    public Medicine(int id, String name, double price, String image, String describe) {
+    public Medicine(int id, String name, String quantity, String category) {
         this.id = id;
         this.name = name;
-        this.price = price;
-        this.image = image;
-        this.describe = describe;
+        this.quantity = quantity;
+        this.category = category;
+        this.modify_date = LocalDateTime.now();
+
     }
 
     /**
@@ -84,8 +77,8 @@ public class Medicine {
      *
      * @return double 回傳產品價格
      */
-    public double getPrice() {
-        return this.price;
+    public String getQuantity() {
+        return this.quantity;
     }
 
     /**
@@ -93,17 +86,30 @@ public class Medicine {
      *
      * @return String 回傳產品圖片
      */
-    public String getImage() {
-        return this.image;
+    public String getCategory() {
+        return this.category;
+    }
+
+    public LocalDateTime getModifyTime() {
+        return this.modify_date;
     }
 
     /**
-     * 取得產品敘述
+     * 更新病患資料
      *
-     * @return String 回傳產品敘述
+     * @return the JSON object 回傳SQL更新之結果與相關封裝之資料
      */
-    public String getDescribe() {
-        return this.describe;
+    public JSONObject update() {
+        /** 新建一個JSONObject用以儲存更新後之資料 */
+        JSONObject data = new JSONObject();
+
+        /** 檢查該名病患是否已經在資料庫 */
+        if (this.id != 0) {
+            /** 透過MemberHelper物件，更新目前之病患資料置資料庫中 */
+            data = mdh.update(this);
+        }
+
+        return data;
     }
 
     /**
@@ -116,10 +122,11 @@ public class Medicine {
         JSONObject jso = new JSONObject();
         jso.put("id", getID());
         jso.put("name", getName());
-        jso.put("price", getPrice());
-        jso.put("image", getImage());
-        jso.put("describe", getDescribe());
+        jso.put("quantity", getQuantity());
+        jso.put("category", getCategory());
+        jso.put("modify_date", getModifyTime());
 
         return jso;
     }
+
 }
