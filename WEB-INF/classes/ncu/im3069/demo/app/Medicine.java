@@ -22,18 +22,8 @@ public class Medicine {
     private MedicineHelper mdh = MedicineHelper.getHelper();
 
     /**
-     * 實例化（Instantiates）一個新的（new）Product 物件<br>
-     * 採用多載（overload）方法進行，此建構子用於新增產品時
-     *
-     * @param id 產品編號
-     */
-    public Medicine(int id) {
-        this.id = id;
-    }
-
-    /**
-     * 實例化（Instantiates）一個新的（new）Product 物件<br>
-     * 採用多載（overload）方法進行，此建構子用於新增產品時
+     * 實例化（Instantiates）一個新的（new）Medicine 物件<br>
+     * 採用多載（overload）方法進行，此建構子用於新增藥品時
      */
     public Medicine(String name, String quantity, String category) {
         this.name = name;
@@ -43,8 +33,8 @@ public class Medicine {
     }
 
     /**
-     * 實例化（Instantiates）一個新的（new）Product 物件<br>
-     * 採用多載（overload）方法進行，此建構子用於修改產品時
+     * 實例化（Instantiates）一個新的（new）Medicine 物件<br>
+     * 採用多載（overload）方法進行，此建構子用於修改藥品時
      *
      */
     public Medicine(int id, String name, String quantity, String category) {
@@ -57,8 +47,8 @@ public class Medicine {
     }
 
     /**
-     * 實例化（Instantiates）一個新的（new）Product 物件<br>
-     * 採用多載（overload）方法進行，此建構子用於查詢產品時
+     * 實例化（Instantiates）一個新的（new）Medicine 物件<br>
+     * 採用多載（overload）方法進行，此建構子用於查詢藥品時
      *
      */
     public Medicine(int id, String name, String quantity, String category, Timestamp modify_date) {
@@ -71,36 +61,28 @@ public class Medicine {
     }
 
     /**
-     * 取得產品編號
-     *
-     * @return int 回傳產品編號
+     * @return int 回傳藥品編號
      */
     public int getID() {
         return this.id;
     }
 
     /**
-     * 取得產品名稱
-     *
-     * @return String 回傳產品名稱
+     * @return String 回傳藥品名稱
      */
     public String getName() {
         return this.name;
     }
 
     /**
-     * 取得產品價格
-     *
-     * @return double 回傳產品價格
+     * @return double 回傳藥品規格量
      */
     public String getQuantity() {
         return this.quantity;
     }
 
     /**
-     * 取得產品圖片
-     *
-     * @return String 回傳產品圖片
+     * @return String 回傳藥品分類
      */
     public String getCategory() {
         return this.category;
@@ -111,7 +93,7 @@ public class Medicine {
     }
 
     /**
-     * 更新病患資料
+     * 更新藥品資料
      *
      * @return the JSON object 回傳SQL更新之結果與相關封裝之資料
      */
@@ -119,9 +101,9 @@ public class Medicine {
         /** 新建一個JSONObject用以儲存更新後之資料 */
         JSONObject data = new JSONObject();
 
-        /** 檢查該名病患是否已經在資料庫 */
+        /** 檢查該藥品是否已經在資料庫 */
         if (this.id != 0) {
-            /** 透過MemberHelper物件，更新目前之病患資料置資料庫中 */
+            /** 透過MemberHelper物件，更新目前之藥品資料置資料庫中 */
             data = mdh.update(this);
         }
 
@@ -129,12 +111,12 @@ public class Medicine {
     }
 
     /**
-     * 取得產品資訊
+     * 取得藥品資訊
      *
-     * @return JSONObject 回傳產品資訊
+     * @return JSONObject 回傳藥品資訊
      */
     public JSONObject getData() {
-        /** 透過JSONObject將該項產品所需之資料全部進行封裝 */
+        /** 透過JSONObject將藥品所需之資料全部進行封裝 */
         JSONObject jso = new JSONObject();
         jso.put("id", getID());
         jso.put("name", getName());
