@@ -1,6 +1,7 @@
 package ncu.im3069.demo.app;
 
 import java.sql.*;
+import java.util.Date;
 import java.time.LocalDateTime;
 import org.json.*;
 
@@ -116,7 +117,6 @@ public class PatientHelper {
         response.put("time", duration);
         response.put("row", row);
 
-
         return response;
     }
 
@@ -168,7 +168,6 @@ public class PatientHelper {
             pres.setTimestamp(10, Timestamp.valueOf(LocalDateTime.now()));
             pres.setString(11, editedby);
             pres.setString(12, pid);
-
 
             /** 執行更新之SQL指令並記錄影響之行數 */
             row = pres.executeUpdate();
@@ -253,10 +252,12 @@ public class PatientHelper {
                 String address = rs.getString("address");
                 String specialDisease = rs.getString("specialDisease");
                 String drugAllergy = rs.getString("drugAllergy");
+                Timestamp create_date = rs.getTimestamp("create_date");
+                Timestamp modify_date = rs.getTimestamp("modify_date");
 
                 /** 將每一筆病患資料產生一名新Patient物件 */
                 p = new Patient(patient_id, pid, name, gender, dob, bloodType, phone, address, specialDisease,
-                        drugAllergy);
+                        drugAllergy, create_date, modify_date);
                 /** 取出該名病患之資料並封裝至 JSONsonArray 內 */
                 jsa.put(p.getData());
             }
@@ -340,9 +341,11 @@ public class PatientHelper {
                 String address = rs.getString("address");
                 String specialDisease = rs.getString("specialDisease");
                 String drugAllergy = rs.getString("drugAllergy");
+                Timestamp create_date = rs.getTimestamp("create_date");
+                Timestamp modify_date = rs.getTimestamp("modify_date");
                 /** 將每一筆病患資料產生一名新Member物件 */
                 p = new Patient(patient_id, pid, name, gender, dob, bloodType, phone, address, specialDisease,
-                        drugAllergy);
+                        drugAllergy, create_date, modify_date);
 
                 /** 取出該名病患之資料並封裝至 JSONsonArray 內 */
                 jsa.put(p.getData());
@@ -427,10 +430,12 @@ public class PatientHelper {
                 String address = rs.getString("address");
                 String specialDisease = rs.getString("specialDisease");
                 String drugAllergy = rs.getString("drugAllergy");
+                Timestamp create_date = rs.getTimestamp("create_date");
+                Timestamp modify_date = rs.getTimestamp("modify_date");
 
                 /** 將每一筆病患資料產生一名新Member物件 */
                 p = new Patient(patient_id, patient_pid, name, gender, dob, bloodType, phone, address, specialDisease,
-                        drugAllergy);
+                        drugAllergy, create_date, modify_date);
 
                 /** 取出該名病患之資料並封裝至 JSONsonArray 內 */
                 jsa.put(p.getData());

@@ -39,10 +39,10 @@ public class Patient {
     private String drugAllergy;
 
     /** create_date 病患基本資料創建時間 */
-    private LocalDateTime create_date;
+    private Timestamp create_date;
 
     /** modify_date 病患基本資料更新時間 */
-    private LocalDateTime modify_date;
+    private Timestamp modify_date;
 
     /** edited_by 最後更新人員姓名 */
     private String edited_by;
@@ -77,8 +77,8 @@ public class Patient {
         this.address = address;
         this.specialDisease = specialDisease;
         this.drugAllergy = drugAllergy;
-        this.create_date = LocalDateTime.now();
-        this.modify_date = LocalDateTime.now();
+        this.create_date = Timestamp.valueOf(LocalDateTime.now());
+        this.modify_date = Timestamp.valueOf(LocalDateTime.now());
         this.edited_by = edited_by;
 
         update();
@@ -115,7 +115,7 @@ public class Patient {
         this.address = address;
         this.specialDisease = specialDisease;
         this.drugAllergy = drugAllergy;
-        this.modify_date = LocalDateTime.now();
+        this.modify_date = Timestamp.valueOf(LocalDateTime.now());
         this.edited_by = edited_by;
 
     }
@@ -137,7 +137,7 @@ public class Patient {
      *
      */
     public Patient(int id, String pid, String name, String gender, String dob, String bloodType, int phone,
-            String address, String specialDisease, String drugAllergy) {
+            String address, String specialDisease, String drugAllergy, Timestamp create_date, Timestamp modify_date) {
         this.id = id;
         this.pid = pid;
         this.name = name;
@@ -148,6 +148,8 @@ public class Patient {
         this.address = address;
         this.specialDisease = specialDisease;
         this.drugAllergy = drugAllergy;
+        this.create_date = create_date;
+        this.modify_date = modify_date;
     }
 
     /**
@@ -245,7 +247,7 @@ public class Patient {
      *
      * @return createTime 回傳病患資訊創建時間
      */
-    public LocalDateTime getCreateTime() {
+    public Timestamp getCreateTime() {
         return this.create_date;
     }
 
@@ -254,7 +256,7 @@ public class Patient {
      *
      * @return modifyTime 回傳病患資訊修改時間
      */
-    public LocalDateTime getModifyTime() {
+    public Timestamp getModifyTime() {
         return this.modify_date;
     }
 
