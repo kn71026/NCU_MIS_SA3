@@ -6,8 +6,8 @@ import java.sql.Timestamp;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import org.json.*;
-import ncu.im3069.demo.app.Member;
-import ncu.im3069.demo.app.MemberHelper;
+import ncu.im3069.demo.app.Doctor;
+import ncu.im3069.demo.app.DoctorHelper;
 import ncu.im3069.tools.JsonReader;
 
 // TODO: Auto-generated Javadoc
@@ -53,7 +53,7 @@ public class DoctorController extends HttpServlet {
         String address = jso.getString("address");
         
         /** 建立一個新的醫師物件 */
-        Doctor m = new Doctor(account, password, name, dob, phone, address);
+        Doctor d = new Doctor(account, password, name, dob, phone, address);
         
         /** 後端檢查是否有欄位為空值，若有則回傳錯誤訊息 */
         if(account.isEmpty() || password.isEmpty() || name.isEmpty() || dob.isEmpty() || phone.isEmpty() || address.isEmpty()) 
@@ -121,7 +121,7 @@ public class DoctorController extends HttpServlet {
             /** 新建一個JSONObject用於將回傳之資料進行封裝 */
             JSONObject resp = new JSONObject();
             resp.put("status", "200");
-            resp.put("message", "會員資料取得成功");
+            resp.put("message", "醫師資料取得成功");
             resp.put("response", query);
     
             /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
@@ -181,12 +181,12 @@ public class DoctorController extends HttpServlet {
         String dob = jso.getString("dob");
         int phone = jso.getInt("phone");
         String address = jso.getString("address");
-        Timestamp create_date = jso.getTimestamp("create_date");
-        Timestamp modify_date = jso.getTimestamp("modify_date");
-
+        /**Timestamp create_date = jso.getTimestamp("create_date");
+        *Timestamp modify_date = jso.getTimestamp("modify_date");
+        */
 
         /** 透過傳入之參數，新建一個以這些參數之會員Member物件 */
-        Doctor d = new Doctor(id, account, password, name, dob, phone, address, create_date, modify_date);
+        Doctor d = new Doctor(id, account, password, name, dob, phone, address);
         
         /** 透過Doctor物件的update()方法至資料庫更新該名醫師資料，回傳之資料為JSONObject物件 */
         JSONObject data = d.update();

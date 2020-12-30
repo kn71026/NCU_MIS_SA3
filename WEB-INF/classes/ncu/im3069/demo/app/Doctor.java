@@ -161,13 +161,49 @@ public class Doctor {
     public String getPassword() {
         return this.password;
     }
+
+    /**
+     * 取得醫師之生日
+     *
+     * @return the dob 回傳醫師生日
+     */
+    public String getDob() {
+        return this.dob;
+    }
+
+    /**
+     * 取得醫師之電話
+     *
+     * @return the phone 回傳醫師電話
+     */
+    public int getPhone() {
+        return this.phone;
+    }
+
+    /**
+     * 取得醫師之地址
+     *
+     * @return the address 回傳醫師地址
+     */
+    public String getAddress() {
+        return this.address;
+    }
     
     /**
-     * 取得更新資料時間之分鐘數
+     * 取得醫師資訊創建時間
      *
-     * @return the modify times 回傳更新資料時間之分鐘數
+     * @return Timestamp 回傳醫師資訊創建時間
      */
-    public int getModify_date() {
+    public Timestamp getCreateTime() {
+        return this.create_date;
+    }
+
+    /**
+     * 取得醫師資訊修改時間
+     *
+     * @return Timestamp 回傳病患資訊修改時間
+     */
+    public Timestamp getModifyTime() {
         return this.modify_date;
     }
     
@@ -179,17 +215,11 @@ public class Doctor {
     public JSONObject update() {
         /** 新建一個JSONObject用以儲存更新後之資料 */
         JSONObject data = new JSONObject();
-        /** 取得更新資料時間（即現在之時間）之分鐘數 */
-        /**Calendar calendar = Calendar.getInstance();
-        this.login_times = calendar.get(Calendar.MINUTE);*/
-        /** 計算帳戶所屬之組別 */
-        /**calcAccName();*/
         
-        /** 檢查該名會員是否已經在資料庫 */
-        if(this.id != 0) {
-            /** 若有則將目前更新後之資料更新至資料庫中 */
-            dh.updateLoginTimes(this);
-            /** 透過MemberHelper物件，更新目前之會員資料置資料庫中 */
+        /** 檢查該名醫師是否已經在資料庫 */
+        if(this.id != 0) 
+        {
+            /** 透過DoctorHelper物件，更新目前之醫師資料置資料庫中 */
             data = dh.update(this);
         }
         
@@ -211,36 +241,11 @@ public class Doctor {
         jso.put("dob", getDob());
         jso.put("phone", getPhone());
         jso.put("address", getAddress());
-        jso.put("create_date", getCreate_date());
-        jso.put("modify_date", getModify_date());
+        jso.put("create_date", getCreateTime());
+        jso.put("modify_date", getModifyTime());
         
         return jso;
     }
     
-    /**
-     * 取得資料庫內之更新資料時間分鐘數與會員組別
-     *
-     */
-    /**private void getLoginTimesStatus()*/ 
-     /{
-        /** 透過MemberHelper物件，取得儲存於資料庫的更新時間分鐘數與會員組別 */
-        JSONObject data = mh.getLoginTimesStatus(this);
-        /** 將資料庫所儲存該名會員之相關資料指派至Member物件之屬性 */
-        this.login_times = data.getInt("login_times");
-        this.status = data.getString("status");
-    }    
     
-    /**
-     * 計算會員之組別<br>
-     * 若為偶數則為「偶數會員」，若為奇數則為「奇數會員」
-     */
-    private void calcAccName() 
-    {
-        /** 計算目前分鐘數為偶數或奇數 */
-        String curr_status = (this.login_times % 2 == 0) ? "偶數會員" : "奇數會員";
-        /** 將新的會員組別指派至Member之屬性 */
-        this.status = curr_status;
-        /** 檢查該名會員是否已經在資料庫，若有則透過MemberHelper物件，更新目前之組別狀態 */
-        if(this.id != 0) mh.updateStatus(this, curr_status);
-    }
 }

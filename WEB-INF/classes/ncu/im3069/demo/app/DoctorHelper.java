@@ -49,6 +49,78 @@ public class DoctorHelper {
         
         return dh;
     }
+
+    /**
+     * 建立該名醫師至資料庫
+     *
+     * @param d 一名醫師之Doctor物件
+     * @return the JSON object 回傳SQL指令執行之結果
+     */
+    public JSONObject create(Doctor d) {
+        /** 記錄實際執行之SQL指令 */
+        String exexcute_sql = "";
+        /** 紀錄程式開始執行時間 */
+        long start_time = System.nanoTime();
+        /** 紀錄SQL總行數 */
+        int row = 0;
+        
+        try {
+            /** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+            /** SQL指令 */
+            String sql = "INSERT INTO `sa_project`.`doctor`(`account`, `password`, `name`, `dob`, `phone`,`address`, `create_date`, `modify_date`)"
+                    + " VALUES(?, ?, ?, ?, ?, ?, ?)";
+            
+            /** 取得所需之參數 */
+            String name = d.getName();
+            String account = d.getAccount();
+            String password = d.getPassword();
+            String dob = d.getDob();
+            int phone = d.getPhone();
+            String address = d.getAddress();
+            
+            /** 將參數回填至SQL指令當中 */
+            pres = conn.prepareStatement(sql);
+            pres.setString(1, account);
+            pres.setString(2, password);
+            pres.setString(3, name);
+            pres.setString(4, dob);
+            pres.setInt(5, phone);
+            pres.setString(6, address);
+            pres.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+            pres.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
+            
+            /** 執行新增之SQL指令並記錄影響之行數 */
+            row = pres.executeUpdate();
+            
+            /** 紀錄真實執行的SQL指令，並印出 **/
+            exexcute_sql = pres.toString();
+            System.out.println(exexcute_sql);
+
+        } catch (SQLException e) {
+            /** 印出JDBC SQL指令錯誤 **/
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            /** 若錯誤則印出錯誤訊息 */
+            e.printStackTrace();
+        } finally {
+            /** 關閉連線並釋放所有資料庫相關之資源 **/
+            DBMgr.close(pres, conn);
+        }
+
+        /** 紀錄程式結束執行時間 */
+        long end_time = System.nanoTime();
+        /** 紀錄程式執行時間 */
+        long duration = (end_time - start_time);
+
+        /** 將SQL指令、花費時間與影響行數，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("time", duration);
+        response.put("row", row);
+
+        return response;
+    }
     
     /**
      * 透過醫師編號（ID）刪除醫師
@@ -107,6 +179,77 @@ public class DoctorHelper {
 
         return response;
     }
+
+    /**
+     * 更新一名醫師之醫師資料
+     *
+     * @param d 一名醫師之Doctor物件
+     * @return the JSONObject 回傳SQL指令執行結果與執行之資料
+     */
+    public JSONObject update(Doctor d) {
+        /** 紀錄回傳之資料 */
+        JSONArray jsa = new JSONArray();
+        /** 記錄實際執行之SQL指令 */
+        String exexcute_sql = "";
+        /** 紀錄程式開始執行時間 */
+        long start_time = System.nanoTime();
+        /** 紀錄SQL總行數 */
+        int row = 0;
+        
+        try {
+            /** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+            /** SQL指令 */
+            String sql = "Update `sa_project`.`doctor` SET `account` = ? ,`password` = ? , `name` = ?, `dob` = ?, `phone` = ?, `address` = ? WHERE `id` = ?";
+            /** 取得所需之參數 */
+            String account = d.getAccount();
+            String password = d.getPassword();
+            String name = d.getName();
+            String dob = d.getDob();
+            int phone = d.getPhone();
+            String address = d.getAddress();
+            
+            /** 將參數回填至SQL指令當中 */
+            pres = conn.prepareStatement(sql);
+            pres.setString(1, account);
+            pres.setString(2, password);
+            pres.setString(3, name);
+            pres.setString(4, dob);
+            pres.setInt(5, phone);
+            pres.setString(6, address);
+            pres.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
+            /** 執行更新之SQL指令並記錄影響之行數 */
+            row = pres.executeUpdate();
+
+            /** 紀錄真實執行的SQL指令，並印出 **/
+            exexcute_sql = pres.toString();
+            System.out.println(exexcute_sql);
+
+        } catch (SQLException e) {
+            /** 印出JDBC SQL指令錯誤 **/
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            /** 若錯誤則印出錯誤訊息 */
+            e.printStackTrace();
+        } finally {
+            /** 關閉連線並釋放所有資料庫相關之資源 **/
+            DBMgr.close(pres, conn);
+        }
+        
+        /** 紀錄程式結束執行時間 */
+        long end_time = System.nanoTime();
+        /** 紀錄程式執行時間 */
+        long duration = (end_time - start_time);
+        
+        /** 將SQL指令、花費時間與影響行數，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("row", row);
+        response.put("time", duration);
+        response.put("data", jsa);
+
+        return response;
+    }
     
     /**
      * 取回所有醫師資料
@@ -152,11 +295,11 @@ public class DoctorHelper {
                 String name = rs.getString("name");
                 String account = rs.getString("account");
                 String password = rs.getString("password");
-                String dob = jso.getString("dob");
-                int phone = jso.getInt("phone");
-                String address = jso.getString("address");
-                Timestamp create_date = jso.getTimestamp("create_date");
-                Timestamp modify_date = jso.getTimestamp("modify_date");
+                String dob = rs.getString("dob");
+                int phone = rs.getInt("phone");
+                String address = rs.getString("address");
+                Timestamp create_date = rs.getTimestamp("create_date");
+                Timestamp modify_date = rs.getTimestamp("modify_date");
                 
                 /** 將每一筆醫師資料產生一名新Doctor物件 */
                 d = new Doctor(doctor_id, name, account, password, dob, phone, address, create_date, modify_date);
@@ -239,12 +382,13 @@ public class DoctorHelper {
                 String password = rs.getString("password");
                 String dob = rs.getString("dob");
                 int phone = rs.getInt("phone");
-                String address = rs.String("address");
-                Timestamp create_date = jso.getTimestamp("create_date");
-                Timestamp modify_date = jso.getTimestamp("modify_date");
-                
+                String address = rs.getString("address");
+                /**Timestamp create_date = rs.getTimestamp("create_date");
+                *Timestamp modify_date = rs.getTimestamp("modify_date");
+                */
+
                 /** 將每一筆醫師資料產生一名新Member物件 */
-                d = new Doctor(member_id, name, account, password, dob, phone, address, create_date, modify_date);
+                d = new Doctor(member_id, name, account, password, dob, phone, address);
                 /** 取出該名醫師之資料並封裝至 JSONsonArray 內 */
                 jsa.put(d.getData());
             }
@@ -323,228 +467,6 @@ public class DoctorHelper {
          * 若無一筆則回傳False，否則回傳True 
          */
         return (row == 0) ? false : true;
-    }
-    
-    /**
-     * 建立該名醫師至資料庫
-     *
-     * @param d 一名醫師之Doctor物件
-     * @return the JSON object 回傳SQL指令執行之結果
-     */
-    public JSONObject create(Doctor d) {
-        /** 記錄實際執行之SQL指令 */
-        String exexcute_sql = "";
-        /** 紀錄程式開始執行時間 */
-        long start_time = System.nanoTime();
-        /** 紀錄SQL總行數 */
-        int row = 0;
-        
-        try {
-            /** 取得資料庫之連線 */
-            conn = DBMgr.getConnection();
-            /** SQL指令 */
-            String sql = "INSERT INTO `sa_project`.`doctor`(`account`, `password`, `name`, `dob`, `phone`,`address`, `create_date`, `modify_date`)"
-                    + " VALUES(?, ?, ?, ?, ?, ?, ?)";
-            
-            /** 取得所需之參數 */
-            String name = rs.getString();
-            String account = rs.getString();
-            String password = rs.getString();
-            String dob = rs.getString();
-            int phone = rs.getInt();
-            String address = rs.String();
-            Timestamp create_date = jso.getTimestamp();
-            Timestamp modify_date = jso.getTimestamp();
-            
-            /** 將參數回填至SQL指令當中 */
-            pres = conn.prepareStatement(sql);
-            pres.setString(1, account);
-            pres.setString(2, password);
-            pres.setString(3, name);
-            pres.setString(4, dob);
-            pres.setInt(5, phone);
-            pres.setString(6, address);
-            pres.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
-            pres.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
-            
-            /** 執行新增之SQL指令並記錄影響之行數 */
-            row = pres.executeUpdate();
-            
-            /** 紀錄真實執行的SQL指令，並印出 **/
-            exexcute_sql = pres.toString();
-            System.out.println(exexcute_sql);
-
-        } catch (SQLException e) {
-            /** 印出JDBC SQL指令錯誤 **/
-            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
-        } catch (Exception e) {
-            /** 若錯誤則印出錯誤訊息 */
-            e.printStackTrace();
-        } finally {
-            /** 關閉連線並釋放所有資料庫相關之資源 **/
-            DBMgr.close(pres, conn);
-        }
-
-        /** 紀錄程式結束執行時間 */
-        long end_time = System.nanoTime();
-        /** 紀錄程式執行時間 */
-        long duration = (end_time - start_time);
-
-        /** 將SQL指令、花費時間與影響行數，封裝成JSONObject回傳 */
-        JSONObject response = new JSONObject();
-        response.put("sql", exexcute_sql);
-        response.put("time", duration);
-        response.put("row", row);
-
-        return response;
-    }
-    
-    /**
-     * 更新一名醫師之醫師資料
-     *
-     * @param m 一名醫師之Member物件
-     * @return the JSONObject 回傳SQL指令執行結果與執行之資料
-     */
-    public JSONObject update(Member m) {
-        /** 紀錄回傳之資料 */
-        JSONArray jsa = new JSONArray();
-        /** 記錄實際執行之SQL指令 */
-        String exexcute_sql = "";
-        /** 紀錄程式開始執行時間 */
-        long start_time = System.nanoTime();
-        /** 紀錄SQL總行數 */
-        int row = 0;
-        
-        try {
-            /** 取得資料庫之連線 */
-            conn = DBMgr.getConnection();
-            /** SQL指令 */
-            String sql = "Update `missa`.`members` SET `name` = ? ,`password` = ? , `modified` = ? WHERE `email` = ?";
-            /** 取得所需之參數 */
-            String name = m.getName();
-            String email = m.getEmail();
-            String password = m.getPassword();
-            
-            /** 將參數回填至SQL指令當中 */
-            pres = conn.prepareStatement(sql);
-            pres.setString(1, name);
-            pres.setString(2, password);
-            pres.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
-            pres.setString(4, email);
-            /** 執行更新之SQL指令並記錄影響之行數 */
-            row = pres.executeUpdate();
-
-            /** 紀錄真實執行的SQL指令，並印出 **/
-            exexcute_sql = pres.toString();
-            System.out.println(exexcute_sql);
-
-        } catch (SQLException e) {
-            /** 印出JDBC SQL指令錯誤 **/
-            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
-        } catch (Exception e) {
-            /** 若錯誤則印出錯誤訊息 */
-            e.printStackTrace();
-        } finally {
-            /** 關閉連線並釋放所有資料庫相關之資源 **/
-            DBMgr.close(pres, conn);
-        }
-        
-        /** 紀錄程式結束執行時間 */
-        long end_time = System.nanoTime();
-        /** 紀錄程式執行時間 */
-        long duration = (end_time - start_time);
-        
-        /** 將SQL指令、花費時間與影響行數，封裝成JSONObject回傳 */
-        JSONObject response = new JSONObject();
-        response.put("sql", exexcute_sql);
-        response.put("row", row);
-        response.put("time", duration);
-        response.put("data", jsa);
-
-        return response;
-    }
-    
-    /**
-     * 更新醫師更新資料之分鐘數
-     *
-     * @param d 一名醫師之Doctor物件
-     */
-    public void updateModifyTimes(Doctor d) {
-        /** 更新時間之分鐘數 */
-        int new_times = d.getModify_date();
-        
-        /** 記錄實際執行之SQL指令 */
-        String exexcute_sql = "";
-        
-        try {
-            /** 取得資料庫之連線 */
-            conn = DBMgr.getConnection();
-            /** SQL指令 */
-            String sql = "Update `missa`.`members` SET `login_times` = ? WHERE `id` = ?";
-            /** 取得醫師編號 */
-            int id = m.getID();
-            
-            /** 將參數回填至SQL指令當中 */
-            pres = conn.prepareStatement(sql);
-            pres.setInt(1, new_times);
-            pres.setInt(2, id);
-            /** 執行更新之SQL指令 */
-            pres.executeUpdate();
-
-            /** 紀錄真實執行的SQL指令，並印出 **/
-            exexcute_sql = pres.toString();
-            System.out.println(exexcute_sql);
-
-        } catch (SQLException e) {
-            /** 印出JDBC SQL指令錯誤 **/
-            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
-        } catch (Exception e) {
-            /** 若錯誤則印出錯誤訊息 */
-            e.printStackTrace();
-        } finally {
-            /** 關閉連線並釋放所有資料庫相關之資源 **/
-            DBMgr.close(pres, conn);
-        }
-    }
-    
-    /**
-     * 更新醫師之醫師組別
-     *
-     * @param m 一名醫師之Member物件
-     * @param status 醫師組別之字串（String）
-     */
-    public void updateStatus(Member m, String status) {      
-        /** 記錄實際執行之SQL指令 */
-        String exexcute_sql = "";
-        
-        try {
-            /** 取得資料庫之連線 */
-            conn = DBMgr.getConnection();
-            /** SQL指令 */
-            String sql = "Update `missa`.`members` SET `status` = ? WHERE `id` = ?";
-            /** 取得醫師編號 */
-            int id = m.getID();
-            
-            /** 將參數回填至SQL指令當中 */
-            pres = conn.prepareStatement(sql);
-            pres.setString(1, status);
-            pres.setInt(2, id);
-            /** 執行更新之SQL指令 */
-            pres.executeUpdate();
-
-            /** 紀錄真實執行的SQL指令，並印出 **/
-            exexcute_sql = pres.toString();
-            System.out.println(exexcute_sql);
-        } catch (SQLException e) {
-            /** 印出JDBC SQL指令錯誤 **/
-            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
-        } catch (Exception e) {
-            /** 若錯誤則印出錯誤訊息 */
-            e.printStackTrace();
-        } finally {
-            /** 關閉連線並釋放所有資料庫相關之資源 **/
-            DBMgr.close(pres, conn);
-        }
     }
 
 }
