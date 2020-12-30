@@ -240,8 +240,8 @@ public class RecordHelper {
         return response;
     }
 
-    public JSONObject getById(String record_id) {
-        JSONObject data = new JSONObject();
+    public Record getById(String record_id) {
+        // JSONObject data = new JSONObject();
         Record r = null;
         /** 記錄實際執行之SQL指令 */
         String exexcute_sql = "";
@@ -289,8 +289,8 @@ public class RecordHelper {
                 r = new Record(id, patient_id, symptoms, days, degree, Medicine_id, note, visite_date, doctor,
                         edited_by);
 
-                /** 取出該項商品之資料並封裝至 JSONsonArray 內 */
-                data = r.getRecordData();
+                // /** 取出該項商品之資料並封裝至 JSONsonArray 內 */
+                // data = r.getRecordData();
             }
 
         } catch (SQLException e) {
@@ -315,8 +315,8 @@ public class RecordHelper {
         response.put("sql", exexcute_sql);
         response.put("row", row);
         response.put("time", duration);
-        response.put("data", data);
+        // response.put("data", data);
 
-        return response;
+        return r;
     }
 }

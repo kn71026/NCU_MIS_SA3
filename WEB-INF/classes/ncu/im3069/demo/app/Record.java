@@ -34,7 +34,7 @@ public class Record {
     private String edited_by;
 
     /** rh，RecordHelper 之物件與 Record 相關之資料庫方法（Sigleton） */
-    private RecordHelper rh = RecordHelper.getHelper();
+    private MedicineHelper mdh = MedicineHelper.getHelper();
 
     /**
      * 實例化（Instantiates）一個新的（new）Record 物件<br>
@@ -156,7 +156,8 @@ public class Record {
      */
     private void getMedicineFromDB(int medicine_id) {
         String id = String.valueOf(medicine_id);
-        this = rh.getById(id);
+
+        this.md = mdh.getById(id);
     }
 
 }

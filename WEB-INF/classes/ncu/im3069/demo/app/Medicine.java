@@ -4,14 +4,14 @@ import org.json.*;
 
 public class Medicine {
 
-    /** id，會員編號 */
+    /** id，藥品編號 */
     private int id;
 
     /** id，會員編號 */
     private String name;
 
     /** id，會員編號 */
-    private double price;
+    private String price;
 
     /** id，會員編號 */
     private String image;
