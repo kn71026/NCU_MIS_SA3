@@ -27,28 +27,28 @@ public class Record {
 
     private String note;
 
-    private String visite_date;
+    private String visited_date;
 
     private String doctor;
 
     private String edited_by;
 
     /** rh，RecordHelper 之物件與 Record 相關之資料庫方法（Sigleton） */
-    private MedicineHelper mdh = MedicineHelper.getHelper();
+    private RecordHelper rh = RecordHelper.getHelper();
 
     /**
      * 實例化（Instantiates）一個新的（new）Record 物件<br>
      * 採用多載（overload）方法進行，此建構子用於建立看診紀錄資料時，產生一個新的看診紀錄
      */
     public Record(int patient_id, String symptoms, String days, String degree, int Medicine_id, String note,
-            String visite_date, String doctor, String edited_by) {
+            String visited_date, String doctor, String edited_by) {
         this.patient_id = patient_id;
         this.symptoms = symptoms;
         this.days = days;
         this.degree = degree;
         this.Medicine_id = Medicine_id;
         this.note = note;
-        this.visite_date = visite_date;
+        this.visited_date = visited_date;
         this.doctor = doctor;
         this.edited_by = edited_by;
 
@@ -60,7 +60,7 @@ public class Record {
      *
      */
     public Record(int id, int patient_id, String symptoms, String days, String degree, int Medicine_id, String note,
-            String visite_date, String doctor, String edited_by) {
+            String visited_date, String doctor, String edited_by) {
         this.id = id;
         this.patient_id = patient_id;
         this.symptoms = symptoms;
@@ -68,7 +68,7 @@ public class Record {
         this.degree = degree;
         this.Medicine_id = Medicine_id;
         this.note = note;
-        this.visite_date = visite_date;
+        this.visited_date = visited_date;
         this.doctor = doctor;
         this.edited_by = edited_by;
 
@@ -107,8 +107,8 @@ public class Record {
         return this.note;
     }
 
-    public String getVisite_date() {
-        return this.visite_date;
+    public String getVisited_date() {
+        return this.visited_date;
     }
 
     public String getDoctor() {
@@ -117,6 +117,23 @@ public class Record {
 
     public String getEdited_by() {
         return this.edited_by;
+    }
+
+    /**
+     * 更新看診紀錄資料
+     *
+     * @return the JSON object 回傳SQL更新之結果與相關封裝之資料
+     */
+    public JSONObject update() {
+        /** 新建一個JSONObject用以儲存更新後之資料 */
+        JSONObject data = new JSONObject();
+
+        /** 檢查該看診紀錄是否已經在資料庫 */
+        if (this.id != 0) {
+            data = rh.update(this);
+        }
+
+        return data;
     }
 
     /**
@@ -133,7 +150,7 @@ public class Record {
         jso.put("degree", getDegree());
         jso.put("Medicine_id", getMedicine_id());
         jso.put("note", getNote());
-        jso.put("visite_date", getVisite_date());
+        jso.put("visited_date", getVisited_date());
         jso.put("doctor", getDoctor());
         jso.put("edited_by", getEdited_by());
 
