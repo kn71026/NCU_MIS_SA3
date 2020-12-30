@@ -39,9 +39,10 @@ public class RecordController extends HttpServlet {
 
         /** 取出經解析到 JsonReader 之 Request 參數 */
         String id = jsr.getParameter("id");
+        String patient_id = jsr.getParameter("patient_id");
 
         /** 判斷該字串是否存在，若存在代表要取回個別訂單之資料，否則代表要取回全部資料庫內訂單之資料 */
-        if (id.isEmpty()) {
+        if (patient_id.isEmpty()) {
             /** 透過 RecordHelper 物件的 getByID() 方法自資料庫取回該筆訂單之資料，回傳之資料為 JSONObject 物件 */
             JSONObject query = rh.getAll();
             JSONObject resp = new JSONObject();
@@ -52,7 +53,7 @@ public class RecordController extends HttpServlet {
             jsr.response(resp, response);
 
         } else {
-            JSONObject query = rh.getById(id);
+            JSONObject query = rh.getByPId(patient_id);
             JSONObject resp = new JSONObject();
             resp.put("status", "200");
             resp.put("message", "特定看診紀錄資料取得成功");
