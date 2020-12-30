@@ -1,6 +1,5 @@
 package ncu.im3069.demo.controller;
 
-
 import java.io.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.*;
@@ -10,9 +9,7 @@ import ncu.im3069.demo.app.Patient;
 import ncu.im3069.demo.app.PatientHelper;
 import ncu.im3069.tools.JsonReader;
 
-
-
- @WebServlet("/api/patient.do")
+@WebServlet("/api/patient.do")
 public class PatientController extends HttpServlet {
 
     /** The Constant serialVersionUID. */
@@ -47,11 +44,13 @@ public class PatientController extends HttpServlet {
         String edited_by = jso.getString("edited_by");
 
         /** 建立一個新的病患物件 */
-        Patient p = new Patient(pid, name, gender, dob, bloodType, phone, address, specialDisease, drugAllergy, edited_by);
+        Patient p = new Patient(pid, name, gender, dob, bloodType, phone, address, specialDisease, drugAllergy,
+                edited_by);
 
         /** 後端檢查是否有欄位為空值，若有則回傳錯誤訊息 */
-        if (pid.isEmpty() || name.isEmpty() || gender.isEmpty() || dob.isEmpty() || bloodType.isEmpty() || Integer.toString(phone).isEmpty()
-                || address.isEmpty() || specialDisease.isEmpty() || drugAllergy.isEmpty() || edited_by.isEmpty()) {
+        if (pid.isEmpty() || name.isEmpty() || gender.isEmpty() || dob.isEmpty() || bloodType.isEmpty()
+                || Integer.toString(phone).isEmpty() || address.isEmpty() || specialDisease.isEmpty()
+                || drugAllergy.isEmpty() || edited_by.isEmpty()) {
             /** 以字串組出JSON格式之資料 */
             String resp = "{\"status\": \'400\', \"message\": \'欄位不能有空值\', \'response\': \'\'}";
             /** 透過JsonReader物件回傳到前端（以字串方式） */
@@ -86,7 +85,6 @@ public class PatientController extends HttpServlet {
         String id = jsr.getParameter("id");
         String pid = jsr.getParameter("pid");
 
-
         /** 判斷該字串是否存在，若存在代表要取回個別病患之資料，否則代表要取回全部資料庫內病患之資料 */
         if (pid.isEmpty()) {
             /** 透過PatientHelper物件之getAll()方法取回所有病患之資料，回傳之資料為JSONObject物件 */
@@ -102,9 +100,9 @@ public class PatientController extends HttpServlet {
             jsr.response(resp, response);
         } else {
             /** 透過PatientHelper物件的getByID()方法自資料庫取回該名病患之資料，回傳之資料為JSONObject物件 */
-//        	JSONObject query = ph.getByID(id);
+            // JSONObject query = ph.getByID(id);
             JSONObject query = ph.getByPID(pid);
-            // TODO: getByPID
+
             /** 新建一個JSONObject用於將回傳之資料進行封裝 */
             JSONObject resp = new JSONObject();
             resp.put("status", "200");
@@ -144,7 +142,7 @@ public class PatientController extends HttpServlet {
 
         /** 透過傳入之參數，新建一個以這些參數之病患Patient物件 */
         Patient p = new Patient(id, pid, name, gender, dob, bloodType, phone, address, specialDisease, drugAllergy,
-        		edited_by);
+                edited_by);
 
         /** 透過Patient物件的update()方法至資料庫更新該名病患資料，回傳之資料為JSONObject物件 */
         JSONObject data = p.update();

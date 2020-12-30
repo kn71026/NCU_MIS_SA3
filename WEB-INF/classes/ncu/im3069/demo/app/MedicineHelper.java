@@ -213,12 +213,14 @@ public class MedicineHelper {
                 row += 1;
 
                 /** 將 ResultSet 之資料取出 */
+                int medicine_id = rs.getInt("id");
                 String name = rs.getString("name");
                 String quantity = rs.getString("quantity");
                 String category = rs.getString("category");
+                Timestamp modify = rs.getTimestamp("modify_date");
 
                 /** 將每一筆病患資料產生一名新Patient物件 */
-                med = new Medicine(name, quantity, category);
+                med = new Medicine(medicine_id, name, quantity, category, modify);
                 /** 取出該名病患之資料並封裝至 JSONsonArray 內 */
                 jsa.put(med.getData());
             }
@@ -255,7 +257,7 @@ public class MedicineHelper {
      * @param id 病患編號
      * @return the JSON object 回傳SQL執行結果與該病患編號之病患資料
      */
-    public Medicine getByID(String mid) {
+    public JSONObject getByID(String mid) {
         /** 新建一個 Patient 物件之 p 變數，用於紀錄每一位查詢回之病患資料 */
         Medicine med = null;
         /** 用於儲存所有檢索回之病患，以JSONArray方式儲存 */
@@ -292,11 +294,13 @@ public class MedicineHelper {
                 row += 1;
 
                 /** 將 ResultSet 之資料取出 */
+                int medicine_id = rs.getInt("id");
                 String name = rs.getString("name");
                 String quantity = rs.getString("quantity");
                 String category = rs.getString("category");
+                Timestamp modify = rs.getTimestamp("modify_date");
                 /** 將每一筆病患資料產生一名新Member物件 */
-                med = new Medicine(name, quantity, category);
+                med = new Medicine(medicine_id, name, quantity, category, modify);
 
                 /** 取出該名病患之資料並封裝至 JSONsonArray 內 */
                 jsa.put(med.getData());
@@ -325,6 +329,65 @@ public class MedicineHelper {
         response.put("time", duration);
         response.put("data", jsa);
 
-        return med;
+        return response;
     }
+
+    /**
+     * 透過藥品編號（ID）刪除藥品
+     *
+     * @param id 會員編號
+     * @return the JSONObject 回傳SQL執行結果
+     */
+    public JSONObject deleteByID(int id) {
+        /** 記錄實際執行之SQL指令 */
+        String exexcute_sql = "";
+        /** 紀錄程式開始執行時間 */
+        long start_time = System.nanoTime();
+        /** 紀錄SQL總行數 */
+        int row = 0;
+        /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
+        ResultSet rs = null;
+
+        try {
+            /** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+
+            /** SQL指令 */
+            String sql = "DELETE FROM `missa`.`medicine` WHERE `id` = ? LIMIT 1";
+
+            /** 將參數回填至SQL指令當中 */
+            pres = conn.prepareStatement(sql);
+            pres.setInt(1, id);
+            /** 執行刪除之SQL指令並記錄影響之行數 */
+            row = pres.executeUpdate();
+
+            /** 紀錄真實執行的SQL指令，並印出 **/
+            exexcute_sql = pres.toString();
+            System.out.println(exexcute_sql);
+
+        } catch (SQLException e) {
+            /** 印出JDBC SQL指令錯誤 **/
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            /** 若錯誤則印出錯誤訊息 */
+            e.printStackTrace();
+        } finally {
+            /** 關閉連線並釋放所有資料庫相關之資源 **/
+            DBMgr.close(rs, pres, conn);
+        }
+
+        /** 紀錄程式結束執行時間 */
+        long end_time = System.nanoTime();
+        /** 紀錄程式執行時間 */
+        long duration = (end_time - start_time);
+
+        /** 將SQL指令、花費時間與影響行數，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("row", row);
+        response.put("time", duration);
+
+        return response;
+    }
+
 }

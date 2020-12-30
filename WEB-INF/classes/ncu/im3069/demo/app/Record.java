@@ -151,13 +151,13 @@ public class Record {
         return jso;
     }
 
-    /**
-     * 從 DB 中取得藥品
-     */
-    private void getMedicineFromDB(int medicine_id) {
-        String id = String.valueOf(medicine_id);
+    // /**
+    // * 從 DB 中取得藥品
+    // */
+    // private void getMedicineFromDB(int medicine_id) {
+    // String id = String.valueOf(medicine_id);
 
-        this.md = mdh.getByID(id);
-    }
+    // this.md = mdh.getByID(id);
+    // }
 
 }

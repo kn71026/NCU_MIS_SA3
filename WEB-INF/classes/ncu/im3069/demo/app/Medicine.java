@@ -1,5 +1,7 @@
 package ncu.im3069.demo.app;
 
+import java.sql.*;
+
 import java.time.LocalDateTime;
 
 import org.json.*;
@@ -15,7 +17,7 @@ public class Medicine {
 
     private String category;
 
-    private LocalDateTime modify_date;
+    private Timestamp modify_date;
 
     private MedicineHelper mdh = MedicineHelper.getHelper();
 
@@ -37,7 +39,7 @@ public class Medicine {
         this.name = name;
         this.quantity = quantity;
         this.category = category;
-        this.modify_date = LocalDateTime.now();
+        this.modify_date = Timestamp.valueOf(LocalDateTime.now());
     }
 
     /**
@@ -50,7 +52,21 @@ public class Medicine {
         this.name = name;
         this.quantity = quantity;
         this.category = category;
-        this.modify_date = LocalDateTime.now();
+        this.modify_date = Timestamp.valueOf(LocalDateTime.now());
+
+    }
+
+    /**
+     * 實例化（Instantiates）一個新的（new）Product 物件<br>
+     * 採用多載（overload）方法進行，此建構子用於查詢產品時
+     *
+     */
+    public Medicine(int id, String name, String quantity, String category, Timestamp modify_date) {
+        this.id = id;
+        this.name = name;
+        this.quantity = quantity;
+        this.category = category;
+        this.modify_date = modify_date;
 
     }
 
@@ -90,7 +106,7 @@ public class Medicine {
         return this.category;
     }
 
-    public LocalDateTime getModifyTime() {
+    public Timestamp getModifyTime() {
         return this.modify_date;
     }
 
