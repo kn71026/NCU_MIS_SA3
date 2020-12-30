@@ -113,13 +113,11 @@ public class PatientController extends HttpServlet {
         }
     }
 
-    // TODO: 變數更新
     /**
      * 處理Http Method請求PUT方法（更新）
      *
-     * @param request  Servlet請求之HttpServletRequest之Request物件（前端到後端）
-     * @param response Servlet回傳之HttpServletResponse之Response物件（後端到前端）
-     * @throws ServletException the servlet exception
+
+        throws ServletException the servlet exception
      * @throws IOException      Signals that an I/O exception has occurred.
      */
     public void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -128,7 +126,7 @@ public class PatientController extends HttpServlet {
         JSONObject jso = jsr.getObject();
 
         /** 取出經解析到JSONObject之Request參數 */
-        // int id = jso.getInt("id");
+        int id = jso.getInt("id");
         String pid = jso.getString("pid");
         String name = jso.getString("name");
         String gender = jso.getString("gender");
@@ -138,12 +136,10 @@ public class PatientController extends HttpServlet {
         String address = jso.getString("address");
         String specialDisease = jso.getString("specialDisease");
         String drugAllergy = jso.getString("drugAllergy");
-        // LocalDateTime mdtime = jso.getJSONObject("modify_date").to
         String edited_by = jso.getString("edited_by");
 
         /** 透過傳入之參數，新建一個以這些參數之病患Patient物件 */
-        Patient p = new Patient(pid, name, gender, dob, bloodType, phone, address, specialDisease, drugAllergy,
-                edited_by);
+        Patient p = new Patient(id, pid, name, gender, dob, bloodType, phone, address, specialDisease, drugAllergy,edited_by);
 
         /** 透過Patient物件的update()方法至資料庫更新該名病患資料，回傳之資料為JSONObject物件 */
         JSONObject data = p.update();
@@ -151,10 +147,12 @@ public class PatientController extends HttpServlet {
         /** 新建一個JSONObject用於將回傳之資料進行封裝 */
         JSONObject resp = new JSONObject();
         resp.put("status", "200");
-        resp.put("message", "成功! 更新病患資料...");
+        resp.put("message", "成功! 更新病患資料成功");
         resp.put("response", data);
 
         /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
         jsr.response(resp, response);
     }
 }
+
+

@@ -174,6 +174,7 @@ public class MemberController extends HttpServlet {
         String email = jso.getString("email");
         String password = jso.getString("password");
         String name = jso.getString("name");
+        
 
         /** 透過傳入之參數，新建一個以這些參數之會員Member物件 */
         Member m = new Member(id, email, password, name);

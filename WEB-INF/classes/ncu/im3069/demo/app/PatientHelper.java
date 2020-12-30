@@ -58,7 +58,7 @@ public class PatientHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "INSERT INTO `sa_project`.`patient`(`pid`, `name`, `gender`,`dob`, `bloodType`,`phone`,`address`,`specialDisease`,`drugAllergy`,`created_date`,`modified_date`, `edited_by`)"
+            String sql = "INSERT INTO `sa_project`.`patient`(`pid`, `name`, `gender`,`dob`, `bloodType`,`phone`,`address`,`specialDisease`,`drugAllergy`,`create_date`,`modify_date`, `edited_by`)"
                     + " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             /** 取得所需之參數 */
@@ -140,7 +140,7 @@ public class PatientHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "Update `sa_project`.`patient` SET `pid` = ?,`name` = ? ,`gender` = ? ,`dob` = ? ,`bloodType` = ? ,`phone` = ? ,`address` = ? ,`specialDisease` = ? ,`drugAllergy` = ? , `modified_date` = ? WHERE `pid` = ?";
+            String sql = "Update `sa_project`.`patient` SET `pid` = ?,`name` = ? ,`gender` = ? ,`dob` = ? ,`bloodType` = ? ,`phone` = ? ,`address` = ? ,`specialDisease` = ? ,`drugAllergy` = ? , `modify_date` = ?,`edited_by` = ?  WHERE `pid` = ?";
 
             /** 取得所需之參數 */
             String pid = p.getPID();
@@ -167,6 +167,7 @@ public class PatientHelper {
             pres.setString(9, drugAllergy);
             pres.setTimestamp(10, Timestamp.valueOf(LocalDateTime.now()));
             pres.setString(11, editedby);
+            pres.setString(12, pid);
 
             /** 執行更新之SQL指令並記錄影響之行數 */
             row = pres.executeUpdate();

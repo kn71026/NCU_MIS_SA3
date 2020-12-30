@@ -104,8 +104,7 @@ public class Patient {
      *
      */
     public Patient(int id, String pid, String name, String gender, String dob, String bloodType, int phone,
-            String address, String specialDisease, String drugAllergy,  LocalDateTime modify_date,
-            String edited_by) {
+            String address, String specialDisease, String drugAllergy, String edited_by) {
         this.id = id;
         this.pid = pid;
         this.name = name;
