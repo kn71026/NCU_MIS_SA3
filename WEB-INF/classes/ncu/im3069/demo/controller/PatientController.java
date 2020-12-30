@@ -84,9 +84,11 @@ public class PatientController extends HttpServlet {
         JsonReader jsr = new JsonReader(request);
         /** 若直接透過前端AJAX之data以key=value之字串方式進行傳遞參數，可以直接由此方法取回資料 */
         String id = jsr.getParameter("id");
+        String pid = jsr.getParameter("pid");
+
 
         /** 判斷該字串是否存在，若存在代表要取回個別病患之資料，否則代表要取回全部資料庫內病患之資料 */
-        if (id.isEmpty()) {
+        if (pid.isEmpty()) {
             /** 透過PatientHelper物件之getAll()方法取回所有病患之資料，回傳之資料為JSONObject物件 */
             JSONObject query = ph.getAll();
 
@@ -100,12 +102,13 @@ public class PatientController extends HttpServlet {
             jsr.response(resp, response);
         } else {
             /** 透過PatientHelper物件的getByID()方法自資料庫取回該名病患之資料，回傳之資料為JSONObject物件 */
-            JSONObject query = ph.getByID(id);
+//        	JSONObject query = ph.getByID(id);
+            JSONObject query = ph.getByPID(pid);
             // TODO: getByPID
             /** 新建一個JSONObject用於將回傳之資料進行封裝 */
             JSONObject resp = new JSONObject();
             resp.put("status", "200");
-            resp.put("message", "病患資料取得成功");
+            resp.put("message", "特定病患資料取得成功");
             resp.put("response", query);
 
             /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
@@ -116,8 +119,9 @@ public class PatientController extends HttpServlet {
     /**
      * 處理Http Method請求PUT方法（更新）
      *
-
-        throws ServletException the servlet exception
+     * @param request  Servlet請求之HttpServletRequest之Request物件（前端到後端）
+     * @param response Servlet回傳之HttpServletResponse之Response物件（後端到前端）
+     * @throws ServletException the servlet exception
      * @throws IOException      Signals that an I/O exception has occurred.
      */
     public void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -139,7 +143,8 @@ public class PatientController extends HttpServlet {
         String edited_by = jso.getString("edited_by");
 
         /** 透過傳入之參數，新建一個以這些參數之病患Patient物件 */
-        Patient p = new Patient(id, pid, name, gender, dob, bloodType, phone, address, specialDisease, drugAllergy,edited_by);
+        Patient p = new Patient(id, pid, name, gender, dob, bloodType, phone, address, specialDisease, drugAllergy,
+        		edited_by);
 
         /** 透過Patient物件的update()方法至資料庫更新該名病患資料，回傳之資料為JSONObject物件 */
         JSONObject data = p.update();
@@ -154,5 +159,3 @@ public class PatientController extends HttpServlet {
         jsr.response(resp, response);
     }
 }
-
-
