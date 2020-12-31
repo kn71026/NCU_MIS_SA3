@@ -6,7 +6,6 @@ import org.json.*;
 
 import ncu.im3069.demo.util.DBMgr;
 
-
 public class DoctorHelper {
 
     private DoctorHelper() {
@@ -280,9 +279,9 @@ public class DoctorHelper {
 
                 /** 將 ResultSet 之資料取出 */
                 int doctor_id = rs.getInt("id");
-                String name = rs.getString("name");
                 String account = rs.getString("account");
                 String password = rs.getString("password");
+                String name = rs.getString("name");
                 String dob = rs.getString("dob");
                 int phone = rs.getInt("phone");
                 String address = rs.getString("address");
@@ -290,7 +289,7 @@ public class DoctorHelper {
                 Timestamp modify_date = rs.getTimestamp("modify_date");
 
                 /** 將每一筆醫師資料產生一名新Doctor物件 */
-                d = new Doctor(doctor_id, name, account, password, dob, phone, address, create_date, modify_date);
+                d = new Doctor(doctor_id, account, password, name, dob, phone, address, create_date, modify_date);
                 /** 取出該名醫師之資料並封裝至 JSONsonArray 內 */
                 jsa.put(d.getData());
             }
@@ -364,7 +363,7 @@ public class DoctorHelper {
                 row += 1;
 
                 /** 將 ResultSet 之資料取出 */
-                int member_id = rs.getInt("id");
+                int doctor_id = rs.getInt("id");
                 String name = rs.getString("name");
                 String account = rs.getString("account");
                 String password = rs.getString("password");
@@ -377,7 +376,7 @@ public class DoctorHelper {
                  */
 
                 /** 將每一筆醫師資料產生一名新Member物件 */
-                d = new Doctor(member_id, name, account, password, dob, phone, address);
+                d = new Doctor(doctor_id, account, password, name, dob, phone, address);
                 /** 取出該名醫師之資料並封裝至 JSONsonArray 內 */
                 jsa.put(d.getData());
             }
@@ -464,7 +463,7 @@ public class DoctorHelper {
                  */
 
                 /** 將每一筆醫師資料產生一名新Member物件 */
-                d = new Doctor(id, doctor_name, account, password, dob, phone, address);
+                d = new Doctor(id, account, password, doctor_name, dob, phone, address);
                 /** 取出該名醫師之資料並封裝至 JSONsonArray 內 */
                 jsa.put(d.getData());
             }
