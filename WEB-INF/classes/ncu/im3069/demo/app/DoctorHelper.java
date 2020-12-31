@@ -45,7 +45,8 @@ public class DoctorHelper {
      */
     public static DoctorHelper getHelper() {
         /** Singleton檢查是否已經有MemberHelper物件，若無則new一個，若有則直接回傳 */
-        if(dh == null) dh = new DoctorHelper();
+        if (dh == null)
+            dh = new DoctorHelper();
 
         return dh;
     }
@@ -69,12 +70,12 @@ public class DoctorHelper {
             conn = DBMgr.getConnection();
             /** SQL指令 */
             String sql = "INSERT INTO `sa_project`.`doctor`(`account`, `password`, `name`, `dob`, `phone`,`address`, `create_date`, `modify_date`)"
-                    + " VALUES(?, ?, ?, ?, ?, ?, ?)";
+                    + " VALUES(?, ?, ?, ?, ?, ?, ?,?)";
 
             /** 取得所需之參數 */
+            String name = d.getName();
             String account = d.getAccount();
             String password = d.getPassword();
-            String name = d.getName();
             String dob = d.getDob();
             int phone = d.getPhone();
             String address = d.getAddress();
@@ -286,15 +287,15 @@ public class DoctorHelper {
             System.out.println(exexcute_sql);
 
             /** 透過 while 迴圈移動pointer，取得每一筆回傳資料 */
-            while(rs.next()) {
+            while (rs.next()) {
                 /** 每執行一次迴圈表示有一筆資料 */
                 row += 1;
 
                 /** 將 ResultSet 之資料取出 */
                 int doctor_id = rs.getInt("id");
+                String name = rs.getString("name");
                 String account = rs.getString("account");
                 String password = rs.getString("password");
-                String name = rs.getString("name");
                 String dob = rs.getString("dob");
                 int phone = rs.getInt("phone");
                 String address = rs.getString("address");
@@ -302,7 +303,7 @@ public class DoctorHelper {
                 Timestamp modify_date = rs.getTimestamp("modify_date");
 
                 /** 將每一筆醫師資料產生一名新Doctor物件 */
-                d = new Doctor(doctor_id, account, password, name,dob, phone, address, create_date, modify_date);
+                d = new Doctor(doctor_id, name, account, password,  dob, phone, address, create_date, modify_date);
                 /** 取出該名醫師之資料並封裝至 JSONsonArray 內 */
                 jsa.put(d.getData());
             }
@@ -371,24 +372,25 @@ public class DoctorHelper {
 
             /** 透過 while 迴圈移動pointer，取得每一筆回傳資料 */
             /** 正確來說資料庫只會有一筆該醫師編號之資料，因此其實可以不用使用 while 迴圈 */
-            while(rs.next()) {
+            while (rs.next()) {
                 /** 每執行一次迴圈表示有一筆資料 */
                 row += 1;
 
                 /** 將 ResultSet 之資料取出 */
                 int member_id = rs.getInt("id");
+                String name = rs.getString("name");
                 String account = rs.getString("account");
                 String password = rs.getString("password");
-                String name = rs.getString("name");
                 String dob = rs.getString("dob");
                 int phone = rs.getInt("phone");
                 String address = rs.getString("address");
-                /**Timestamp create_date = rs.getTimestamp("create_date");
-                *Timestamp modify_date = rs.getTimestamp("modify_date");
-                */
+                /**
+                 * Timestamp create_date = rs.getTimestamp("create_date"); Timestamp modify_date
+                 * = rs.getTimestamp("modify_date");
+                 */
 
                 /** 將每一筆醫師資料產生一名新Member物件 */
-                d = new Doctor(member_id,account, password, name, dob, phone, address);
+                d = new Doctor(member_id,  name, account, password, dob, phone, address);
                 /** 取出該名醫師之資料並封裝至 JSONsonArray 內 */
                 jsa.put(d.getData());
             }
@@ -457,24 +459,25 @@ public class DoctorHelper {
 
             /** 透過 while 迴圈移動pointer，取得每一筆回傳資料 */
             /** 正確來說資料庫只會有一筆該醫師編號之資料，因此其實可以不用使用 while 迴圈 */
-            while(rs.next()) {
+            while (rs.next()) {
                 /** 每執行一次迴圈表示有一筆資料 */
                 row += 1;
 
                 /** 將 ResultSet 之資料取出 */
                 int id = rs.getInt("id");
+                String doctor_name = rs.getString("name");
                 String account = rs.getString("account");
                 String password = rs.getString("password");
-                String doctor_name = rs.getString("name");
                 String dob = rs.getString("dob");
                 int phone = rs.getInt("phone");
                 String address = rs.getString("address");
-                /**Timestamp create_date = rs.getTimestamp("create_date");
-                *Timestamp modify_date = rs.getTimestamp("modify_date");
-                */
+                /**
+                 * Timestamp create_date = rs.getTimestamp("create_date"); Timestamp modify_date
+                 * = rs.getTimestamp("modify_date");
+                 */
 
                 /** 將每一筆醫師資料產生一名新Member物件 */
-                d = new Doctor(id, account, password,doctor_name,dob, phone, address);
+                d = new Doctor(id, doctor_name, accou nt, password , dob, phone, address);
                 /** 取出該名醫師之資料並封裝至 JSONsonArray 內 */
                 jsa.put(d.getData());
             }
@@ -511,7 +514,7 @@ public class DoctorHelper {
      * @param d 一名醫師之Doctor物件
      * @return boolean 若重複註冊回傳False，若該帳號不存在則回傳True
      */
-    public boolean checkDuplicate(Doctor d){
+    public boolean checkDuplicate(Doctor d) {
         /** 紀錄SQL總行數，若為「-1」代表資料庫檢索尚未完成 */
         int row = -1;
         /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
@@ -549,8 +552,7 @@ public class DoctorHelper {
         }
 
         /**
-         * 判斷是否已經有一筆該帳號之資料
-         * 若無一筆則回傳False，否則回傳True
+         * 判斷是否已經有一筆該帳號之資料 若無一筆則回傳False，否則回傳True
          */
         return (row == 0) ? false : true;
     }
