@@ -5,64 +5,50 @@ import org.json.*;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
-// TODO: Auto-generated Javadoc
-/**
- * <p>
- * The Class Doctor
- * Doctor類別（class）具有會員所需要之屬性與方法，並且儲存與會員相關之商業判斷邏輯<br>
- * </p>
- *
- * @author IPLab
- * @version 1.0.0
- * @since 1.0.0
- */
-
 public class Doctor {
 
-    /** id，會員編號 */
+    /** id 醫師編號 */
     private int id;
 
-    /** account，會員帳號 */
+    /** account 醫師帳號 */
     private String account;
 
-    /** password，會員密碼 */
+    /** password 醫師密碼 */
     private String password;
 
-    /** name，會員姓名 */
+    /** name 醫師姓名 */
     private String name;
 
-
-    /**dob，會員生日 */
+    /** dob 醫師生日 */
     private String dob;
 
-    /** phone，會員電話 */
+    /** phone 醫師電話 */
     private int phone;
 
-    /** address，會員地址 */
+    /** address 醫師地址 */
     private String address;
 
-    /**create_date，生成日期 */
+    /** create_date，生成日期 */
     private Timestamp create_date;
 
-    /**modify_date，修改日期 */
+    /** modify_date，修改日期 */
     private Timestamp modify_date;
 
     /** dh，DoctorHelper之物件與Doctor相關之資料庫方法（Sigleton） */
-    private DoctorHelper dh =  DoctorHelper.getHelper();
+    private DoctorHelper dh = DoctorHelper.getHelper();
 
     /**
      * 實例化（Instantiates）一個新的（new）Doctor物件<br>
      * 採用多載（overload）方法進行，此建構子用於建立醫師資料時，產生一名新的醫師
      *
-     * @param account 醫師帳號
+     * @param account  醫師帳號
      * @param password 醫師密碼
-     * @param name 醫師姓名
-     * @param dob 醫師生日
-     * @param phone 醫師電話
-     * @param address 醫師地址
+     * @param name     醫師姓名
+     * @param dob      醫師生日
+     * @param phone    醫師電話
+     * @param address  醫師地址
      */
-    public Doctor(String account,String password,String name,String dob,int phone
-    ,String address){
+    public Doctor(String account, String password, String name, String dob, int phone, String address) {
         this.account = account;
         this.password = password;
         this.name = name;
@@ -76,18 +62,18 @@ public class Doctor {
      * 實例化（Instantiates）一個新的（new）Doctor物件<br>
      * 採用多載（overload）方法進行，此建構子用於更新醫師資料時，產生一名醫師同時需要去資料庫檢索原有修改日期
      *
-     * @param id 醫師編號
-     * @param account 醫師帳號
-     * @param password 醫師密碼
-     * @param name 醫師姓名
-     * @param dob 醫師生日
-     * @param phone 醫師電話
-     * @param address 醫師地址
+     * @param id          醫師編號
+     * @param account     醫師帳號
+     * @param password    醫師密碼
+     * @param name        醫師姓名
+     * @param dob         醫師生日
+     * @param phone       醫師電話
+     * @param address     醫師地址
      * @param create_date 生成日期
      * @param modify_date 修改日期
      */
-    public Doctor(int id,String account,String password,String name,String dob,int phone
-    ,String address,Timestamp create_date,Timestamp modify_date) {
+    public Doctor(int id, String account, String password, String name, String dob, int phone, String address,
+            Timestamp create_date, Timestamp modify_date) {
         this.id = id;
         this.account = account;
         this.password = password;
@@ -99,24 +85,22 @@ public class Doctor {
         this.modify_date = modify_date;
 
         /** 取回原有資料庫內該名醫師之更新日期 */
-        /**getmodify_date();*/
+        /** getmodify_date(); */
     }
 
     /**
      * 實例化（Instantiates）一個新的（new）Doctor物件<br>
      * 採用多載（overload）方法進行，此建構子用於查詢醫師資料時，將每一筆資料新增為一個醫師物件
      *
-     * @param id 醫師編號
-     * @param account 醫師帳號
+     * @param id       醫師編號
+     * @param account  醫師帳號
      * @param password 醫師密碼
-     * @param name 醫師姓名
-     * @param dob 醫師生日
-     * @param phone 醫師電話
-     * @param address 醫師地址
+     * @param name     醫師姓名
+     * @param dob      醫師生日
+     * @param phone    醫師電話
+     * @param address  醫師地址
      */
-    public Doctor(int id,String account,String password,String name,String dob,int phone
-    ,String address)
-    {
+    public Doctor(int id, String account, String password, String name, String dob, int phone, String address) {
         this.id = id;
         this.account = account;
         this.password = password;
@@ -137,9 +121,9 @@ public class Doctor {
     }
 
     /**
-     * 取得會員之地址
+     * 取 醫師之地址
      *
-     * @return the account 回傳會員地址
+     * @return the account 回 醫師地址
      */
     public String getAccount() {
         return this.account;
@@ -209,7 +193,7 @@ public class Doctor {
     }
 
     /**
-     * 更新會員資料
+     * 更 醫師資料
      *
      * @return the JSON object 回傳SQL更新之結果與相關封裝之資料
      */
@@ -218,8 +202,7 @@ public class Doctor {
         JSONObject data = new JSONObject();
 
         /** 檢查該名醫師是否已經在資料庫 */
-        if(this.id != 0)
-        {
+        if (this.id != 0) {
             /** 透過DoctorHelper物件，更新目前之醫師資料置資料庫中 */
             data = dh.update(this);
         }
@@ -228,12 +211,12 @@ public class Doctor {
     }
 
     /**
-     * 取得該名會員所有資料
+     * 取得該 醫師所有資料
      *
-     * @return the data 取得該名會員之所有資料並封裝於JSONObject物件內
+     * @return the data 取得該 醫師之所有資料並封裝於JSONObject物件內
      */
     public JSONObject getData() {
-        /** 透過JSONObject將該名會員所需之資料全部進行封裝*/
+        /** 透過JSONObject將該 醫師所需之資料全部進行封裝 */
         JSONObject jso = new JSONObject();
         jso.put("id", getID());
         jso.put("account", getAccount());
@@ -247,6 +230,5 @@ public class Doctor {
 
         return jso;
     }
-
 
 }

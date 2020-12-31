@@ -6,24 +6,9 @@ import org.json.*;
 
 import ncu.im3069.demo.util.DBMgr;
 
-// TODO: Auto-generated Javadoc
-/**
- * <p>
- * The Class DoctorHelper<br>
- * DoctorHelper類別（class）主要管理所有與Doctor相關與資料庫之方法（method）
- * </p>
- *
- * @author IPLab
- * @version 1.0.0
- * @since 1.0.0
- */
 
 public class DoctorHelper {
 
-    /**
-     * 實例化（Instantiates）一個新的（new）MemberHelper物件<br>
-     * 採用Singleton不需要透過new
-     */
     private DoctorHelper() {
 
     }

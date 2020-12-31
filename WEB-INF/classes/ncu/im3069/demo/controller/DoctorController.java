@@ -12,7 +12,6 @@ import ncu.im3069.tools.JsonReader;
 
 import javax.servlet.annotation.WebServlet;
 
-
 @WebServlet("/api/doctor.do")
 public class DoctorController extends HttpServlet {
 
@@ -54,7 +53,7 @@ public class DoctorController extends HttpServlet {
             /** 透過JsonReader物件回傳到前端（以字串方式） */
             jsr.response(resp, response);
         }
-        /** 透過DoctorHelper物件的checkDuplicate()檢查該會員帳號是否有重複 */
+        /** 透過DoctorHelper物件的checkDuplicate()檢查該醫師帳號是否有重複 */
         else if (!dh.checkDuplicate(d)) {
             /** 透過DoctorHelper物件的create()方法新建一個醫師至資料庫 */
             JSONObject data = dh.create(d);
@@ -89,9 +88,9 @@ public class DoctorController extends HttpServlet {
         /** 若直接透過前端AJAX之data以key=value之字串方式進行傳遞參數，可以直接由此方法取回資料 */
         String id = jsr.getParameter("id");
 
-        /** 判斷該字串是否存在，若存在代表要取回個別會員之資料，否則代表要取回全部資料庫內會員之資料 */
+        /** 判斷該字串是否存在，若存在代表要取回個別醫師之資料，否則代表要取回全部資料庫內醫師之資料 */
         if (id.isEmpty()) {
-            /** 透過MemberHelper物件之getAll()方法取回所有會員之資料，回傳之資料為JSONObject物件 */
+            /** 透過MemberHelper物件之getAll()方法取回所有醫師之資料，回傳之資料為JSONObject物件 */
             JSONObject query = dh.getAll();
 
             /** 新建一個JSONObject用於將回傳之資料進行封裝 */
@@ -134,7 +133,7 @@ public class DoctorController extends HttpServlet {
         /** 取出經解析到JSONObject之Request參數 */
         int id = jso.getInt("id");
 
-        /** 透過DoctorHelper物件的deleteByID()方法至資料庫刪除該名會員，回傳之資料為JSONObject物件 */
+        /** 透過DoctorHelper物件的deleteByID()方法至資料庫刪除該名醫師，回傳之資料為JSONObject物件 */
         JSONObject query = dh.deleteByID(id);
 
         /** 新建一個JSONObject用於將回傳之資料進行封裝 */
@@ -173,7 +172,7 @@ public class DoctorController extends HttpServlet {
          * modify_date = jso.getTimestamp("modify_date");
          */
 
-        /** 透過傳入之參數，新建一個以這些參數之會員Member物件 */
+        /** 透過傳入之參數，新建一個以這些參數之醫師Member物件 */
         Doctor d = new Doctor(id, account, password, name, dob, phone, address);
 
         /** 透過Doctor物件的update()方法至資料庫更新該名醫師資料，回傳之資料為JSONObject物件 */
