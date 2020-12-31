@@ -11,32 +11,33 @@ import java.util.Calendar;
  * The Class Doctor
  * Doctor類別（class）具有會員所需要之屬性與方法，並且儲存與會員相關之商業判斷邏輯<br>
  * </p>
- * 
+ *
  * @author IPLab
  * @version 1.0.0
  * @since 1.0.0
  */
 
 public class Doctor {
-    
+
     /** id，會員編號 */
     private int id;
-    
+
     /** account，會員帳號 */
     private String account;
-    
-    /** name，會員姓名 */
-    private String name;
-    
+
     /** password，會員密碼 */
     private String password;
-    
+
+    /** name，會員姓名 */
+    private String name;
+
+
     /**dob，會員生日 */
     private String dob;
 
     /** phone，會員電話 */
     private int phone;
-    
+
     /** address，會員地址 */
     private String address;
 
@@ -45,10 +46,10 @@ public class Doctor {
 
     /**modify_date，修改日期 */
     private Timestamp modify_date;
-    
+
     /** dh，DoctorHelper之物件與Doctor相關之資料庫方法（Sigleton） */
     private DoctorHelper dh =  DoctorHelper.getHelper();
-    
+
     /**
      * 實例化（Instantiates）一個新的（new）Doctor物件<br>
      * 採用多載（overload）方法進行，此建構子用於建立醫師資料時，產生一名新的醫師
@@ -74,7 +75,7 @@ public class Doctor {
     /**
      * 實例化（Instantiates）一個新的（new）Doctor物件<br>
      * 採用多載（overload）方法進行，此建構子用於更新醫師資料時，產生一名醫師同時需要去資料庫檢索原有修改日期
-     * 
+     *
      * @param id 醫師編號
      * @param account 醫師帳號
      * @param password 醫師密碼
@@ -100,7 +101,7 @@ public class Doctor {
         /** 取回原有資料庫內該名醫師之更新日期 */
         /**getmodify_date();*/
     }
-    
+
     /**
      * 實例化（Instantiates）一個新的（new）Doctor物件<br>
      * 採用多載（overload）方法進行，此建構子用於查詢醫師資料時，將每一筆資料新增為一個醫師物件
@@ -125,7 +126,7 @@ public class Doctor {
         this.address = address;
         update();
     }
-    
+
     /**
      * 取得醫師之編號
      *
@@ -143,7 +144,7 @@ public class Doctor {
     public String getAccount() {
         return this.account;
     }
-    
+
     /**
      * 取得醫師之姓名
      *
@@ -188,7 +189,7 @@ public class Doctor {
     public String getAddress() {
         return this.address;
     }
-    
+
     /**
      * 取得醫師資訊創建時間
      *
@@ -206,7 +207,7 @@ public class Doctor {
     public Timestamp getModifyTime() {
         return this.modify_date;
     }
-    
+
     /**
      * 更新會員資料
      *
@@ -215,37 +216,37 @@ public class Doctor {
     public JSONObject update() {
         /** 新建一個JSONObject用以儲存更新後之資料 */
         JSONObject data = new JSONObject();
-        
+
         /** 檢查該名醫師是否已經在資料庫 */
-        if(this.id != 0) 
+        if(this.id != 0)
         {
             /** 透過DoctorHelper物件，更新目前之醫師資料置資料庫中 */
             data = dh.update(this);
         }
-        
+
         return data;
     }
-    
+
     /**
      * 取得該名會員所有資料
      *
      * @return the data 取得該名會員之所有資料並封裝於JSONObject物件內
      */
     public JSONObject getData() {
-        /** 透過JSONObject將該名會員所需之資料全部進行封裝*/ 
+        /** 透過JSONObject將該名會員所需之資料全部進行封裝*/
         JSONObject jso = new JSONObject();
         jso.put("id", getID());
-        jso.put("name", getName());
         jso.put("account", getAccount());
         jso.put("password", getPassword());
+        jso.put("name", getName());
         jso.put("dob", getDob());
         jso.put("phone", getPhone());
         jso.put("address", getAddress());
         jso.put("create_date", getCreateTime());
         jso.put("modify_date", getModifyTime());
-        
+
         return jso;
     }
-    
-    
+
+
 }
