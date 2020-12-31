@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="statics/css/medicine.css">
+</head>
+
+<body>
+    <div id="logoBar">
+        <img class="logo" src="statics/icon/Charlie_the_unicorn.png" style="cursor: pointer;">
+        <h1 class="logo" style="cursor: pointer;">Charlie Clinic</h1>
+    </div>
+
+    <div id="navBar">
+        <div class="page appointment">掛號管理系統</div>
+        <div class="page patient">病歷管理系統</div>
+        <div class="page medicine" style="background-color: rgb(178, 166, 142);">藥品管理系統</div>
+        <div class="page hr">人事管理系統</div>
+        <div class="page personal">個人資料頁面</div>
+        <div class="page logout"><button id="logoutBtn" type="button">登出</button></div>
+    </div>
+
+    <div id="container">
+        <button type="button" class="btn editBtn">編輯</button>
+        <button type="button" class="btn deleteBtn">刪除</button>
+        <div id="functions">
+            <div id="titleOfSystem">藥品管理系統</div>
+            <div class="subFunction table">
+                <img src="statics/icon/play-button-arrowhead.png" width="17px">
+                <p style="text-decoration: underline">藥品清單列表</p>
+            </div>
+            <div class="subFunction add">
+                <img src="statics/icon/plus.png" width="17px">
+                <p style="cursor: pointer;">新增藥品</p>
+            </div>
+            <div id="search">
+                <input type="text" id="searchTarget" placeholder="搜尋" />
+            </div>
+        </div>
+        <div id="listTitleContainer">
+            <div class="listTitle medId">藥品編號</div>
+            <div class="listTitle medName">藥品名稱</div>
+            <div class="listTitle dose">規格量</div>
+            <div class="listTitle type">劑型</div>
+            <div class="listTitle category">藥品分類</div>
+            <div class="listTitle update">更新日期</div>
+            <div class="listTitle checker">選取</div>
+        </div>
+        <div id="listContainer">
+            <div class="list">
+                <div class="listContent medId">A0001</div>
+                <div class="listContent medName">化痰能顆粒</div>
+                <div class="listContent dose">1GM</div>
+                <div class="listContent type">內服顆粒劑</div>
+                <div class="listContent category">一般學名藥</div>
+                <div class="listContent update">2020/12/17</div>
+                <div class="listContent checker"><input type="checkbox" id="functionChecker"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" crossorigin="anonymous">
+    $(".logo").click(function () {
+        window.location.href = 'appointment.html';
+    });
+
+    $(".appointment").click(function () {
+        window.location.href = 'appointment.html';
+    });
+    $(".patient").click(function () {
+        window.location.href = 'patient.html';
+    });
+    $(".medicine").click(function () {
+        window.location.href = 'medicine.html';
+    });
+    $(".hr").click(function () {
+        window.location.href = 'humanResource.html';
+    });
+    $(".personal").click(function () {
+        window.location.href = 'personal.html';
+    });
+    $('#logoutBtn').click(function () {
+        window.location.href = 'logout.html';
+    });
+
+    $(".add").click(function () {
+        window.location.href = 'addMedicine.html';
+    });
+
+    $(".list").click(function () {
+        window.location.href = 'editMedicine.html';
+    });
+</script>
+
+</html>

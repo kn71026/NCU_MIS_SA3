@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="statics/css/addTemplate.css">
+</head>
+
+<body>
+    <div id="logoBar">
+        <img class="logo" src="statics/icon/Charlie_the_unicorn.png" style="cursor: pointer;">
+        <h1 class="logo" style="cursor: pointer;">Charlie Clinic</h1>
+    </div>
+
+    <div id="navBar">
+        <div class="page appointment">掛號管理系統</div>
+        <div class="page patient" style="background-color: rgb(178, 166, 142);">病歷管理系統</div>
+        <div class="page medicine">藥品管理系統</div>
+        <div class="page hr">人事管理系統</div>
+        <div class="page personal">個人資料頁面</div>
+        <div class="page logout"><button id="logoutBtn" type="button">登出</button></div>
+    </div>
+
+    <div id="container">
+        <div id="functions">
+            <div id="titleOfSystem">病歷管理系統</div>
+            <div class="subFunction table">
+                <img src="statics/icon/play-button-arrowhead.png" width="17px">
+                <p style="cursor: pointer;">病患清單列表</p>
+            </div>
+            <div class="subFunction add">
+                <img src="statics/icon/plus.png" width="17px">
+                <p style="text-decoration: underline">新增病歷資料</p>
+            </div>
+        </div>
+        <div id="formContainer">
+            <form id="appointmentForm" accept-charset="UTF-8">
+                <p id="formTitle">新增病歷基本資料</p>
+                <input type="button" value="新增" id="submit" style="cursor: pointer;">
+                <div id="formTable">
+                    <div style="display: none;"><input type="hidden" name="_method" value="POST"></div>
+                    <div class="input password required">
+                        <label for="patientName">姓名</label>
+                        <input name="name" type="text" id="patientName" required>
+                    </div>
+                    <div class="input id required">
+                        <label for="patientId">身分證字號</label>
+                        <input name="id" type="text" id="patientId" required>
+                    </div>
+                    <div class="input gender required">
+                        <label for="patientGender">性別</label>
+                        <select id="patientGender" name="gender">
+                            <option value="male">男</option>
+                            <option value="female">女</option>
+                        </select>
+                    </div>
+                    <div class="input dob required">
+                        <label for="patientDob">出生年月日</label>
+                        <input name="dob" type="date" id="patientDob" required>
+                    </div>
+                    <div class="input bloodType required">
+                        <label for="patinetBloodType">血型</label>
+                        <select id="patinetBloodType" name="bloodType">
+                            <option value="a">A</option>
+                            <option value="b">B</option>
+                            <option value="o">O</option>
+                            <option value="ab">AB</option>
+                        </select>
+                    </div>
+                    <div class="input phone required">
+                        <label for="patientPhone">聯絡電話</label>
+                        <input name="phone" type="text" id="patientPhone" required>
+                    </div>
+                    <div class="input address required">
+                        <label for="patientPhone">聯絡地址</label>
+                        <input name="address" type="text" id="patientAddress" required>
+                    </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" crossorigin="anonymous">
+    $(".logo").click(function () {
+        window.location.href = 'appointment.html';
+    });
+
+    $(".appointment").click(function () {
+        window.location.href = 'appointment.html';
+    });
+    $(".patient").click(function () {
+        window.location.href = 'patient.html';
+    });
+    $(".medicine").click(function () {
+        window.location.href = 'medicine.html';
+    });
+    $(".hr").click(function () {
+        window.location.href = 'humanResource.html';
+    });
+    $(".personal").click(function () {
+        window.location.href = 'personal.html';
+    });
+    $('#logoutBtn').click(function () {
+        window.location.href = 'logout.html';
+    });
+
+    $(".table").click(function () {
+        window.location.href = 'patient.html';
+    });
+</script>
+
+</html>
