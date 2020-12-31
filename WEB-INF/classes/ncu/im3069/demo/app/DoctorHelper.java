@@ -201,8 +201,9 @@ public class DoctorHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "Update `sa_project`.`doctor` SET `account` = ? ,`password` = ? , `name` = ?, `dob` = ?, `phone` = ?, `address` = ? WHERE `id` = ?";
+            String sql = "Update `sa_project`.`doctor` SET `account` = ? ,`password` = ? , `name` = ?, `dob` = ?, `phone` = ?, `address` = ? ,`modify_date` = ? WHERE `id` = ?";
             /** 取得所需之參數 */
+            int id = d.getID();
             String account = d.getAccount();
             String password = d.getPassword();
             String name = d.getName();
@@ -218,7 +219,8 @@ public class DoctorHelper {
             pres.setString(4, dob);
             pres.setInt(5, phone);
             pres.setString(6, address);
-            pres.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
+            pres.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+            pres.setInt(8, id);
             /** 執行更新之SQL指令並記錄影響之行數 */
             row = pres.executeUpdate();
 
@@ -303,7 +305,7 @@ public class DoctorHelper {
                 Timestamp modify_date = rs.getTimestamp("modify_date");
 
                 /** 將每一筆醫師資料產生一名新Doctor物件 */
-                d = new Doctor(doctor_id, name, account, password,  dob, phone, address, create_date, modify_date);
+                d = new Doctor(doctor_id, name, account, password, dob, phone, address, create_date, modify_date);
                 /** 取出該名醫師之資料並封裝至 JSONsonArray 內 */
                 jsa.put(d.getData());
             }
@@ -390,7 +392,7 @@ public class DoctorHelper {
                  */
 
                 /** 將每一筆醫師資料產生一名新Member物件 */
-                d = new Doctor(member_id,  name, account, password, dob, phone, address);
+                d = new Doctor(member_id, name, account, password, dob, phone, address);
                 /** 取出該名醫師之資料並封裝至 JSONsonArray 內 */
                 jsa.put(d.getData());
             }
@@ -477,7 +479,7 @@ public class DoctorHelper {
                  */
 
                 /** 將每一筆醫師資料產生一名新Member物件 */
-                d = new Doctor(id, doctor_name, accou nt, password , dob, phone, address);
+                d = new Doctor(id, doctor_name, account, password, dob, phone, address);
                 /** 取出該名醫師之資料並封裝至 JSONsonArray 內 */
                 jsa.put(d.getData());
             }
