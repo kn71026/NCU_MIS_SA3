@@ -23,8 +23,6 @@ public class Record {
 
     private int Medicine_id;
 
-    private Medicine md;
-
     private String note;
 
     private String visited_date;
