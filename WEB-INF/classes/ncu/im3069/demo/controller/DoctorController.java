@@ -87,9 +87,9 @@ public class DoctorController extends HttpServlet {
         JsonReader jsr = new JsonReader(request);
         /** 若直接透過前端AJAX之data以key=value之字串方式進行傳遞參數，可以直接由此方法取回資料 */
         String id = jsr.getParameter("id");
-
+        String name =jsr.getParameter("name");
         /** 判斷該字串是否存在，若存在代表要取回個別醫師之資料，否則代表要取回全部資料庫內醫師之資料 */
-        if (id.isEmpty()) {
+        if (name.isEmpty()) {
             /** 透過MemberHelper物件之getAll()方法取回所有醫師之資料，回傳之資料為JSONObject物件 */
             JSONObject query = dh.getAll();
 
@@ -103,7 +103,7 @@ public class DoctorController extends HttpServlet {
             jsr.response(resp, response);
         } else {
             /** 透過DoctorHelper物件的getByID()方法自資料庫取回該名醫師之資料，回傳之資料為JSONObject物件 */
-            JSONObject query = dh.getByID(id);
+            JSONObject query = dh.getByName(name);
 
             /** 新建一個JSONObject用於將回傳之資料進行封裝 */
             JSONObject resp = new JSONObject();
