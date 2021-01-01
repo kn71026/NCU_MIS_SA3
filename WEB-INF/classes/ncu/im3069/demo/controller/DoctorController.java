@@ -1,7 +1,8 @@
 package ncu.im3069.demo.controller;
 
 import java.io.*;
-// import java.sql.Timestamp;
+/**import java.sql.Timestamp;
+*/
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -18,7 +19,7 @@ public class DoctorController extends HttpServlet {
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
-    /** mh，MemberHelper之物件與Member相關之資料庫方法（Sigleton） */
+    /** dh，DoctorHelper之物件與Doctor相關之資料庫方法（Sigleton） */
     private DoctorHelper dh = DoctorHelper.getHelper();
 
     /**
@@ -86,11 +87,12 @@ public class DoctorController extends HttpServlet {
         /** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
         JsonReader jsr = new JsonReader(request);
         /** 若直接透過前端AJAX之data以key=value之字串方式進行傳遞參數，可以直接由此方法取回資料 */
-        // String id = jsr.getParameter("id");
-        String name = jsr.getParameter("name");
+        /**String id = jsr.getParameter("id");
+        */
+        String name =jsr.getParameter("name");
         /** 判斷該字串是否存在，若存在代表要取回個別醫師之資料，否則代表要取回全部資料庫內醫師之資料 */
         if (name.isEmpty()) {
-            /** 透過MemberHelper物件之getAll()方法取回所有醫師之資料，回傳之資料為JSONObject物件 */
+            /** 透過DoctorHelper物件之getAll()方法取回所有醫師之資料，回傳之資料為JSONObject物件 */
             JSONObject query = dh.getAll();
 
             /** 新建一個JSONObject用於將回傳之資料進行封裝 */
@@ -172,7 +174,7 @@ public class DoctorController extends HttpServlet {
          * modify_date = jso.getTimestamp("modify_date");
          */
 
-        /** 透過傳入之參數，新建一個以這些參數之醫師Member物件 */
+        /** 透過傳入之參數，新建一個以這些參數之醫師Doctor物件 */
         Doctor d = new Doctor(id, account, password, name, dob, phone, address);
 
         /** 透過Doctor物件的update()方法至資料庫更新該名醫師資料，回傳之資料為JSONObject物件 */

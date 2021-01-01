@@ -3,7 +3,6 @@ package ncu.im3069.demo.app;
 import org.json.*;
 
 import java.sql.Timestamp;
-// import java.util.Calendar;
 
 public class Doctor {
 
@@ -121,7 +120,7 @@ public class Doctor {
     }
 
     /**
-     * 取 醫師之地址
+     * 取得醫師之地址
      *
      * @return the account 回 醫師地址
      */

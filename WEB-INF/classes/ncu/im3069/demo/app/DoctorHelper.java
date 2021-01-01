@@ -12,7 +12,7 @@ public class DoctorHelper {
 
     }
 
-    /** 靜態變數，儲存MemberHelper物件 */
+    /** 靜態變數，儲存DoctorHelper物件 */
     private static DoctorHelper dh;
 
     /** 儲存JDBC資料庫連線 */
@@ -28,7 +28,7 @@ public class DoctorHelper {
      * @return the helper 回傳DoctorHelper物件
      */
     public static DoctorHelper getHelper() {
-        /** Singleton檢查是否已經有MemberHelper物件，若無則new一個，若有則直接回傳 */
+        /** Singleton檢查是否已經有DoctorHelper物件，若無則new一個，若有則直接回傳 */
         if (dh == null)
             dh = new DoctorHelper();
 
@@ -375,7 +375,7 @@ public class DoctorHelper {
                  * = rs.getTimestamp("modify_date");
                  */
 
-                /** 將每一筆醫師資料產生一名新Member物件 */
+                /** 將每一筆醫師資料產生一名新Doctor物件 */
                 d = new Doctor(doctor_id, account, password, name, dob, phone, address);
                 /** 取出該名醫師之資料並封裝至 JSONsonArray 內 */
                 jsa.put(d.getData());
@@ -462,7 +462,7 @@ public class DoctorHelper {
                  * = rs.getTimestamp("modify_date");
                  */
 
-                /** 將每一筆醫師資料產生一名新Member物件 */
+                /** 將每一筆醫師資料產生一名新Doctor物件 */
                 d = new Doctor(id, account, password, doctor_name, dob, phone, address);
                 /** 取出該名醫師之資料並封裝至 JSONsonArray 內 */
                 jsa.put(d.getData());
@@ -498,7 +498,7 @@ public class DoctorHelper {
      * 檢查該名醫師之帳號是否重複註冊
      *
      * @param d 一名醫師之Doctor物件
-     * @return boolean 若重複註冊回傳False，若該帳號不存在則回傳True
+     * @return boolean 若重複註冊回傳True，若該帳號不存在則回傳False
      */
     public boolean checkDuplicate(Doctor d) {
         /** 紀錄SQL總行數，若為「-1」代表資料庫檢索尚未完成 */
