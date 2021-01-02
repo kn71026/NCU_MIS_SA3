@@ -61,7 +61,7 @@ public class LoginController extends HttpServlet {
             jsr.response(resp, response);
         } else {
             /** 以字串組出JSON格式之資料 */
-            String resp = "{\"status\": \'400\', \"message\": \'登入失敗，找不到此帳號！\', \'response\': \'\'}";
+            String resp = "{\"status\": \'401\', \"message\": \'登入失敗，帳號或密碼錯誤！\', \'response\': \'\'}";
             /** 透過JsonReader物件回傳到前端（以字串方式） */
             jsr.response(resp, response);
         }

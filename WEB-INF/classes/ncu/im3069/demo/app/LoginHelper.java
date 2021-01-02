@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.json.*;
 
 import ncu.im3069.demo.util.DBMgr;
+import login;
 
 public class LoginHelper {
     private LoginHelper() {
@@ -49,15 +50,24 @@ public class LoginHelper {
         try {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
+            if(login.html.option == "doctor"){
             /** SQL指令 */
-            String sql = "SELECT count(*) FROM `sa_project`.`doctor` WHERE `account` = ?";
-
+            String sql = "SELECT count(*) FROM `sa_project`.`doctor` WHERE `account`.`password` = ?";
+            }
+            else if(是行政){
+            String sql = "SELECT count(*) FROM `sa_project`.`administration` WHERE `account`.`password` = ?";    
+            }
+            else(是藥師){
+            String sql = "SELECT count(*) FROM `sa_project`.`pharmacist` WHERE `account`.`password` = ?";    
+            }
             /** 取得所需之參數 */
             String account = l.getAccount();
+            String password = l.getPassword();
 
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
             pres.setString(1, account);
+            pres.setString(2,password);
             /** 執行查詢之SQL指令並記錄其回傳之資料 */
             rs = pres.executeQuery();
 
