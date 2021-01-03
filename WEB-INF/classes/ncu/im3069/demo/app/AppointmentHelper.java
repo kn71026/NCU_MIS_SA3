@@ -263,7 +263,7 @@ public class AppointmentHelper {
      * @param pid 病患編號
      * @return the JSON object 回傳SQL執行結果與該病患編號之病患資料
      */
-    public JSONObject getById(String id) {
+    public JSONObject getByID(String id) {
         /** 新建一個 Appointment 物件之 a 變數，用於紀錄每一位查詢回之掛號資料 */
         Appointment a = null;
         /** 用於儲存所有檢索回之病患，以JSONArray方式儲存 */

@@ -154,6 +154,19 @@ public class Appointment {
         this.done = done;
     }
 
+    public JSONObject update() {
+        /** 新建一個JSONObject用以儲存更新後之資料 */
+        JSONObject data = new JSONObject();
+
+        /** 檢查該藥品是否已經在資料庫 */
+        if (this.id != 0) {
+            /** 透過MemberHelper物件，更新目前之藥品資料置資料庫中 */
+            data = ah.update(this);
+        }
+
+        return data;
+    }
+
     /**
      * 取得病患掛號資訊
      *
