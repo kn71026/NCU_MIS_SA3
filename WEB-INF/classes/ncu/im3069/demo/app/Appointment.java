@@ -37,6 +37,22 @@ public class Appointment {
      * 採用多載（overload）方法進行，此建構子用於新增掛號
      */
 
+    public Appointment(int id, String pid, String name, String dob, Timestamp visited_date, int appointment_number,
+            String clinic_hours) {
+        this.id = id;
+        this.pid = pid;
+        this.name = name;
+        this.dob = dob;
+        this.visited_date = visited_date;
+        this.appointment_number = appointment_number;
+        this.clinic_hours = clinic_hours;
+    }
+
+    /**
+     * 實例化（Instantiates）一個新的（new）Order 物件<br>
+     * 採用多載（overload）方法進行，此建構子用於新增掛號
+     */
+
     public Appointment(String pid, String name, String dob, Timestamp visited_date, String clinic_hours) {
         this.pid = pid;
         this.name = name;

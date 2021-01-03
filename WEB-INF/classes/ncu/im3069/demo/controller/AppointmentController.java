@@ -1,7 +1,6 @@
 package ncu.im3069.demo.controller;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.*;
@@ -36,7 +35,7 @@ public class AppointmentController extends HttpServlet {
             JSONObject query = ah.getAll();
             JSONObject resp = new JSONObject();
             resp.put("status", "200");
-            resp.put("message", "所有藥品資料取得成功");
+            resp.put("message", "所有掛號資料取得成功");
             resp.put("response", query);
 
             jsr.response(resp, response);
@@ -46,7 +45,7 @@ public class AppointmentController extends HttpServlet {
             JSONObject resp = new JSONObject();
             /** 新建一個JSONObject用於將回傳之資料進行封裝 */
             resp.put("status", "200");
-            resp.put("message", "所有商品資料取得成功");
+            resp.put("message", "所有掛號資料取得成功");
             resp.put("response", query);
             jsr.response(resp, response);
 

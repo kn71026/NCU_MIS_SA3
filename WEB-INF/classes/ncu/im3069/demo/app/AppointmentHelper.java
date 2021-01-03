@@ -139,14 +139,16 @@ public class AppointmentHelper {
                 row += 1;
 
                 /** 將 ResultSet 之資料取出 */
+                int id = rs.getInt("id");
                 String name = rs.getString("name");
                 String pid = rs.getString("pid");
                 String dob = rs.getString("dob");
                 Timestamp visited_date = rs.getTimestamp("visited_date");
+                int appointment_number = rs.getInt("appointment_number");
                 String clinic_hours = rs.getString("clinic_hours");
 
                 /** 將每一筆掛號資料產生一名新Appointment物件 */
-                a = new Appointment(pid, name, dob, visited_date, clinic_hours);
+                a = new Appointment(id, pid, name, dob, visited_date, appointment_number, clinic_hours);
                 /** 取出該名會員之資料並封裝至 JSONsonArray 內 */
                 jsa.put(a.getData());
             }
