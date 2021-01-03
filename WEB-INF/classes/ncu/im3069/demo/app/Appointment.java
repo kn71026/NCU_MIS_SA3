@@ -18,7 +18,7 @@ public class Appointment {
     private String dob;
 
     /** visited_date，病患看診日期 */
-    private Timestamp visited_date;
+    private String visited_date;
 
     /** appointment_number，病患看診序號 */
     private int appointment_number;
@@ -37,7 +37,7 @@ public class Appointment {
      * 採用多載（overload）方法進行，此建構子用於新增掛號
      */
 
-    public Appointment(int id, String pid, String name, String dob, Timestamp visited_date, int appointment_number,
+    public Appointment(int id, String pid, String name, String dob, String visited_date, int appointment_number,
             String clinic_hours) {
         this.id = id;
         this.pid = pid;
@@ -53,7 +53,7 @@ public class Appointment {
      * 採用多載（overload）方法進行，此建構子用於新增掛號
      */
 
-    public Appointment(String pid, String name, String dob, Timestamp visited_date, String clinic_hours) {
+    public Appointment(String pid, String name, String dob, String visited_date, String clinic_hours) {
         this.pid = pid;
         this.name = name;
         this.dob = dob;
@@ -116,7 +116,7 @@ public class Appointment {
      *
      * @return the visited_date 回傳病患看診日期
      */
-    public Timestamp getVisitDate() {
+    public String getVisitDate() {
         return this.visited_date;
     }
 

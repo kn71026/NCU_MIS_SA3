@@ -62,10 +62,10 @@ public class AppointmentController extends HttpServlet {
         String name = jso.getString("name");
         String pid = jso.getString("pid");
         String dob = jso.getString("dob");
-        // Timestamp visited_date = jso.getString("visited_date");
+        String visited_date = jso.getString("visited_date");
         String clinic_hours = jso.getString("clinic_hours");
 
-        Appointment a = new Appointment(pid, name, dob, null, clinic_hours);
+        Appointment a = new Appointment(pid, name, dob, visited_date, clinic_hours);
 
         if (name.isEmpty() || pid.isEmpty() || dob.isEmpty() || clinic_hours.isEmpty()) {
             /** 以字串組出JSON格式之資料 */
@@ -106,19 +106,19 @@ public class AppointmentController extends HttpServlet {
         String name = jso.getString("name");
         String pid = jso.getString("pid");
         String dob = jso.getString("dob");
-        // Timestamp visited_date = jso.getString("visited_date");
+        String visited_date = jso.getString("visited_date");
         String clinic_hours = jso.getString("clinic_hours");
 
         /** 透過傳入之參數，新建一個以這些參數之掛號物件 */
-        Appointment a = new Appointment(pid, name, dob, null, clinic_hours);
+        Appointment a = new Appointment(pid, name, dob, visited_date, clinic_hours);
 
-        /** 透過AppointmentHelper物件的update()方法至資料庫更新掛號資料，回傳之資料為JSONObject物件 */
-        JSONObject data = ah.update(a);
+        /** 透過AppointmentHelper物件的passAppointment()方法至資料庫更新掛號資料，回傳之資料為JSONObject物件 */
+        JSONObject data = ah.passAppointment(a);
 
         /** 新建一個JSONObject用於將回傳之資料進行封裝 */
         JSONObject resp = new JSONObject();
         resp.put("status", "200");
-        resp.put("message", "成功! 更新藥品資料成功");
+        resp.put("message", "成功! 更新掛號資料成功");
         resp.put("response", data);
 
         /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
@@ -143,11 +143,11 @@ public class AppointmentController extends HttpServlet {
         String name = jso.getString("name");
         String pid = jso.getString("pid");
         String dob = jso.getString("dob");
-        // Timestamp visited_date = jso.getString("visited_date");
+        String visited_date = jso.getString("visited_date");
         String clinic_hours = jso.getString("clinic_hours");
 
         /** 透過傳入之參數，新建一個以這些參數之掛號物件 */
-        Appointment a = new Appointment(pid, name, dob, null, clinic_hours);
+        Appointment a = new Appointment(pid, name, dob, visited_date, clinic_hours);
 
         /**
          * 透過AppointmentHelper物件的updateAppointment()方法至資料庫更新掛號完成紀錄，回傳之資料為JSONObject物件
@@ -157,7 +157,7 @@ public class AppointmentController extends HttpServlet {
         /** 新建一個JSONObject用於將回傳之資料進行封裝 */
         JSONObject resp = new JSONObject();
         resp.put("status", "200");
-        resp.put("message", "藥品移除成功！");
+        resp.put("message", "掛號刪除成功！");
         resp.put("response", query);
 
         /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
