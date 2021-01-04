@@ -2,141 +2,168 @@
 <html>
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title></title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="statics/css/addRecord.css">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title></title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="statics/css/addRecord.css">
 </head>
 
 <body>
-    <div id="logoBar">
-        <img class="logo" src="statics/icon/Charlie_the_unicorn.png" style="cursor: pointer;">
-        <h1 class="logo" style="cursor: pointer;">Charlie Clinic</h1>
+  <div id="logoBar">
+    <img class="logo" src="statics/icon/Charlie_the_unicorn.png" style="cursor: pointer;">
+    <h1 class="logo" style="cursor: pointer;">Charlie Clinic</h1>
+  </div>
+  <div id="navBar">
+    <div class="page appointment">掛號管理系統</div>
+    <div class="page patient" style="background-color: rgb(178, 166, 142);">病歷管理系統</div>
+    <div class="page medicine">藥品管理系統</div>
+    <div class="page hr">人事管理系統</div>
+    <div class="page personal">個人資料頁面</div>
+    <div class="page logout"><button id="logoutBtn" type="button">登出</button></div>
+  </div>
+  <div id="container">
+    <div id="functions">
+      <div id="titleOfSystem">病歷管理系統</div>
+      <div class="subFunction patientTable">
+        <img src="statics/icon/play-button-arrowhead.png" width="17px">
+        <p style="padding-top: 10px; cursor: pointer;">檢視所有病歷</p>
+      </div>
+      <div class="subFunction patientInfo">
+        <img src="statics/icon/play-button-arrowhead.png" width="17px">
+        <p style="text-decoration: underline;">病患基本資料</p>
+      </div>
+      <div class="subFunction recordTable">
+        <img src="statics/icon/play-button-arrowhead.png" width="17px">
+        <p style="cursor: pointer;">看診紀錄列表</p>
+      </div>
     </div>
-
-    <div id="navBar">
-        <div class="page appointment">掛號管理系統</div>
-        <div class="page patient" style="background-color: rgb(178, 166, 142);">病歷管理系統</div>
-        <div class="page medicine">藥品管理系統</div>
-        <div class="page hr">人事管理系統</div>
-        <div class="page personal">個人資料頁面</div>
-        <div class="page logout"><button id="logoutBtn" type="button">登出</button></div>
-    </div>
-
-    <div id="container">
-        <div id="functions">
-            <div id="titleOfSystem">病歷管理系統</div>
-            <div class="subFunction patientTable">
-                <img src="statics/icon/play-button-arrowhead.png" width="17px">
-                <p style="padding-top: 10px; cursor: pointer;">檢視所有病歷</p>
-            </div>
-            <div class="subFunction patientInfo">
-                <img src="statics/icon/play-button-arrowhead.png" width="17px">
-                <p style="text-decoration: underline;">病患基本資料</p>
-            </div>
-            <div class="subFunction recordTable">
-                <img src="statics/icon/play-button-arrowhead.png" width="17px">
-                <p style="cursor: pointer;">看診紀錄列表</p>
-            </div>
+    <form>
+      <div id="listTitleContainer">
+        <div class="listTitle addRecord">病患基本資料</div>
+        <input type="button" value="確定修改" id="submit">
+      </div>
+      <div id="infoContainer">
+        <div class="info">
+          <div class="infoContent">
+            <div class="listTitle">姓名</div>
+            <input type="text" class="listInfo" id="patientName">
+          </div>
         </div>
-        <form>
-            <div id="listTitleContainer">
-                <div class="listTitle addRecord">病患基本資料</div>
-                <input type="button" value="確定修改" id="submit">
-            </div>
-            <div id="infoContainer">
-                <div class="info">
-                    <div class="infoContent">
-                        <div class="listTitle">姓名</div>
-                        <input type="text" class="listInfo" id="patientName">
-                    </div>
-                </div>
-                <div class="infoContent">
-                    <div class="listTitle">身分證字號</div>
-                    <input class="listInfo" type="text" id="patientID">
-                </div>
-                <div class="infoContent">
-                    <div class="listTitle">性別</div>
-                    <select class="listInfo" id="patientGender" name="gender">
-                        <option value="male">男</option>
-                        <option value="female">女</option>
-                    </select>
-                </div>
-                <div class="infoContent">
-                    <div class="listTitle">出生年月日</div>
-                    <input class="listInfo" name="dob" type="date" id="patientDob" required>
-                </div>
-                <div class="infoContent">
-                    <div class="listTitle">血型</div>
-                    <select class="listInfo" id="patinetBloodType" name="bloodType">
-                        <option value="a">A</option>
-                        <option value="b">B</option>
-                        <option value="o">O</option>
-                        <option value="ab">AB</option>
-                    </select>
-                    <div class="infoContent">
-                        <div class="listTitle">聯絡電話</div>
-                        <input class="listInfo" name="phone" type="text" id="patientPhone" required>
-                    </div>
-                    <div class="infoContent">
-                        <div class="listTitle">聯絡地址</div>
-                        <input class="listInfo" name="address" type="text" id="patientAddress" required>
-                    </div>
-                </div>
-            </div>
-        </form>
-        <div id="appointmentContainer">
-            <p id="todaysAppointment">目前掛號</p>
-            <div id="appointmentTitleContainer">
-                <div class="appointmentTitle number">#</div>
-                <div class="appointmentTitle id">身分證字號</div>
-                <div class="appointmentTitle name">姓名</div>
-            </div>
-            <div id="appointmentListContainer">
-                <div class="appointmentList">
-                    <div class="appointmentContent number">1</div>
-                    <div class="appointmentContent id">A123456789</div>
-                    <div class="appointmentContent name">江衍</div>
-                </div>
-            </div>
+        <div class="infoContent">
+          <div class="listTitle">身分證字號</div>
+          <input class="listInfo" type="text" id="patientID">
         </div>
+        <div class="infoContent">
+          <div class="listTitle">性別</div>
+          <select class="listInfo" id="patientGender" name="gender">
+            <option selected="selected" >男</option>
+            <option value="female">女</option>
+          </select>
+        </div>
+        <div class="infoContent">
+          <div class="listTitle">出生年月日</div>
+          <input class="listInfo" name="dob" type="date" id="patientDob" required>
+        </div>
+        <div class="infoContent">
+          <div class="listTitle">血型</div>
+          <input class="listInfo" name="bloodType" type="text" id="patinetBloodType" required>
+
+          <div class="infoContent">
+            <div class="listTitle">聯絡電話</div>
+            <input class="listInfo" name="phone" type="text" id="patientPhone" required>
+          </div>
+          <div class="infoContent">
+            <div class="listTitle">聯絡地址</div>
+            <input class="listInfo" name="address" type="text" id="patientAddress" required>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div id="appointmentContainer">
+      <p id="todaysAppointment">目前掛號</p>
+      <div id="appointmentTitleContainer">
+        <div class="appointmentTitle number">#</div>
+        <div class="appointmentTitle id">身分證字號</div>
+        <div class="appointmentTitle name">姓名</div>
+      </div>
+      <div id="appointmentListContainer">
+        <div class="appointmentList">
+          <div class="appointmentContent number">1</div>
+          <div class="appointmentContent id">A123456789</div>
+          <div class="appointmentContent name">江衍</div>
+        </div>
+      </div>
     </div>
+  </div>
 </body>
-
 <script type="text/javascript" crossorigin="anonymous">
-    $(".logo").click(function () {
-        window.location.href = 'appointment.html';
-    });
+  var url_string = window.location.href;
+  var url = new URL(url_string);
+  var pid = url.searchParams.get("pid");
 
-    $(".appointment").click(function () {
-        window.location.href = 'appointment.html';
-    });
-    $(".patient").click(function () {
-        window.location.href = 'patient.html';
-    });
-    $(".medicine").click(function () {
-        window.location.href = 'medicine.html';
-    });
-    $(".hr").click(function () {
-        window.location.href = 'humanResource.html';
-    });
-    $(".personal").click(function () {
-        window.location.href = 'personal.html';
-    });
-    $('#logoutBtn').click(function () {
-        window.location.href = 'logout.html';
-    });
+  function getPatientData() {
+    $.ajax({
+      type: "GET",
+      url: "http://140.115.81.245:8080/NCU_MIS_SA/api/patient.do",
+      data: "pid=" + pid,
+      crossDomain: true,
+      cache: false,
+      dataType: 'json',
+      timeout: 5000,
+      success: function (response) {
+        if (response.status == 200) {
+          document.getElementById('patientName').value = response['response']['data'][0]['name'];
+          document.getElementById('patientID').value = response['response']['data'][0]['pid'];
+          document.getElementById('patientGender').value = response['response']['data'][0]['gender'];
+          document.getElementById('patientDob').value = response['response']['data'][0]['dob'];
+          document.getElementById('patinetBloodType').value = response['response']['data'][0]['bloodType'];
+          document.getElementById('patientPhone').value = response['response']['data'][0]['phone'];
+          document.getElementById('patientAddress').value = response['response']['data'][0]['address'];
 
-    $(".patientTable").click(function () {
-        window.location.href = 'patient.html';
+        }
+      },
+      error: function () {
+        alert("無法連線到伺服器！");
+      }
     });
-    $(".recordTable").click(function () {
-        window.location.href = 'record.html';
-    });
+  }
+  getPatientData();
 
-    $("#submit").click(function () {
-        window.location.href = 'certainPatient.html';
-    });
+  function updateHTML(data) {
+    $("#patientName").html(data['name']);
+    $("#patientID").html(data['pid']);
+  }
+  $(".logo").click(function () {
+    window.location.href = 'appointment.html';
+  });
+  $(".appointment").click(function () {
+    window.location.href = 'appointment.html';
+  });
+  $(".patient").click(function () {
+    window.location.href = 'patient.html';
+  });
+  $(".medicine").click(function () {
+    window.location.href = 'medicine.html';
+  });
+  $(".hr").click(function () {
+    window.location.href = 'humanResource.html';
+  });
+  $(".personal").click(function () {
+    window.location.href = 'personal.html';
+  });
+  $('#logoutBtn').click(function () {
+    window.location.href = 'logout.html';
+  });
+  $(".patientTable").click(function () {
+    window.location.href = 'patient.html';
+  });
+  $(".recordTable").click(function () {
+    window.location.href = 'record.html';
+  });
+  $("#submit").click(function () {
+    window.location.href = 'certainPatient.html';
+  });
+
 </script>
 
 </html>

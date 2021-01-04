@@ -70,6 +70,41 @@
 </body>
 
 <script type="text/javascript" crossorigin="anonymous">
+   function updateTable(data) {
+        $("#listContainer").empty();
+        var table_html = '';
+        $.each(data, function (index, value) {
+            table_html += '<div class="list" onClick="dirToEdit(this.id)" id="' + value['id'] + '">';
+            table_html += '<div class="listContent id">' + value['id'] + '</div>';
+            table_html += '<div class="listContent name">' + value['name'] + '</div>';
+            table_html += '<div class="listContent quantity">' + value['quantity'] + '</div>';
+            table_html += '<div class="listContent category">' + value['category'] + '</div>';
+            table_html += '<div class="listContent update">' + value['modify_date'] + '</div>';
+            table_html += '<div class="listContent checker" style="margin-left: 2%;"><input type="checkbox" id="functionChecker"></div></div>';
+        })
+        $("#listContainer").append(table_html);
+    }
+
+    function getAllMedicine() {
+        $.ajax({
+            type: "GET",
+            url: "http://140.115.81.245:8080/NCU_MIS_SA/api/record.do",
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+                if (response.status == 200) {
+                    updateTable(response.response.data);
+                }
+            },
+            error: function () {
+                alert("無法連線到伺服器！");
+            }
+        });
+    }
+
+    getAllMedicine();
     $(".logo").click(function () {
         window.location.href = 'appointment.html';
     });
