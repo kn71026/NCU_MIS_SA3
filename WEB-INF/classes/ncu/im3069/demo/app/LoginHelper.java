@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import org.json.*;
 
 import ncu.im3069.demo.util.DBMgr;
-import login;
 
 public class LoginHelper {
     private LoginHelper() {
@@ -50,16 +49,9 @@ public class LoginHelper {
         try {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
-            if(login.html.option == "doctor"){
+            
             /** SQL指令 */
-            String sql = "SELECT count(*) FROM `sa_project`.`doctor` WHERE `account`.`password` = ?";
-            }
-            else if(是行政){
-            String sql = "SELECT count(*) FROM `sa_project`.`administration` WHERE `account`.`password` = ?";    
-            }
-            else(是藥師){
-            String sql = "SELECT count(*) FROM `sa_project`.`pharmacist` WHERE `account`.`password` = ?";    
-            }
+            String sql = "SELECT count(*) FROM `sa_project`.`doctor` WHERE `account` = ? and `password` = ?";
             /** 取得所需之參數 */
             String account = l.getAccount();
             String password = l.getPassword();
@@ -92,4 +84,34 @@ public class LoginHelper {
          */
         return (row == 0) ? false : true;
     }
+	public Doctor login(String account, String password) {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			/** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+			String sql =" select * from user where username = ? and password = ? ";
+			
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, account);
+			ps.setString(2, password);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+                String acct = rs.getString("account");
+                String pwd = rs.getString("password");
+            }
+            /** 將一筆人事資料產生一名新人事物件 */
+            l = new Login(account, password);
+            /** 取出該名醫師之資料並封裝至 JSONsonArray 內 */
+            jsa.put(l.getData());
+			conn.close();
+			ps.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+	}
 }
