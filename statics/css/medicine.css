@@ -150,11 +150,6 @@
     background-color: rgb(190, 35, 35);
 }
 
-.editBtn {
-    right: 120px;
-    background-color: rgb(34, 181, 117);
-}
-
 #listTitleContainer {
     position: absolute;
     top: 60px;
@@ -193,28 +188,24 @@
     cursor: pointer;
 }
 
-.medId {
+.id {
     width: 10%;
 }
 
-.medName {
-    width: 15%;
+.name {
+    width: 20%;
 }
 
-.dose {
+.quantity {
     width: 13%;
 }
 
-.type {
-    width: 16%;
-}
-
 .category {
-    width: 16%;
+    width: 15%;
 }
 
 .update {
-    width: 17%;
+    width: 20%;
 }
 
 .checker {

@@ -24,7 +24,6 @@
     </div>
 
     <div id="container">
-        <button type="button" class="btn editBtn">編輯</button>
         <button type="button" class="btn deleteBtn">刪除</button>
         <div id="functions">
             <div id="titleOfSystem">藥品管理系統</div>
@@ -41,29 +40,57 @@
             </div>
         </div>
         <div id="listTitleContainer">
-            <div class="listTitle medId">藥品編號</div>
-            <div class="listTitle medName">藥品名稱</div>
-            <div class="listTitle dose">規格量</div>
-            <div class="listTitle type">劑型</div>
+            <div class="listTitle id">藥品編號</div>
+            <div class="listTitle name">藥品名稱</div>
+            <div class="listTitle quantity">規格量</div>
             <div class="listTitle category">藥品分類</div>
             <div class="listTitle update">更新日期</div>
             <div class="listTitle checker">選取</div>
         </div>
         <div id="listContainer">
-            <div class="list">
-                <div class="listContent medId">A0001</div>
-                <div class="listContent medName">化痰能顆粒</div>
-                <div class="listContent dose">1GM</div>
-                <div class="listContent type">內服顆粒劑</div>
-                <div class="listContent category">一般學名藥</div>
-                <div class="listContent update">2020/12/17</div>
-                <div class="listContent checker"><input type="checkbox" id="functionChecker"></div>
-            </div>
         </div>
     </div>
 </body>
 
 <script type="text/javascript" crossorigin="anonymous">
+    // functions
+    function updateTable(data) {
+        $("#listContainer").empty();
+        var table_html = '';
+        $.each(data, function (index, value) {
+            table_html += '<div class="list" onClick="dirToEdit(this.id)" id="' + value['id'] + '">';
+            table_html += '<div class="listContent id">' + value['id'] + '</div>';
+            table_html += '<div class="listContent name">' + value['name'] + '</div>';
+            table_html += '<div class="listContent quantity">' + value['quantity'] + '</div>';
+            table_html += '<div class="listContent category">' + value['category'] + '</div>';
+            table_html += '<div class="listContent update">' + value['modify_date'] + '</div>';
+            table_html += '<div class="listContent checker" style="margin-left: 2%;"><input type="checkbox" id="functionChecker"></div></div>';
+        })
+        $("#listContainer").append(table_html);
+    }
+
+    function getAllMedicine() {
+        $.ajax({
+            type: "GET",
+            url: "http://140.115.81.245:8080/NCU_MIS_SA/api/medicine.do",
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+                if (response.status == 200) {
+                    updateTable(response.response.data);
+                }
+            },
+            error: function () {
+                alert("無法連線到伺服器！");
+            }
+        });
+    }
+
+    getAllMedicine();
+
+    // page routing
     $(".logo").click(function () {
         window.location.href = 'appointment.html';
     });
@@ -94,6 +121,10 @@
     $(".list").click(function () {
         window.location.href = 'editMedicine.html';
     });
+
+    function dirToEdit(id) {
+        window.location.href = 'editMedicine.html?id=' + id;
+    }
 </script>
 
 </html>

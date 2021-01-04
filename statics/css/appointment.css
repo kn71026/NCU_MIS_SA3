@@ -146,13 +146,8 @@
     background-color: rgb(190, 35, 35);
 }
 
-.checkInBtn {
-    right: 120px;
-    background-color: rgb(34, 181, 117);
-}
-
 .passNumBtn {
-    right: 205px;
+    right: 120px;
     background-color: rgb(34, 181, 117);
 }
 
