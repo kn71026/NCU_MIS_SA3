@@ -43,10 +43,10 @@ public class Order {
      * 採用多載（overload）方法進行，此建構子用於建立訂單資料時，產生一個新的訂單
      *
      * @param first_name 會員名
-     * @param last_name 會員姓
-     * @param email 會員電子信箱
-     * @param address 會員地址
-     * @param phone 會員姓名
+     * @param last_name  會員姓
+     * @param email      會員電子信箱
+     * @param address    會員地址
+     * @param phone      會員姓名
      */
     public Order(String first_name, String last_name, String email, String address, String phone) {
         this.first_name = first_name;
@@ -63,14 +63,15 @@ public class Order {
      * 採用多載（overload）方法進行，此建構子用於修改訂單資料時，新改資料庫已存在的訂單
      *
      * @param first_name 會員名
-     * @param last_name 會員姓
-     * @param email 會員電子信箱
-     * @param address 會員地址
-     * @param phone 會員姓名
-     * @param create 訂單創建時間
-     * @param modify 訂單修改時間
+     * @param last_name  會員姓
+     * @param email      會員電子信箱
+     * @param address    會員地址
+     * @param phone      會員姓名
+     * @param create     訂單創建時間
+     * @param modify     訂單修改時間
      */
-    public Order(int id, String first_name, String last_name, String email, String address, String phone, Timestamp create, Timestamp modify) {
+    public Order(int id, String first_name, String last_name, String email, String address, String phone,
+            Timestamp create, Timestamp modify) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -219,7 +220,7 @@ public class Order {
     public JSONArray getOrderProductData() {
         JSONArray result = new JSONArray();
 
-        for(int i=0 ; i < this.list.size() ; i++) {
+        for (int i = 0; i < this.list.size(); i++) {
             result.put(this.list.get(i).getData());
         }
 
@@ -243,7 +244,7 @@ public class Order {
      * 設定訂單產品編號
      */
     public void setOrderProductId(JSONArray data) {
-        for(int i=0 ; i < this.list.size() ; i++) {
+        for (int i = 0; i < this.list.size(); i++) {
             this.list.get(i).setId((int) data.getLong(i));
         }
     }
