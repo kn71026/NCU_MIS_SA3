@@ -28,9 +28,9 @@ public class Login {
     }
 
     /**
-     * 取得人事之地址
+     * 取得人事之帳號
      *
-     * @return the account 回傳人事地址
+     * @return the account 回傳人事帳號
      */
     public String getAccount() {
         return this.account;
