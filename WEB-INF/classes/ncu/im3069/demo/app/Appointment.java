@@ -1,7 +1,6 @@
 package ncu.im3069.demo.app;
 
 import org.json.*;
-import java.sql.*;
 
 public class Appointment {
 
@@ -28,6 +27,9 @@ public class Appointment {
 
     /** done，病患看診完成紀錄 */
     private boolean done;
+
+    /** done，掛號查詢日期 */
+    private String search_date;
 
     /** mh，MemberHelper之物件與Member相關之資料庫方法（Sigleton） */
     private AppointmentHelper ah = AppointmentHelper.getHelper();
@@ -63,24 +65,10 @@ public class Appointment {
 
     /**
      * 實例化（Instantiates）一個新的（new）Order 物件<br>
-     * 採用多載（overload）方法進行，此建構子用於刪除掛號、處理過號、補報到時
+     * 採用多載（overload）方法進行，此建構子用於刪除掛號時
      */
-    public Appointment(String pid, String name, String clinic_hours, int appointment_number, boolean done) {
-        this.pid = pid;
-        this.name = name;
-        this.clinic_hours = clinic_hours;
-        this.appointment_number = appointment_number;
-        this.done = done;
-    }
-
-    /**
-     * 實例化（Instantiates）一個新的（new）Medicine 物件<br>
-     * 採用多載（overload）方法進行，此建構子用於查詢掛號時
-     *
-     */
-    public Appointment(String pid, String name, boolean done) {
-        this.pid = pid;
-        this.name = name;
+    public Appointment(int id, boolean done) {
+        this.id = id;
         this.done = done;
     }
 
@@ -117,6 +105,7 @@ public class Appointment {
      * @return the visited_date 回傳病患看診日期
      */
     public String getVisitDate() {
+        System.out.println("日期" + this.visited_date);
         return this.visited_date;
     }
 

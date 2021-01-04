@@ -103,7 +103,7 @@ public class AppointmentHelper {
      *
      * @return the JSONObject 回傳SQL執行結果與自資料庫取回之所有資料
      */
-    public JSONObject getAll() {
+    public JSONObject getAll(String searching_date) {
         /** 新建一個 Appointment 物件之 a 變數，用於紀錄每一位查詢回之掛號資料 */
         Appointment a = null;
         /** 用於儲存所有檢索回之會員，以JSONArray方式儲存 */
@@ -121,10 +121,12 @@ public class AppointmentHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT * FROM `sa_project`.`appointment`";
+            String sql = "SELECT * FROM `sa_project`.`appointment` WHERE `done` = true AND `visited_date` = ?";
 
             /** 將參數回填至SQL指令當中，若無則不用只需要執行 prepareStatement */
             pres = conn.prepareStatement(sql);
+            pres.setString(1, searching_date);
+
             /** 執行查詢之SQL指令並記錄其回傳之資料 */
             rs = pres.executeQuery();
 
@@ -264,7 +266,7 @@ public class AppointmentHelper {
      * @param pid 病患編號
      * @return the JSON object 回傳SQL執行結果與該病患編號之病患資料
      */
-    public JSONObject getByID(String id) {
+    public JSONObject getByID(String id, String searching_date) {
         /** 新建一個 Appointment 物件之 a 變數，用於紀錄每一位查詢回之掛號資料 */
         Appointment a = null;
         /** 用於儲存所有檢索回之病患，以JSONArray方式儲存 */
@@ -282,10 +284,13 @@ public class AppointmentHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT * FROM `sa_project`.`appointment` WHERE `id` = ? LIMIT 1";
+            String sql = "SELECT * FROM `sa_project`.`appointment` WHERE done = true AND `id` = ? LIMIT 1 AND `searching_date` = ?";
 
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
+            pres.setString(1, id);
+            pres.setString(2, searching_date);
+
             /** 執行查詢之SQL指令並記錄其回傳之資料 */
             rs = pres.executeQuery();
 
@@ -571,29 +576,33 @@ public class AppointmentHelper {
         long start_time = System.nanoTime();
         /** 紀錄SQL總行數 */
         int row = 0;
+        ResultSet rs = null;
 
         try {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /**
-             * SQL指令 sql1 是取出當日最後一筆掛號序號 sql2 是更新病患掛號序號
+             * SQL指令 sql1 是取出最後一筆掛號序號 sql2 是更新病患掛號序號
              */
 
-            String sql1 = "select `appointment_number` from `sa_project`.`appointment` order by appointment_number desc limit 1";
-            String sql2 = "Update `sa_project`.`appointment` SET `appointment_number` = ?  WHERE `id` = ?";
+            String sql1 = "select * from `sa_project`.`appointment` WHERE `done` = true AND `visited_date` = ? order by appointment_number desc limit 1";
+            String sql2 = "update `sa_project`.`appointment` set `appointment_number` = ? where `id` = ?";
 
             /** 取得所需之參數 */
             int id = a.getID();
-            int appNumber = a.getAppointmentNumber();
-            System.out.print(appNumber);
-            System.out.println(appNumber);
+            String visited_date = a.getVisitDate();
 
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql1);
-            ResultSet rs = pres.getResultSet();
-            System.out.print(rs.getInt("appointment_number"));
+            pres.setString(1, visited_date);
 
+            rs = pres.executeQuery();
+            exexcute_sql = pres.toString();
+            System.out.println(exexcute_sql);
+
+            rs.next();
             pres = conn.prepareStatement(sql2);
+
             pres.setInt(1, rs.getInt("appointment_number") + 1);
             pres.setInt(2, id);
 
@@ -652,12 +661,14 @@ public class AppointmentHelper {
             String sql = "Update `sa_project`.`appointment` SET `done` = ?  WHERE `id` = ?";
 
             /** 取得所需之參數 */
-            a.setDone(true);
+            a.setDone(false);
             Boolean done = a.getDone();
+            int id = a.getID();
 
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
             pres.setBoolean(1, done);
+            pres.setInt(2, id);
 
             /** 執行更新之SQL指令並記錄影響之行數 */
             row = pres.executeUpdate();
