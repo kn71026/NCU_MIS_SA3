@@ -28,9 +28,6 @@ public class Appointment {
     /** done，病患看診完成紀錄 */
     private boolean done;
 
-    /** done，掛號查詢日期 */
-    private String search_date;
-
     /** mh，MemberHelper之物件與Member相關之資料庫方法（Sigleton） */
     private AppointmentHelper ah = AppointmentHelper.getHelper();
 
