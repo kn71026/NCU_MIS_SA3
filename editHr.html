@@ -38,7 +38,7 @@
         <div id="formContainer">
             <form id="appointmentForm" accept-charset="UTF-8">
                 <p id="formTitle">修改人事</p>
-                <input type="button" value="確定修改" id="submit" style="cursor: pointer;">
+                <input type="button" value="確定修改" onClick="submitAction()" id="submit" style="cursor: pointer;">
                 <div id="formTable">
                     <input type="hidden" name="_method" value="POST">
                     <div class="listContent">
@@ -81,8 +81,19 @@
     var id = url.searchParams.get('id');
     var title = url.searchParams.get('title');
 
+    var dataObject;
+
     function updateTable(data) {
         $.each(data, function (index, value) {
+            dataObject = {
+                "name": value["name"],
+                "account": value["account"],
+                "password": value["password"],
+                "dob": value["dob"],
+                "phone": value["phone"],
+                "address": value["address"]
+            };
+
             $(".name").append(value["name"]);
             $(".id").append(value["id"]);
             $(".dob").append(value["dob"]);
@@ -154,10 +165,134 @@
         });
     }
 
+    function deleteDoctorByID() {
+        $.ajax({
+            type: "DELETE",
+            url: "http://140.115.81.245:8080/NCU_MIS_SA/api/doctor.do",
+            data: "id=" + id,
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+                console.log("deleted");
+            },
+            error: function () {
+                console.log("failed to delete");
+            }
+        });
+    }
+
+    function deletePharmacistByID() {
+        $.ajax({
+            type: "DELETE",
+            url: "http://140.115.81.245:8080/NCU_MIS_SA/api/pharmacist.do",
+            data: "id=" + id,
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+                console.log("deleted");
+            },
+            error: function () {
+                console.log("failed to delete");
+            }
+        });
+    }
+
+    function deleteStaffByID() {
+        $.ajax({
+            type: "DELETE",
+            url: "http://140.115.81.245:8080/NCU_MIS_SA/api/administration.do",
+            data: "id=" + id,
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+                console.log("deleted");
+            },
+            error: function () {
+                console.log("failed to delete");
+            }
+        });
+    }
+
+    var dataString = JSON.stringify(dataObject);
+
+    function addDoctor() {
+        $.ajax({
+            type: "POST",
+            url: "http://140.115.81.245:8080/NCU_MIS_SA/api/doctor.do",
+            data: dataString,
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+                console.log("added");
+            },
+            error: function () {
+                console.log("failed to add");
+            }
+        });
+    }
+
+    function addPharmacist() {
+        $.ajax({
+            type: "POST",
+            url: "http://140.115.81.245:8080/NCU_MIS_SA/api/pharmacist.do",
+            data: dataString,
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+                console.log("added");
+            },
+            error: function () {
+                console.log("failed to add");
+            }
+        });
+    }
+
+    function addStaff() {
+        $.ajax({
+            type: "POST",
+            url: "http://140.115.81.245:8080/NCU_MIS_SA/api/staff.do",
+            data: dataString,
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+                console.log("added");
+            },
+            error: function () {
+                console.log("failed to add");
+            }
+        });
+    }
+
     switch (title) {
         case "1": getDoctorByID(); break;
         case "2": getPharmacistByID(); break;
         case "3": getStaffByID(); break;
+    }
+
+    function submitAction() {
+        var inputTitle = $("#hrTitle").val();
+        switch (title) {
+            case "1": deleteDoctorByID(); break;
+            case "2": deletePharmacistByID(); break;
+            case "3": deleteStaffByID(); break;
+        }
+        switch (inputTitle) {
+            case "doctor": addDoctor(); break;
+            case "pharmacist": addPharmacist(); break;
+            case "staff": addStaff(); break;
+        }
     }
 
     // page routing
@@ -192,7 +327,7 @@
     });
 
     $("#submit").click(function () {
-        window.location.href = 'humanResource.html';
+        //window.location.href = 'humanResource.html';
     });
 </script>
 

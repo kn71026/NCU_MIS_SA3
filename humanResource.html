@@ -55,23 +55,15 @@
         if (title == "doctor") $("#listContainer").empty();
         var table_html = '';
         $.each(data, function (index, value) {
-<<<<<<< HEAD
             if (title == "doctor") table_html += '<div class="list" onClick="dirToEdit(this.id, 1)" id="' + value['id'] + '">';
             else if (title == "pharmacist") table_html += '<div class="list" onClick="dirToEdit(this.id, 2)" id="' + value['id'] + '">';
             else if (title == "staff") table_html += '<div class="list" onClick="dirToEdit(this.id, 3)" id="' + value['id'] + '">';
-=======
-            table_html += '<div class="list" onClick="dirToEdit(this.id)" id="' + value['id'] + '">';
->>>>>>> 40164b0480925014e22e381e0b68d718c80d6a90
             table_html += '<div class="listContent account">' + value['account'] + '</div>';
             table_html += '<div class="listContent name">' + value['name'] + '</div>';
             table_html += '<div class="listContent id">' + value['id'] + '</div>';
             if (title == "doctor") table_html += '<div class="listContent position">醫師</div>';
-<<<<<<< HEAD
             else if (title == "pharmacist") table_html += '<div class="listContent position">藥師</div>';
             else if (title == "staff") table_html += '<div class="listContent position">櫃台行政</div>';
-=======
-            else if (title == "pharmacist") table_html += '<div class="listContent position">藥師</div>'; else if (title == "staff") table_html += '<div class="listContent position">櫃台行政</div>';
->>>>>>> 40164b0480925014e22e381e0b68d718c80d6a90
             table_html += '</div>';
         })
         $("#listContainer").append(table_html);
@@ -114,11 +106,7 @@
             }
         });
     }
-<<<<<<< HEAD
 
-=======
-    /*
->>>>>>> 40164b0480925014e22e381e0b68d718c80d6a90
     function getAllStaff() {
         $.ajax({
             type: "GET",
@@ -137,17 +125,14 @@
             }
         });
     }
-<<<<<<< HEAD
+
 
     getAllDoctor();
     getAllPharmacist();
     getAllStaff();
-=======
-    */
-    getAllDoctor();
-    getAllPharmacist();
-    //getAllStaff();
->>>>>>> 40164b0480925014e22e381e0b68d718c80d6a90
+
+
+
 
     // page routing
     $(".logo").click(function () {
@@ -177,13 +162,8 @@
         window.location.href = 'addHr.html';
     });
 
-<<<<<<< HEAD
     function dirToEdit(id, title) {
         window.location.href = 'editHr.html?id=' + id + '&title=' + title;
-=======
-    function dirToEdit(id) {
-        window.location.href = 'editHr.html?id=' + id;
->>>>>>> 40164b0480925014e22e381e0b68d718c80d6a90
     }
 </script>
 
