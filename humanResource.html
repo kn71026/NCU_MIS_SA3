@@ -55,7 +55,9 @@
         if (title == "doctor") $("#listContainer").empty();
         var table_html = '';
         $.each(data, function (index, value) {
-            table_html += '<div class="list" onClick="dirToEdit(this.id)" id="' + value['id'] + '">';
+            if (title == "doctor") table_html += '<div class="list" onClick="dirToEdit(this.id, 1)" id="' + value['id'] + '">';
+            else if (title == "pharmacist") table_html += '<div class="list" onClick="dirToEdit(this.id, 2)" id="' + value['id'] + '">';
+            else if (title == "staff") table_html += '<div class="list" onClick="dirToEdit(this.id, 3)" id="' + value['id'] + '">';
             table_html += '<div class="listContent account">' + value['account'] + '</div>';
             table_html += '<div class="listContent name">' + value['name'] + '</div>';
             table_html += '<div class="listContent id">' + value['id'] + '</div>';
@@ -104,11 +106,11 @@
             }
         });
     }
-    /*
+
     function getAllStaff() {
         $.ajax({
             type: "GET",
-            url: "api/administration.do",
+            url: "http://140.115.81.245:8080/NCU_MIS_SA/api/administration.do",
             crossDomain: true,
             cache: false,
             dataType: 'json',
@@ -123,11 +125,10 @@
             }
         });
     }
-    */
 
     getAllDoctor();
     getAllPharmacist();
-    //getAllStaff();
+    getAllStaff();
 
     // page routing
     $(".logo").click(function () {
@@ -157,8 +158,8 @@
         window.location.href = 'addHr.html';
     });
 
-    function dirToEdit(id) {
-        window.location.href = 'editHr.html?id=' + id;
+    function dirToEdit(id, title) {
+        window.location.href = 'editHr.html?id=' + id + '&title=' + title;
     }
 </script>
 

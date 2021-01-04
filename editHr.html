@@ -47,26 +47,26 @@
                     </div>
                     <div class="listContent">
                         <div class="listTitle">身分證字號</div>
-                        <div class="listInfo id">A000000000</div>
+                        <div class="listInfo id"></div>
                     </div>
                     <div class="listContent">
                         <div class="listTitle">生日</div>
-                        <div class="listInfo dob">20000101</div>
+                        <div class="listInfo dob"></div>
                     </div>
                     <div class="listContent">
                         <div class="listTitle">聯絡電話</div>
-                        <div class="listInfo phone">0911111111</div>
+                        <div class="listInfo phone"></div>
                     </div>
                     <div class="listContent">
                         <div class="listTitle">聯絡地址</div>
-                        <div class="listInfo address">桃園市中壢區中大路300號</div>
+                        <div class="listInfo address"></div>
                     </div>
                     <div class="input title required">
                         <label for="hrTitle" class="listTitle">職稱</label>
                         <select name="title" id="hrTitle" style="position: relative; left: 15%; top: 0px;" required>
-                            <option value="doctor">醫生</option>
-                            <option value="pharmacist">藥師</option>
-                            <option value="staff">櫃台行政</option>
+                            <option id="doctor" value="doctor">醫生</option>
+                            <option id="pharmacist" value="pharmacist">藥師</option>
+                            <option id="staff" value="staff">櫃台行政</option>
                         </select>
                     </div>
             </form>
@@ -78,16 +78,20 @@
     // function
     var getUrlString = location.href;
     var url = new URL(getUrlString);
-    var pageId = url.searchParams.get('id');
+    var id = url.searchParams.get('id');
+    var title = url.searchParams.get('title');
 
     function updateTable(data) {
-        if (title == "doctor") $("#listContainer").empty();
         $.each(data, function (index, value) {
             $(".name").append(value["name"]);
+            $(".id").append(value["id"]);
+            $(".dob").append(value["dob"]);
+            $(".phone").append("0" + value["phone"]);
+            $(".address").append(value["address"]);
         })
     }
 
-    function getDoctorByID(id) {
+    function getDoctorByID() {
         $.ajax({
             type: "GET",
             url: "http://140.115.81.245:8080/NCU_MIS_SA/api/doctor.do",
@@ -99,15 +103,16 @@
             success: function (response) {
                 if (response.status == 200) {
                     updateTable(response.response.data);
+                    $("#doctor").attr("selected", "true");
                 }
             },
             error: function () {
-                return 1;
+                console.log("Not doctor");
             }
         });
     }
 
-    function getPharmacistByID(id) {
+    function getPharmacistByID() {
         $.ajax({
             type: "GET",
             url: "http://140.115.81.245:8080/NCU_MIS_SA/api/pharmacist.do",
@@ -119,20 +124,40 @@
             success: function (response) {
                 if (response.status == 200) {
                     updateTable(response.response.data);
+                    $("#pharmacist").attr("selected", "true");
                 }
             },
             error: function () {
-                return 1;
+                console.log("Not pharmacist");
             }
         });
     }
 
-    if (getDoctorByID(pageId)) {
+    function getStaffByID() {
+        $.ajax({
+            type: "GET",
+            url: "http://140.115.81.245:8080/NCU_MIS_SA/api/administration.do",
+            data: "id=" + id,
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+                if (response.status == 200) {
+                    updateTable(response.response.data);
+                    $("#staff").attr("selected", "true");
+                }
+            },
+            error: function () {
+                console.log("Not staff");
+            }
+        });
     }
-    else if (getPharmacistByID(pageId)) {
-    }
-    else {
-        alert("查無資料");
+
+    switch (title) {
+        case "1": getDoctorByID(); break;
+        case "2": getPharmacistByID(); break;
+        case "3": getStaffByID(); break;
     }
 
     // page routing
