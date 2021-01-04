@@ -75,6 +75,13 @@
 </body>
 
 <script type="text/javascript" crossorigin="anonymous">
+	// function
+	var getUrlString = location.href;
+	var url = new URL(getUrlString);
+	var pageId = url.searchParams.get('id');
+	console.log(pageId);
+
+	// page routing
     $(".logo").click(function () {
         window.location.href = 'appointment.html';
     });

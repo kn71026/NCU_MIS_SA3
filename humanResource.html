@@ -45,17 +45,90 @@
             <div class="listTitle position">職位</div>
         </div>
         <div id="listContainer">
-            <div class="list">
-                <div class="listContent account">1</div>
-                <div class="listContent name">周靖軒</div>
-                <div class="listContent id">A123456789</div>
-                <div class="listContent position">醫師</div>
-            </div>
         </div>
     </div>
 </body>
 
 <script type="text/javascript" crossorigin="anonymous">
+    //functions
+    function updateTable(data, title) {
+    	if(title == "doctor") $("#listContainer").empty();
+        var table_html = '';
+        $.each(data, function (index, value) {
+        	table_html += '<div class="list" onClick="dirToEdit(this.id)" id="' + value['id'] + '">';
+            table_html += '<div class="listContent account">' + value['account'] + '</div>';
+            table_html += '<div class="listContent name">' + value['name'] + '</div>';
+            table_html += '<div class="listContent id">' + value['id'] + '</div>';
+            if(title == "doctor") table_html += '<div class="listContent position">醫師</div>';
+            else if(title == "pharmacist") table_html += '<div class="listContent position">藥師</div>';
+            else if(title == "staff") table_html += '<div class="listContent position">櫃台行政</div>';
+            table_html += '</div>';
+        })
+        $("#listContainer").append(table_html);
+    }
+
+    function getAllDoctor() {
+        $.ajax({
+            type: "GET",
+            url: "api/doctor.do",
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+                if (response.status == 200) {
+                    updateTable(response.response.data, "doctor");
+                }
+            },
+            error: function () {
+                alert("無法連線到伺服器！");
+            }
+        });
+    }
+    
+    function getAllPharmacist() {
+        $.ajax({
+            type: "GET",
+            url: "api/pharmacist.do",
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+                if (response.status == 200) {
+                    updateTable(response.response.data, "pharmacist");
+                }
+            },
+            error: function () {
+                alert("無法連線到伺服器！");
+            }
+        });
+    }
+    
+    function getAllStaff() {
+        $.ajax({
+            type: "GET",
+            url: "api/administration.do",
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+                if (response.status == 200) {
+                    updateTable(response.response.data, "staff");
+                }
+            },
+            error: function () {
+                alert("無法連線到伺服器！");
+            }
+        });
+    }
+
+    getAllDoctor();
+    getAllPharmacist();
+	getAllStaff();
+	
+    // page routing
     $(".logo").click(function () {
         window.location.href = 'appointment.html';
     });
@@ -83,9 +156,9 @@
         window.location.href = 'addHr.html';
     });
 
-    $(".list").click(function () {
-        window.location.href = 'editHr.html';
-    });
+    function dirToEdit(id) {
+    	window.location.href = 'editHr.html?id=' + id;
+    }
 </script>
 
 </html>
