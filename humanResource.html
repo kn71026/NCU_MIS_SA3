@@ -41,7 +41,7 @@
         <div id="listTitleContainer">
             <div class="listTitle account">帳號</div>
             <div class="listTitle name">姓名</div>
-            <div class="listTitle id">身分證字號</div>
+            <div class="listTitle phone">聯絡電話</div>
             <div class="listTitle position">職位</div>
         </div>
         <div id="listContainer">
@@ -60,7 +60,7 @@
             else if (title == "staff") table_html += '<div class="list" onClick="dirToEdit(this.id, 3)" id="' + value['id'] + '">';
             table_html += '<div class="listContent account">' + value['account'] + '</div>';
             table_html += '<div class="listContent name">' + value['name'] + '</div>';
-            table_html += '<div class="listContent id">' + value['id'] + '</div>';
+            table_html += '<div class="listContent phone">0' + value['phone'] + '</div>';
             if (title == "doctor") table_html += '<div class="listContent position">醫師</div>';
             else if (title == "pharmacist") table_html += '<div class="listContent position">藥師</div>';
             else if (title == "staff") table_html += '<div class="listContent position">櫃台行政</div>';
