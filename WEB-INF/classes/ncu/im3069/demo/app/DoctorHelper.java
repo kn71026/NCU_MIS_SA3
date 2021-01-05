@@ -583,7 +583,7 @@ public class DoctorHelper {
          */
         return (row == 0) ? false : true;
     }
-    public int getIDByAccount(String account) {
+    public JSONObject getIDByAccount(String account) {
         /** 新建一個 Doctor 物件之 d 變數，用於紀錄每一位查詢回之醫師資料 */
         Doctor d = null;
         /** 用於儲存所有檢索回之醫師，以JSONArray方式儲存 */
@@ -596,7 +596,7 @@ public class DoctorHelper {
         int row = 0;
         /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
         ResultSet rs = null;
-        int doctor_id = 0;
+
         try {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
@@ -620,13 +620,22 @@ public class DoctorHelper {
                 row += 1;
 
                 /** 將 ResultSet 之資料取出 */
-                doctor_id = rs.getInt("id");
-                
-                
-                 /** Timestamp create_date = rs.getTimestamp("create_date"); Timestamp modify_date
+                int id = rs.getInt("id");
+                String doctor_account = rs.getString("account");
+                String password = rs.getString("password");
+                String name = rs.getString("name");
+                String dob = rs.getString("dob");
+                int phone = rs.getInt("phone");
+                String address = rs.getString("address");
+                /**
+                 * Timestamp create_date = rs.getTimestamp("create_date"); Timestamp modify_date
                  * = rs.getTimestamp("modify_date");
                  */
 
+                /** 將每一筆醫師資料產生一名新Doctor物件 */
+                d = new Doctor(id, doctor_account, password, name, dob, phone, address);
+                /** 取出該名醫師之資料並封裝至 JSONsonArray 內 */
+                jsa.put(d.getData());
             }
 
         } catch (SQLException e) {
@@ -640,8 +649,19 @@ public class DoctorHelper {
             DBMgr.close(rs, pres, conn);
         }
 
+        /** 紀錄程式結束執行時間 */
+        long end_time = System.nanoTime();
+        /** 紀錄程式執行時間 */
+        long duration = (end_time - start_time);
 
-        return doctor_id;
+        /** 將SQL指令、花費時間、影響行數與所有醫師資料之JSONArray，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("row", row);
+        response.put("time", duration);
+        response.put("data", jsa);
+
+        return response;
     }
 
 }
