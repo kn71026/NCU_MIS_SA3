@@ -139,6 +139,11 @@
       var address = $('#patientAddress').val();
       var specialDisease = $('#patientSpecialDisease').val();
       var drugAllergy = $('#patientDrugAllergy').val();
+      var pid_rule = /[A-Z]|\d|\d|\d|\d|\d|\d|\d|\d|\d/;
+      // 將資料組成JSON格式
+      // if (!pid_rule.test(pid)) {
+      //   alert("身分證格式不符！");
+      // } else {
       // 將資料組成JSON格式
       var data_object = {
         "name": name,

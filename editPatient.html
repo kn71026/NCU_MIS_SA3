@@ -50,19 +50,22 @@
     <form>
       <div id="listTitleContainer">
         <div class="listTitle addRecord">病患基本資料</div>
-        <input type="button" value="確定修改" id="submit" data-toggle="modal" data-target="#exampleModalCenter">
+        <input type="button" value="確定修改" id="submit">
       </div>
       <div id="infoContainer" style="padding: 1%; width: 45%;">
         <div class="info">
           <div class="infoContent form-group row">
             <div class="listTitle col-sm-3 col-form-label">姓名</div>
-            <input type="text" class="listInfo form-control col-sm-9" id="patientName" style="padding: 5px;">
+            <input type="text" class="listInfo form-control col-sm-9" name="name" id="patientName"
+              style="padding: 5px;">
           </div>
         </div>
-        <div class="infoContent form-group row">
-          <div class="listTitle  col-sm-3 col-form-label">身分證字號</div>
-          <input class="listInfo form-control col-sm-9" type="text" id="patientID">
-        </div>
+        <fieldset disabled>
+          <div class="infoContent form-group row">
+            <label for="disabledTextInput" class="col-sm-3 col-form-label">身分證字號</label>
+            <input type="text" id="patientID" class="listInfo form-control col-9" style="padding: 5px;">
+          </div>
+        </fieldset>
         <div class="infoContent form-group row">
           <div class="listTitle col-sm-3 col-form-label">性別</div>
           <select class="listInfo form-control col-sm-9" id="patientGender" name="gender">
@@ -183,7 +186,6 @@
     var address = $('#patientAddress').val();
     var specialDisease = $('#patientSpecialDisease').val();
     var drugAllergy = $('#patientDrugAllergy').val();
-    // 將資料組成JSON格式
     var data_object = {
       "id": id,
       "pid": pid,
@@ -213,12 +215,17 @@
         $('#flashMessage').show();
         if (response.status == 200) {
           console.log("更新成功")
+          editsuccess();
         }
       },
       error: function () {
         alert("無法連線到伺服器！");
       }
     });
+  }
+
+  function editsuccess() {
+    $('#exampleModalCenter').modal('show');
   }
   $('#submit').click(function () {
     updatePatient(id);
