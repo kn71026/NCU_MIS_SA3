@@ -129,13 +129,12 @@
   var url = new URL(url_string);
   var id = url.searchParams.get("id");
   var patient_id;
-  console.log(id);
+  console.log(typeof (parseInt(id)));
 
-  function getPatientData() {
+  function getRecordData() {
     $.ajax({
       type: "GET",
-      url: "http://140.115.81.245:8080/NCU_MIS_SA/api/record.do",
-      data: "id = " + id,
+      url: "http://140.115.81.245:8080/NCU_MIS_SA/api/record.do?id=" + id,
       crossDomain: true,
       cache: false,
       dataType: 'json',
@@ -158,7 +157,31 @@
       }
     });
   }
-  getPatientData();
+  getRecordData();
+
+  function updateHTML(data) {
+    $("#order_id").html(data['order_info']['id']);
+    $("#create").html(data['order_info']['create']);
+    $("#modify").html(data['order_info']['modify']);
+    $("#email").html(data['order_info']['email']);
+    $("#address").html(data['order_info']['address']);
+    $("#phone").html(data['order_info']['phone']);
+    $("#first_name").html(data['order_info']['first_name']);
+    $("#last_name").html(data['order_info']['last_name']);
+    $("#item").html(data.product_info.length);
+    var total_price = Big(0.0);
+    var quantity = 0;
+    var inner_html = "";
+    $.each(data.product_info, function (k, v) {
+      quantity += v['quantity'];
+      total_price = total_price.plus(v['subtotal']);
+      inner_html += updateOrderProductTable(v);
+    });
+    $("#quantity").html(quantity);
+    $("#total").html(total_price.toString());
+    $("#table > tbody").empty();
+    $("#panel").append(inner_html);
+  }
 
   function updatePatient(id) {
     var visited_date = $('#visited_date').val();
