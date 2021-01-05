@@ -122,6 +122,35 @@
         window.location.href = 'editMedicine.html';
     });
 
+    $("#searchTarget").bind("keypress", {}, keypressInBox);
+
+    function keypressInBox(e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code == 13) {
+            e.preventDefault();
+            $("#listContainer").empty();
+            var target = $("#searchTarget").val();
+
+            $.ajax({
+                type: "GET",
+                url: "http://140.115.81.245:8080/NCU_MIS_SA/api/medicine.do",
+                data: "id=" + target,
+                crossDomain: true,
+                cache: false,
+                dataType: 'json',
+                timeout: 5000,
+                success: function (response) {
+                    if (response.status == 200) {
+                        updateTable(response.response.data);
+                    }
+                },
+                error: function () {
+                    alert("查無資料");
+                }
+            });
+        }
+    }
+
     function dirToEdit(id) {
         window.location.href = 'editMedicine.html?id=' + id;
     }
