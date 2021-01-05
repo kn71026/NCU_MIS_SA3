@@ -104,7 +104,7 @@
   height: 50px;
   width: 45%;
   left: 23%;
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid #916000;
 }
 
 #listContainer {
@@ -141,9 +141,9 @@
 }
 
 #deleteBtn {
+  width: 25%;
   padding: 5px 15px;
   border: 0;
-  background-color: rgb(190, 35, 35);
   color: white;
   border-radius: 10px;
   cursor: pointer;

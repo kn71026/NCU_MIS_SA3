@@ -3,7 +3,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>編輯病患</title>
+  <title>編輯看診紀錄</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -49,55 +49,42 @@
     </div>
     <form>
       <div id="listTitleContainer">
-        <div class="listTitle addRecord">病患基本資料</div>
+        <div class="listTitle addRecord">病患看診紀錄</div>
         <input type="button" value="確定修改" id="submit">
       </div>
       <div id="infoContainer" style="padding: 1%; width: 45%;">
+        <fieldset disabled>
+          <div class="infoContent form-group row">
+            <label for="disabledTextInput" class="col-sm-3 col-form-label">看診日期</label>
+            <input type="text" id="visited_date" class="listInfo form-control col-9" style="padding: 5px;">
+          </div>
+        </fieldset>
         <div class="info">
           <div class="infoContent form-group row">
-            <div class="listTitle col-sm-3 col-form-label">姓名</div>
-            <input type="text" class="listInfo form-control col-sm-9" name="name" id="patientName"
+            <div class="listTitle col-sm-3 col-form-label">症狀</div>
+            <input type="text" class="listInfo form-control col-sm-9" name="symptoms" id="RecordSymptoms"
               style="padding: 5px;">
           </div>
         </div>
-        <fieldset disabled>
-          <div class="infoContent form-group row">
-            <label for="disabledTextInput" class="col-sm-3 col-form-label">身分證字號</label>
-            <input type="text" id="patientID" class="listInfo form-control col-9" style="padding: 5px;">
-          </div>
-        </fieldset>
         <div class="infoContent form-group row">
-          <div class="listTitle col-sm-3 col-form-label">性別</div>
-          <select class="listInfo form-control col-sm-9" id="patientGender" name="gender">
-            <option value="男" selected="selected">男</option>
-            <option value="女">女</option>
-          </select>
+          <div class="listTitle col-sm-3 col-form-label">嚴重程度</div>
+          <input type="text" class="listInfo form-control col-sm-9" name="degree" id="RecordDegree">
         </div>
         <div class="infoContent form-group row">
-          <div class="listTitle col-sm-3 col-form-label ">出生年月日</div>
-          <input class="listInfo  form-control col-sm-9" name="dob" type="date" id="patientDob" required>
+          <div class="listTitle col-sm-3 col-form-label ">持續天數</div>
+          <input class="listInfo  form-control col-sm-9" name="days" id="RecordDays" required>
         </div>
         <div class="infoContent form-group row">
-          <div class="listTitle  col-sm-3 col-form-label">血型</div>
-          <input class="listInfo  form-control col-sm-9" name="bloodType" type="text" id="patientBloodType" required>
+          <div class="listTitle  col-sm-3 col-form-label">開立藥物</div>
+          <input class="listInfo  form-control col-sm-9" name="Medicine_id" type="text" id="RecordMedicine_id" required>
         </div>
         <div class="infoContent form-group row">
-          <div class="listTitle  col-sm-3 col-form-label">聯絡電話</div>
-          <input class="listInfo  form-control col-sm-9" name="phone" type="text" id="patientPhone" required>
+          <div class="listTitle  col-sm-3 col-form-label">看診醫生</div>
+          <input class="listInfo  form-control col-sm-9" name="doctor" type="text" id="Recorddoctor" required>
         </div>
         <div class="infoContent form-group row">
-          <div class="listTitle  col-sm-3 col-form-label">聯絡地址</div>
-          <input class="listInfo  form-control col-sm-9" name="address" type="text" id="patientAddress" required>
-        </div>
-        <div class="infoContent form-group row">
-          <div class="listTitle  col-sm-3 col-form-label">特殊疾病</div>
-          <input class="listInfo  form-control col-sm-9" name="specialDisease" type="text" id="patientSpecialDisease"
-            required>
-        </div>
-        <div class="infoContent form-group row">
-          <div class="listTitle  col-sm-3 col-form-label">過敏藥物</div>
-          <input class="listInfo  form-control col-sm-9" name="drugAllergy" type="text" id="patientDrugAllergy"
-            required>
+          <div class="listTitle  col-sm-3 col-form-label">備註</div>
+          <input class="listInfo  form-control col-sm-9" name="note" type="text" id="Recordnote" required>
         </div>
       </div>
     </form>
@@ -128,10 +115,10 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">是否跳轉到所有病歷頁面...</div>
+        <div class="modal-body">回到看診紀錄列表!!</div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">否 </button>
-          <button type="button" class="btn btn-info" id="gotoPatient">是</button>
+          <button type="button" class="btn btn-info" id="gotoRecord">是</button>
         </div>
       </div>
     </div>
@@ -140,14 +127,15 @@
 <script type="text/javascript" crossorigin="anonymous">
   var url_string = window.location.href;
   var url = new URL(url_string);
-  var pid = url.searchParams.get("pid");
-  var id;
+  var id = url.searchParams.get("id");
+  var patient_id;
+  console.log(id);
 
   function getPatientData() {
     $.ajax({
       type: "GET",
-      url: "http://140.115.81.245:8080/NCU_MIS_SA/api/patient.do",
-      data: "pid=" + pid,
+      url: "http://140.115.81.245:8080/NCU_MIS_SA/api/record.do",
+      data: "id = " + id,
       crossDomain: true,
       cache: false,
       dataType: 'json',
@@ -155,18 +143,14 @@
       success: function (response) {
         if (response.status == 200) {
           id = response['response']['data'][0]['id'];
-          console.log(id);
-          document.getElementById('patientName').value = response['response']['data'][0]['name'];
-          document.getElementById('patientID').value = response['response']['data'][0]['pid'];
-          document.getElementById('patientGender').value = response['response']['data'][0]['gender'];
-          document.getElementById('patientDob').value = response['response']['data'][0]['dob'];
-          document.getElementById('patientBloodType').value = response['response']['data'][0]['bloodType'];
-          document.getElementById('patientPhone').value = response['response']['data'][0]['phone'];
-          document.getElementById('patientAddress').value = response['response']['data'][0]['address'];
-          document.getElementById('patientSpecialDisease').value = response['response']['data'][0][
-            'specialDisease'
-          ];
-          document.getElementById('patientDrugAllergy').value = response['response']['data'][0]['drugAllergy'];
+          patient_id = response['response']['data'][0]['patient_id'];
+          document.getElementById('visited_date').value = response['response']['data'][0]['visited_date'];
+          document.getElementById('RecordSymptoms').value = response['response']['data'][0]['symptoms'];
+          document.getElementById('RecordDegree').value = response['response']['data'][0]['degree'];
+          document.getElementById('RecordDays').value = response['response']['data'][0]['days'];
+          document.getElementById('RecordMedicine_id').value = response['response']['data'][0]['Medicine_id'];
+          document.getElementById('Recorddoctor').value = response['response']['data'][0]['doctor'];
+          document.getElementById('Recordnote').value = response['response']['data'][0]['note'];
         }
       },
       error: function () {
@@ -177,34 +161,31 @@
   getPatientData();
 
   function updatePatient(id) {
-    var name = $('#patientName').val();
-    var pid = $('#patientID').val();
-    var gender = $('#patientGender').val();
-    var dob = $('#patientDob').val();
-    var blooodtype = $('#patientBloodType').val();
-    var phone = $('#patientPhone').val();
-    var address = $('#patientAddress').val();
-    var specialDisease = $('#patientSpecialDisease').val();
-    var drugAllergy = $('#patientDrugAllergy').val();
+    var visited_date = $('#visited_date').val();
+    var RecordSymptoms = $('#RecordSymptoms').val();
+    var RecordDegree = $('#RecordDegree').val();
+    var RecordDays = $('#RecordDays').val();
+    var RecordMedicine_id = $('#RecordMedicine_id').val();
+    var Recorddoctor = $('#Recorddoctor').val();
+    var Recordnote = $('#Recordnote').val();
     var data_object = {
       "id": id,
-      "pid": pid,
-      "name": name,
-      "gender": gender,
-      "dob": dob,
-      "bloodType": blooodtype,
-      "phone": phone,
-      "address": address,
-      "specialDisease": specialDisease,
-      "drugAllergy": drugAllergy,
-      "edited_by": "測試"
+      "patient_id": patient_id,
+      "visited_date": visited_date,
+      "symptoms": RecordSymptoms,
+      "degree": RecordDegree,
+      "days": RecordDays,
+      "Medicine_id": RecordMedicine_id,
+      "doctor": Recorddoctor,
+      "note": Recordnote,
+      "edited_by": "袁哲瑋"
     };
     // 將JSON格式轉換成字串
     var data_string = JSON.stringify(data_object);
     // 發出POST的PUT請求
     $.ajax({
       type: "PUT",
-      url: "http://140.115.81.245:8080/NCU_MIS_SA/api/patient.do",
+      url: "http://140.115.81.245:8080/NCU_MIS_SA/api/record.do",
       data: data_string,
       crossDomain: true,
       cache: false,
@@ -230,8 +211,8 @@
   $('#submit').click(function () {
     updatePatient(id);
   });
-  $('#gotoPatient').click(function () {
-    window.location.href = 'patient.html';
+  $('#gotoRecord').click(function () {
+    window.location.href = 'record.html?patient_id=' + patient_id;
   });
 
   function updateHTML(data) {
