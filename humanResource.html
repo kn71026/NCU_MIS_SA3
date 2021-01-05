@@ -88,6 +88,26 @@
         });
     }
 
+    function getDoctorByID(id) {
+        $.ajax({
+            type: "GET",
+            url: "http://140.115.81.245:8080/NCU_MIS_SA/api/doctor.do",
+            data: "id=" + id,
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+                if (response.status == 200) {
+                    updateTable(response.response.data, "doctor");
+                }
+            },
+            error: function () {
+                console.log("Can't find the doctor");
+            }
+        });
+    }
+
     function getAllPharmacist() {
         $.ajax({
             type: "GET",
@@ -102,7 +122,27 @@
                 }
             },
             error: function () {
-                alert("無法連線到伺服器！");
+                console.log("Can't find the pharmacist");
+            }
+        });
+    }
+
+    function getPharmacistByID(id) {
+        $.ajax({
+            type: "GET",
+            url: "http://140.115.81.245:8080/NCU_MIS_SA/api/pharmacist.do",
+            data: "id=" + id,
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+                if (response.status == 200) {
+                    updateTable(response.response.data, "pharmacist");
+                }
+            },
+            error: function () {
+                console.log("Can't find the staff");
             }
         });
     }
@@ -111,6 +151,26 @@
         $.ajax({
             type: "GET",
             url: "http://140.115.81.245:8080/NCU_MIS_SA/api/administration.do",
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+                if (response.status == 200) {
+                    updateTable(response.response.data, "staff");
+                }
+            },
+            error: function () {
+                alert("無法連線到伺服器！");
+            }
+        });
+    }
+
+    function getStaffByID(id) {
+        $.ajax({
+            type: "GET",
+            url: "http://140.115.81.245:8080/NCU_MIS_SA/api/administration.do",
+            data: "id=" + id,
             crossDomain: true,
             cache: false,
             dataType: 'json',
@@ -161,6 +221,20 @@
     $(".add").click(function () {
         window.location.href = 'addHr.html';
     });
+
+    $("#searchTarget").bind("keypress", {}, keypressInBox);
+
+    function keypressInBox(e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code == 13) {
+            e.preventDefault();
+            $("#listContainer").empty();
+            var target = $("#searchTarget").val();
+            getDoctorByID(target);
+            getPharmacistByID(target);
+            getStaffByID(target);
+        }
+    }
 
     function dirToEdit(id, title) {
         window.location.href = 'editHr.html?id=' + id + '&title=' + title;
