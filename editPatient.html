@@ -6,16 +6,22 @@
   <title></title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="statics/css/editPatient.css">
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
     integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+  </script>
 </head>
 
 <body style="margin: 8px;">
   <div id="logoBar">
     <img class="logo" src="statics/icon/Charlie_the_unicorn.png" style="cursor: pointer;">
-    <h1 class="logo" style="cursor: pointer; h1">Charlie Clinic</h1>
+    <h1 class="logo" style="cursor: pointer;">Charlie Clinic</h1>
   </div>
   <div id="navBar">
     <div class="page appointment">掛號管理系統</div>
@@ -44,7 +50,7 @@
     <form>
       <div id="listTitleContainer">
         <div class="listTitle addRecord">病患基本資料</div>
-        <input type="button" value="確定修改" id="submit">
+        <input type="button" value="確定修改" id="submit" data-toggle="modal" data-target="#exampleModalCenter">
       </div>
       <div id="infoContainer" style="padding: 1%; width: 45%;">
         <div class="info">
@@ -108,11 +114,31 @@
       </div>
     </div>
   </div>
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">更新成功!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">是否跳轉到所有病歷頁面...</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">否 </button>
+          <button type="button" class="btn btn-info" id="gotoPatient">是</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 <script type="text/javascript" crossorigin="anonymous">
   var url_string = window.location.href;
   var url = new URL(url_string);
   var pid = url.searchParams.get("pid");
+  var id;
 
   function getPatientData() {
     $.ajax({
@@ -125,6 +151,8 @@
       timeout: 5000,
       success: function (response) {
         if (response.status == 200) {
+          id = response['response']['data'][0]['id'];
+          console.log(id);
           document.getElementById('patientName').value = response['response']['data'][0]['name'];
           document.getElementById('patientID').value = response['response']['data'][0]['pid'];
           document.getElementById('patientGender').value = response['response']['data'][0]['gender'];
@@ -144,6 +172,63 @@
     });
   }
   getPatientData();
+
+  function updatePatient(id) {
+    console.log(id);
+    var name = $('#patientName').val();
+    var pid = $('#patientID').val();
+    var gender = $('#patientGender').val();
+    var dob = $('#patientDob').val();
+    var blooodtype = $('#patinetBloodType').val();
+    var phone = $('#patientPhone').val();
+    var address = $('#patientAddress').val();
+    var specialDisease = $('#patientSpecialDisease').val();
+    var drugAllergy = $('#patientDrugAllergy').val();
+    // 將資料組成JSON格式
+    var data_object = {
+      "id": id,
+      "pid": pid,
+      "name": name,
+      "gender": gender,
+      "dob": dob,
+      "bloodType": blooodtype,
+      "phone": phone,
+      "address": address,
+      "specialDisease": specialDisease,
+      "drugAllergy": drugAllergy,
+      "edited_by": "測試"
+    };
+    // 將JSON格式轉換成字串
+    var data_string = JSON.stringify(data_object);
+    // 發出POST的PUT請求
+    $.ajax({
+      type: "PUT",
+      url: "http://140.115.81.245:8080/NCU_MIS_SA/api/patient.do",
+      data: data_string,
+      crossDomain: true,
+      cache: false,
+      dataType: 'json',
+      timeout: 5000,
+      success: function (response) {
+        $('#flashMessage').html(response.message);
+        $('#flashMessage').show();
+        if (response.status == 200) {
+          console.log("更新成功")
+        }
+      },
+      error: function () {
+        alert("無法連線到伺服器！");
+      }
+    });
+  }
+  $('#submit').click(function () {
+    console.log(id);
+    updatePatient(id);
+    // window.location.href = 'certainPatient.html';
+  });
+  $('#gotoPatient').click(function () {
+    window.location.href = 'patient.html';
+  });
 
   function updateHTML(data) {
     $("#patientName").html(data['name']);
@@ -175,9 +260,6 @@
   });
   $(".recordTable").click(function () {
     window.location.href = 'record.html';
-  });
-  $("#submit").click(function () {
-    window.location.href = 'certainPatient.html';
   });
 
 </script>
