@@ -5,8 +5,6 @@ import java.io.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
-import javax.servlet.http.Cookie;
-
 import org.json.*;
 import ncu.im3069.demo.app.Pharmacist;
 import ncu.im3069.demo.app.PharmacistHelper;
@@ -37,35 +35,40 @@ public class PharmacistController extends HttpServlet {
         JSONObject jso = jsr.getObject();
 
         /** 取出經解析到JSONObject之Request參數 */
-        String job = jso.getString("job");
         String account = jso.getString("account");
         String password = jso.getString("password");
+        String name = jso.getString("name");
+        String dob = jso.getString("dob");
+        int phone = jso.getInt("phone");
+        String address = jso.getString("address");
+
+        /** 建立一個新的櫃台行政物件 */
+        Pharmacist pm = new Pharmacist(account, password, name, dob, phone, address);
 
         /** 後端檢查是否有欄位為空值，若有則回傳錯誤訊息 */
-        if (account.isEmpty() || password.isEmpty() ) {
+        if (account.isEmpty() || password.isEmpty() || name.isEmpty() || dob.isEmpty()
+                || Integer.toString(phone).isEmpty() || address.isEmpty()) {
             /** 以字串組出JSON格式之資料 */
             String resp = "{\"status\": \'400\', \"message\": \'欄位不能有空值\', \'response\': \'\'}";
             /** 透過JsonReader物件回傳到前端（以字串方式） */
             jsr.response(resp, response);
         }
-        /** 透過DoctorHelper物件的checkDuplicate()檢查該醫師帳號是否有重複 */
-        else if (pmh.checkLogin(job, account, password)) {
+        /** 透過PharmacistHelper物件的checkDuplicate()檢查該櫃台行政帳號是否有重複 */
+        else if (!pmh.checkDuplicate(pm)) {
+            /** 透過PharmacistHelper物件的create()方法新建一個櫃台行政至資料庫 */
+            JSONObject data = pmh.create(pm);
 
             /** 新建一個JSONObject用於將回傳之資料進行封裝 */
-            int pharmacist_id = 0;
             JSONObject resp = new JSONObject();
-            pharmacist_id = pmh.getIDByAccount(account);
             resp.put("status", "200");
-            resp.put("message", "成功登入！id=" + pharmacist_id);
-
-            Cookie ck = new Cookie("pharmacist_id",String.valueOf(pharmacist_id));
-            response.addCookie(ck);
+            resp.put("message", "成功! 註冊櫃台行政資料！");
+            resp.put("response", data);
 
             /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
             jsr.response(resp, response);
         } else {
             /** 以字串組出JSON格式之資料 */
-            String resp = "{\"status\": \'403\', \"message\": \'帳號或密碼不符！\', \'response\': \'\'}";
+            String resp = "{\"status\": \'400\', \"message\": \'新增資料失敗，此帳號重複！\', \'response\': \'\'}";
             /** 透過JsonReader物件回傳到前端（以字串方式） */
             jsr.response(resp, response);
         }

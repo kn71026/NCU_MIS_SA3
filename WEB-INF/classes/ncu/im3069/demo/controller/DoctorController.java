@@ -59,7 +59,7 @@ public class DoctorController extends HttpServlet {
             resp.put("status", "200");
             resp.put("message", "成功登入！id=" + doctor_id);
 
-            Cookie ck = new Cookie("doctor_id",String.valueOf(doctor_id));
+            Cookie ck = new Cookie("user_id",String.valueOf(doctor_id));
             response.addCookie(ck);
 
             /** 透過JsonReader物件回傳到前端（以JSONObject方式） */

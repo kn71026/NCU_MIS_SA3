@@ -584,8 +584,8 @@ public class AdministrationHelper {
          */
         return (row == 0) ? false : true;
     }
-    public int getIDByAccount(String account) {
-        /** 新建一個 Administration 物件之 a 變數，用於紀錄每一位查詢回之醫師資料 */
+    public JSONObject getIDByAccount(String account) {
+        /** 新建一個 Administration 物件之 a 變數，用於紀錄每一位查詢回之資料 */
         Administration a = null;
         /** 用於儲存所有檢索回之醫師，以JSONArray方式儲存 */
         JSONArray jsa = new JSONArray();
@@ -597,12 +597,12 @@ public class AdministrationHelper {
         int row = 0;
         /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
         ResultSet rs = null;
-        int Administration_id = 0;
+
         try {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT * FROM `sa_project`.`Administration` WHERE `account` = ? LIMIT 1";
+            String sql = "SELECT * FROM `sa_project`.`administration` WHERE `account` = ? LIMIT 1";
 
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
@@ -615,19 +615,28 @@ public class AdministrationHelper {
             System.out.println(exexcute_sql);
 
             /** 透過 while 迴圈移動pointer，取得每一筆回傳資料 */
-            /** 正確來說資料庫只會有一筆該行政編號之資料，因此其實可以不用使用 while 迴圈 */
+            /** 正確來說資料庫只會有一筆該醫師編號之資料，因此其實可以不用使用 while 迴圈 */
             while (rs.next()) {
                 /** 每執行一次迴圈表示有一筆資料 */
                 row += 1;
 
                 /** 將 ResultSet 之資料取出 */
-                Administration_id = rs.getInt("id");
-                
-                
-                 /** Timestamp create_date = rs.getTimestamp("create_date"); Timestamp modify_date
+                int id = rs.getInt("id");
+                String ad_account = rs.getString("account");
+                String password = rs.getString("password");
+                String name = rs.getString("name");
+                String dob = rs.getString("dob");
+                int phone = rs.getInt("phone");
+                String address = rs.getString("address");
+                /**
+                 * Timestamp create_date = rs.getTimestamp("create_date"); Timestamp modify_date
                  * = rs.getTimestamp("modify_date");
                  */
 
+                /** 將每一筆資料產生一名新administration物件 */
+                a = new Administration(id, ad_account, password, name, dob, phone, address);
+                /** 取出該資料並封裝至 JSONsonArray 內 */
+                jsa.put(a.getData());
             }
 
         } catch (SQLException e) {
@@ -641,8 +650,19 @@ public class AdministrationHelper {
             DBMgr.close(rs, pres, conn);
         }
 
+        /** 紀錄程式結束執行時間 */
+        long end_time = System.nanoTime();
+        /** 紀錄程式執行時間 */
+        long duration = (end_time - start_time);
 
-        return Administration_id;
+        /** 將SQL指令、花費時間、影響行數與所有醫師資料之JSONArray，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("row", row);
+        response.put("time", duration);
+        response.put("data", jsa);
+
+        return response;
     }
 
 }
