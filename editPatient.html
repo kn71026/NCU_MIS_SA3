@@ -5,35 +5,39 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title></title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="statics/css/addRecord.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="statics/css/editPatient.css">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
 </head>
 
-<body>
+<body style="margin: 8px;">
   <div id="logoBar">
     <img class="logo" src="statics/icon/Charlie_the_unicorn.png" style="cursor: pointer;">
-    <h1 class="logo" style="cursor: pointer;">Charlie Clinic</h1>
+    <h1 class="logo" style="cursor: pointer; h1">Charlie Clinic</h1>
   </div>
   <div id="navBar">
     <div class="page appointment">掛號管理系統</div>
-    <div class="page patient" style="background-color: rgb(178, 166, 142);">病歷管理系統</div>
+    <div class="page patient" style="background:  rgb(178, 166, 142);">病歷管理系統</div>
     <div class="page medicine">藥品管理系統</div>
     <div class="page hr">人事管理系統</div>
     <div class="page personal">個人資料頁面</div>
-    <div class="page logout"><button id="logoutBtn" type="button">登出</button></div>
+    <div class="page logout"><button id="logoutBtn" type="button" class="btn">登出</button></div>
   </div>
   <div id="container">
     <div id="functions">
       <div id="titleOfSystem">病歷管理系統</div>
       <div class="subFunction patientTable">
-        <img src="statics/icon/play-button-arrowhead.png" width="17px">
+        <i class="fas fa-play"></i>
         <p style="padding-top: 10px; cursor: pointer;">檢視所有病歷</p>
       </div>
       <div class="subFunction patientInfo">
-        <img src="statics/icon/play-button-arrowhead.png" width="17px">
+        <i class="fas fa-play"></i>
         <p style="text-decoration: underline;">病患基本資料</p>
       </div>
       <div class="subFunction recordTable">
-        <img src="statics/icon/play-button-arrowhead.png" width="17px">
+        <i class="fas fa-play"></i>
         <p style="cursor: pointer;">看診紀錄列表</p>
       </div>
     </div>
@@ -42,40 +46,49 @@
         <div class="listTitle addRecord">病患基本資料</div>
         <input type="button" value="確定修改" id="submit">
       </div>
-      <div id="infoContainer">
+      <div id="infoContainer" style="padding: 1%; width: 45%;">
         <div class="info">
-          <div class="infoContent">
-            <div class="listTitle">姓名</div>
-            <input type="text" class="listInfo" id="patientName">
+          <div class="infoContent form-group row">
+            <div class="listTitle col-sm-3 col-form-label">姓名</div>
+            <input type="text" class="listInfo form-control col-sm-9" id="patientName" style="padding: 5px;">
           </div>
         </div>
-        <div class="infoContent">
-          <div class="listTitle">身分證字號</div>
-          <input class="listInfo" type="text" id="patientID">
+        <div class="infoContent form-group row">
+          <div class="listTitle  col-sm-3 col-form-label">身分證字號</div>
+          <input class="listInfo form-control col-sm-9" type="text" id="patientID">
         </div>
-        <div class="infoContent">
-          <div class="listTitle">性別</div>
-          <select class="listInfo" id="patientGender" name="gender">
-            <option selected="selected" >男</option>
+        <div class="infoContent form-group row">
+          <div class="listTitle col-sm-3 col-form-label">性別</div>
+          <select class="listInfo form-control col-sm-9" id="patientGender" name="gender">
+            <option selected="selected">男</option>
             <option value="female">女</option>
           </select>
         </div>
-        <div class="infoContent">
-          <div class="listTitle">出生年月日</div>
-          <input class="listInfo" name="dob" type="date" id="patientDob" required>
+        <div class="infoContent form-group row">
+          <div class="listTitle col-sm-3 col-form-label ">出生年月日</div>
+          <input class="listInfo  form-control col-sm-9" name="dob" type="date" id="patientDob" required>
         </div>
-        <div class="infoContent">
-          <div class="listTitle">血型</div>
-          <input class="listInfo" name="bloodType" type="text" id="patinetBloodType" required>
-
-          <div class="infoContent">
-            <div class="listTitle">聯絡電話</div>
-            <input class="listInfo" name="phone" type="text" id="patientPhone" required>
-          </div>
-          <div class="infoContent">
-            <div class="listTitle">聯絡地址</div>
-            <input class="listInfo" name="address" type="text" id="patientAddress" required>
-          </div>
+        <div class="infoContent form-group row">
+          <div class="listTitle  col-sm-3 col-form-label">血型</div>
+          <input class="listInfo  form-control col-sm-9" name="bloodType" type="text" id="patinetBloodType" required>
+        </div>
+        <div class="infoContent form-group row">
+          <div class="listTitle  col-sm-3 col-form-label">聯絡電話</div>
+          <input class="listInfo  form-control col-sm-9" name="phone" type="text" id="patientPhone" required>
+        </div>
+        <div class="infoContent form-group row">
+          <div class="listTitle  col-sm-3 col-form-label">聯絡地址</div>
+          <input class="listInfo  form-control col-sm-9" name="address" type="text" id="patientAddress" required>
+        </div>
+        <div class="infoContent form-group row">
+          <div class="listTitle  col-sm-3 col-form-label">特殊疾病</div>
+          <input class="listInfo  form-control col-sm-9" name="specialDisease" type="text" id="patientSpecialDisease"
+            required>
+        </div>
+        <div class="infoContent form-group row">
+          <div class="listTitle  col-sm-3 col-form-label">過敏藥物</div>
+          <input class="listInfo  form-control col-sm-9" name="drugAllergy" type="text" id="patientDrugAllergy"
+            required>
         </div>
       </div>
     </form>
@@ -119,7 +132,10 @@
           document.getElementById('patinetBloodType').value = response['response']['data'][0]['bloodType'];
           document.getElementById('patientPhone').value = response['response']['data'][0]['phone'];
           document.getElementById('patientAddress').value = response['response']['data'][0]['address'];
-
+          document.getElementById('patientSpecialDisease').value = response['response']['data'][0][
+            'specialDisease'
+          ];
+          document.getElementById('patientDrugAllergy').value = response['response']['data'][0]['drugAllergy'];
         }
       },
       error: function () {
