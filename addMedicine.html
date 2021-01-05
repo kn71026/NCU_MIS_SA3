@@ -38,7 +38,7 @@
         <div id="formContainer">
             <form id="appointmentForm" accept-charset="UTF-8">
                 <p id="formTitle">新增藥品</p>
-                <input type="button" value="新增" id="submit" style="cursor: pointer;">
+                <input type="button" value="新增" id="submit" onclick="submitAction()" style="cursor: pointer;">
                 <div id="formTable">
                     <div style="display: none;"><input type="hidden" name="_method" value="POST"></div>
                     <div class="input name required">
@@ -49,46 +49,76 @@
                         <label for="medicineDose">規格量</label>
                         <input name="dose" type="text" id="medicineDose" required>
                     </div>
-                    <div class="input type required">
-                        <label for="medicineType">劑型</label>
-                        <input name="type" type="text" id="medicineType" required>
-                    </div>
                     <div class="input catagory required">
                         <label for="medicineCatagory">藥品分類</label>
-                        <input name="catagory" type="text" id="medicineCatagory" required>
+                        <input name="catagory" type="text" id="medicineCategory" required>
                     </div>
             </form>
         </div>
     </div>
 </body>
 
-<script type=" text/javascript" crossorigin="anonymous">
-                        $(".logo").click(function () {
-                        window.location.href = 'appointment.html';
-                        });
+<script type="text/javascript" crossorigin="anonymous">
+    // functions
+    function submitAction() {
+        var name = $("#medicineName").val();
+        var quantity = $("#medicineDose").val();
+        var category = $("#medicineCategory").val();
 
-                        $(".appointment").click(function () {
-                        window.location.href = 'appointment.html';
-                        });
-                        $(".patient").click(function () {
-                        window.location.href = 'patient.html';
-                        });
-                        $(".medicine").click(function () {
-                        window.location.href = 'medicine.html';
-                        });
-                        $(".hr").click(function () {
-                        window.location.href = 'humanResource.html';
-                        });
-                        $(".personal").click(function () {
-                        window.location.href = 'personal.html';
-                        });
-                        $('#logoutBtn').click(function () {
-                        window.location.href = 'logout.html';
-                        });
+        var dataObject = {
+            "name": name,
+            "quantity": quantity,
+            "category": category
+        };
 
-                        $(".table").click(function () {
-                        window.location.href = 'appointment.html';
-                        });
-                        </script>
+        var dataString = JSON.stringify(dataObject);
+
+        $.ajax({
+            type: "POST",
+            url: "http://140.115.81.245:8080/NCU_MIS_SA/api/medicine.do",
+            data: dataString,
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+                if (response.status == 200) {
+                    window.location.href = "medicine.html";
+                }
+            },
+            error: function () {
+                alert("Fail to add");
+            }
+        });
+    }
+
+    // page routing
+    $(".logo").click(function () {
+        window.location.href = 'appointment.html';
+    });
+
+    $(".appointment").click(function () {
+        window.location.href = 'appointment.html';
+    });
+    $(".patient").click(function () {
+        window.location.href = 'patient.html';
+    });
+    $(".medicine").click(function () {
+        window.location.href = 'medicine.html';
+    });
+    $(".hr").click(function () {
+        window.location.href = 'humanResource.html';
+    });
+    $(".personal").click(function () {
+        window.location.href = 'personal.html';
+    });
+    $('#logoutBtn').click(function () {
+        window.location.href = 'logout.html';
+    });
+
+    $(".table").click(function () {
+        window.location.href = 'appointment.html';
+    });
+</script>
 
 </html>
