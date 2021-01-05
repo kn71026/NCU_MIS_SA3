@@ -585,10 +585,10 @@ public class PharmacistHelper {
         return (row == 0) ? false : true;
     }
 
-    public JSONObject getIDByAccount(String account) {
-        /** 新建一個 Pharmacist 物件之 p 變數，用於紀錄每一位查詢回之資料 */
-        Pharmacist p = null;
-        /** 用於儲存所有檢索回之藥師，以JSONArray方式儲存 */
+    public int getIDByAccount(String account) {
+        /** 新建一個 Pharmacist 物件之 pm 變數，用於紀錄每一位查詢回之醫師資料 */
+        Pharmacist pm = null;
+        /** 用於儲存所有檢索回之醫師，以JSONArray方式儲存 */
         JSONArray jsa = new JSONArray();
         /** 記錄實際執行之SQL指令 */
         String exexcute_sql = "";
@@ -598,12 +598,12 @@ public class PharmacistHelper {
         int row = 0;
         /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
         ResultSet rs = null;
-
+        int Pharmacist_id = 0;
         try {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT * FROM `sa_project`.`pharmacist` WHERE `account` = ? LIMIT 1";
+            String sql = "SELECT * FROM `sa_project`.`Pharmacist` WHERE `account` = ? LIMIT 1";
 
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
@@ -622,22 +622,13 @@ public class PharmacistHelper {
                 row += 1;
 
                 /** 將 ResultSet 之資料取出 */
-                int id = rs.getInt("id");
-                String phar_account = rs.getString("account");
-                String password = rs.getString("password");
-                String name = rs.getString("name");
-                String dob = rs.getString("dob");
-                int phone = rs.getInt("phone");
-                String address = rs.getString("address");
-                /**
-                 * Timestamp create_date = rs.getTimestamp("create_date"); Timestamp modify_date
+                Pharmacist_id = rs.getInt("id");
+                
+                
+                 /** Timestamp create_date = rs.getTimestamp("create_date"); Timestamp modify_date
                  * = rs.getTimestamp("modify_date");
                  */
 
-                /** 將每一筆藥師資料產生一名新Pharmacist物件 */
-                p = new Pharmacist(id, phar_account, password, name, dob, phone, address);
-                /** 取出該名藥師之資料並封裝至 JSONsonArray 內 */
-                jsa.put(p.getData());
             }
 
         } catch (SQLException e) {
@@ -651,19 +642,8 @@ public class PharmacistHelper {
             DBMgr.close(rs, pres, conn);
         }
 
-        /** 紀錄程式結束執行時間 */
-        long end_time = System.nanoTime();
-        /** 紀錄程式執行時間 */
-        long duration = (end_time - start_time);
 
-        /** 將SQL指令、花費時間、影響行數與所有醫師資料之JSONArray，封裝成JSONObject回傳 */
-        JSONObject response = new JSONObject();
-        response.put("sql", exexcute_sql);
-        response.put("row", row);
-        response.put("time", duration);
-        response.put("data", jsa);
-
-        return response;
+        return Pharmacist_id;
     }
 
 }
