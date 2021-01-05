@@ -3,7 +3,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title></title>
+  <title>編輯病患</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -174,7 +174,6 @@
   getPatientData();
 
   function updatePatient(id) {
-    console.log(id);
     var name = $('#patientName').val();
     var pid = $('#patientID').val();
     var gender = $('#patientGender').val();
@@ -222,9 +221,7 @@
     });
   }
   $('#submit').click(function () {
-    console.log(id);
     updatePatient(id);
-    // window.location.href = 'certainPatient.html';
   });
   $('#gotoPatient').click(function () {
     window.location.href = 'patient.html';
