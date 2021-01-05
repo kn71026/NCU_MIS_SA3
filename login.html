@@ -46,53 +46,51 @@
     </div>
 </body>
 <script src="//ajax.googleapis.com/ajax/libs/1/jquery.min.js"></script>
-<script type="text/javascript">
-    $(document).ready(function() {
-        //處理表單點擊事件
-        var $form = $('#submit');
-        $form.click(function() {
-            submit();
-            window.setInterval(redirect, 100);
-        });
-        function submit() {
-            var account = $('#memAccount').val();
-            var password = $('#memPasswd').val();
-            var passwordCheck = $('#member_password_check').val();
-            if(password != passwordcheck){
-                alert("密碼不符！")
-            }
-            else{
-                //將資料組成JSON格式
-                var data_object = {
-                    "account": account,
-                    "password": password
-                };
+<script type="text/javascript"></script>
+    <script language = "javascript">
+    $(function() {
+        //設定按鈕
+        $("#登入").click(function() {
+           // 取得資料
+           var job = $('#memJob').val;
+           var account = $('#memAccount').val();
+           var password = $('#mamPassword').val();
 
-                //將JSON格式轉換成字串
-                var data_string = JSON.stringify(data_object);
-                //發出POST的AJAX請求
-                $.ajax({
-                    type: "POST",
-                    url: "api/doctor.do",
-                    data: data_string,
-                    crossDomain: true,
-                    cache: false,
-                    dataType: 'json',
-                    timeout: 5000,
-                    success: function (response) {
-                        $('#flashMessage').html(response.message);
-                        $('#flashMessage').show();
-                        if(response.status == 200){
-                            updateSQLTable(response.response);
-                        }
-                    },
-                    error: function () {
-                        alert("無法連線到伺服器！");
+           // 將資料組成JSON格式
+           var data_object = {
+               "job":job,
+               "account":account,
+               "password":password
+           };
+        
+            //將JSON格式轉換成字串
+             var data_string = JSON.stringify(data_object);
+            //發出POST的AJAX請求
+            $.ajax({
+                type: "POST",
+                url: "api/doctor.do",
+                data: data_string,
+                crossDomain: true,
+                cache: false,
+                dataType: 'json',
+                timeout: 5000,
+                success: function (response) {
+                    if(response.status == 200){
+                        console.log(response);
+
+                        location.href = "record.html";
                     }
-                });
-            }
-        }
-    })
+                    else{
+                        console.log(response);
+                        alert("帳號或密碼不符！")
+                    }
+                }    
+            });
+        });
+            
+    });
+        
+
 </script>
 
 </html>

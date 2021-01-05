@@ -6,6 +6,8 @@ import java.io.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
+import javax.servlet.http.Cookie;
+
 import org.json.*;
 import ncu.im3069.demo.app.Doctor;
 import ncu.im3069.demo.app.DoctorHelper;
@@ -36,40 +38,35 @@ public class DoctorController extends HttpServlet {
         JSONObject jso = jsr.getObject();
 
         /** 取出經解析到JSONObject之Request參數 */
+        String job = jso.getString("job");
         String account = jso.getString("account");
         String password = jso.getString("password");
-        String name = jso.getString("name");
-        String dob = jso.getString("dob");
-        int phone = jso.getInt("phone");
-        String address = jso.getString("address");
-
-        /** 建立一個新的醫師物件 */
-        Doctor d = new Doctor(account, password, name, dob, phone, address);
 
         /** 後端檢查是否有欄位為空值，若有則回傳錯誤訊息 */
-        if (account.isEmpty() || password.isEmpty() || name.isEmpty() || dob.isEmpty()
-                || Integer.toString(phone).isEmpty() || address.isEmpty()) {
+        if (account.isEmpty() || password.isEmpty() ) {
             /** 以字串組出JSON格式之資料 */
             String resp = "{\"status\": \'400\', \"message\": \'欄位不能有空值\', \'response\': \'\'}";
             /** 透過JsonReader物件回傳到前端（以字串方式） */
             jsr.response(resp, response);
         }
         /** 透過DoctorHelper物件的checkDuplicate()檢查該醫師帳號是否有重複 */
-        else if (!dh.checkDuplicate(d)) {
-            /** 透過DoctorHelper物件的create()方法新建一個醫師至資料庫 */
-            JSONObject data = dh.create(d);
+        else if (dh.checkLogin(job, account, password)) {
 
             /** 新建一個JSONObject用於將回傳之資料進行封裝 */
+            int doctor_id = 0;
             JSONObject resp = new JSONObject();
+            doctor_id = dh.getIDByAccount(account);
             resp.put("status", "200");
-            resp.put("message", "成功! 註冊醫師資料！");
-            resp.put("response", data);
+            resp.put("message", "成功登入！id=" + doctor_id);
+
+            Cookie ck = new Cookie("user_id",String.valueOf(doctor_id));
+            response.addCookie(ck);
 
             /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
             jsr.response(resp, response);
         } else {
             /** 以字串組出JSON格式之資料 */
-            String resp = "{\"status\": \'400\', \"message\": \'新增資料失敗，此帳號重複！\', \'response\': \'\'}";
+            String resp = "{\"status\": \'403\', \"message\": \'帳號或密碼不符！\', \'response\': \'\'}";
             /** 透過JsonReader物件回傳到前端（以字串方式） */
             jsr.response(resp, response);
         }
@@ -190,4 +187,48 @@ public class DoctorController extends HttpServlet {
         /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
         jsr.response(resp, response);
     }
+    /** public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        /** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
+    //   JsonReader jsr = new JsonReader(request);
+    /**    JSONObject jso = jsr.getObject();
+
+        /** 取出經解析到JSONObject之Request參數 */
+      //  String account = jso.getString("account");
+      //  String password = jso.getString("password");
+      //  String name = jso.getString("name");
+      //  String dob = jso.getString("dob");
+      //  int phone = jso.getInt("phone");
+      //  String address = jso.getString("address");
+
+        /** 建立一個新的醫師物件 */
+       // Doctor d = new Doctor(account, password, name, dob, phone, address);
+
+        /** 後端檢查是否有欄位為空值，若有則回傳錯誤訊息 */
+        //if (account.isEmpty() || password.isEmpty() || name.isEmpty() || dob.isEmpty()
+          //      || Integer.toString(phone).isEmpty() || address.isEmpty()) {
+            /** 以字串組出JSON格式之資料 */
+            //String resp = "{\"status\": \'400\', \"message\": \'欄位不能有空值\', \'response\': \'\'}";
+            /** 透過JsonReader物件回傳到前端（以字串方式） */
+      //      jsr.response(resp, response);
+       // }
+        /** 透過DoctorHelper物件的checkDuplicate()檢查該醫師帳號是否有重複 */
+       // else if (!dh.checkDuplicate(d)) {
+            /** 透過DoctorHelper物件的create()方法新建一個醫師至資料庫 */
+          //  JSONObject data = dh.create(d);
+
+            /** 新建一個JSONObject用於將回傳之資料進行封裝 */
+         //   JSONObject resp = new JSONObject();
+         //   resp.put("status", "200");
+         //   resp.put("message", "成功! 註冊醫師資料！");
+         //   resp.put("response", data);
+
+            /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
+         //   jsr.response(resp, response);
+       // } else {
+            /** 以字串組出JSON格式之資料 */
+          //  String resp = "{\"status\": \'400\', \"message\": \'新增資料失敗，此帳號重複！\', \'response\': \'\'}";
+            /** 透過JsonReader物件回傳到前端（以字串方式） */
+        //    jsr.response(resp, response);
+       // }
+    
 }
