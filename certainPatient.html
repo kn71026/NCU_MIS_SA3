@@ -5,7 +5,9 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title></title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="statics/css/addRecord.css">
+  <link rel="stylesheet" type="text/css" href="statics/css/certainPatient.css">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
 </head>
 
 <body>
@@ -25,15 +27,15 @@
     <div id="functions">
       <div id="titleOfSystem">病歷管理系統</div>
       <div class="subFunction patientTable">
-        <img src="statics/icon/play-button-arrowhead.png" width="17px">
+        <i class="fas fa-play"></i>
         <p style="padding-top: 10px; cursor: pointer;">檢視所有病歷</p>
       </div>
       <div class="subFunction patientInfo">
-        <img src="statics/icon/play-button-arrowhead.png" width="17px">
+        <i class="fas fa-play"></i>
         <p style="text-decoration: underline;">病患基本資料</p>
       </div>
       <div class="subFunction recordTable">
-        <img src="statics/icon/play-button-arrowhead.png" width="17px">
+        <i class="fas fa-play"></i>
         <p style="cursor: pointer;">看診紀錄列表</p>
       </div>
     </div>
@@ -46,39 +48,39 @@
         <div class="info">
           <div class="infoContent">
             <div class="listTitle">姓名</div>
-            <div class="listInfo" id="patientName">王小明</div>
+            <div class="listInfo" id="patientName">{{patientName}}</div>
           </div>
           <div class="infoContent">
             <div class="listTitle">身分證字號</div>
-            <div class="listInfo" id="patientID">A123456789</div>
+            <div class="listInfo" id="patientID">{{patientID}}</div>
           </div>
           <div class="infoContent">
             <div class="listTitle">性別</div>
-            <div class="listInfo" id="patientGender">男</div>
+            <div class="listInfo" id="patientGender">{{patientGender}}</div>
           </div>
           <div class="infoContent">
             <div class="listTitle">出生年月日</div>
-            <div class="listInfo" id="patientDob">YYYY/MM/DD</div>
+            <div class="listInfo" id="patientDob">{{patientDob}}</div>
           </div>
           <div class="infoContent">
             <div class="listTitle">血型</div>
-            <div class="listInfo" id="patientBloodType">AB</div>
+            <div class="listInfo" id="patientBloodType">{{patientBloodType}}</div>
           </div>
           <div class="infoContent">
             <div class="listTitle">聯絡電話</div>
-            <div class="listInfo" id="patientPhone">0900000000</div>
+            <div class="listInfo" id="patientPhone">{{patientPhone}}</div>
           </div>
           <div class="infoContent">
             <div class="listTitle">聯絡地址</div>
-            <div class="listInfo" id="patientAddress"></div>
+            <div class="listInfo" id="patientAddress">{{patientAddress}}</div>
           </div>
           <div class="infoContent">
             <div class="listTitle">特殊疾病</div>
-            <div class="listInfo" id="patientSpecialDisease">桃園市中壢區中大路300號</div>
+            <div class="listInfo" id="patientSpecialDisease">{{patientSpecialDisease}}</div>
           </div>
           <div class="infoContent">
             <div class="listTitle">過敏藥物</div>
-            <div class="listInfo" id="patientDrugAllergy">桃園市中壢區中大路300號</div>
+            <div class="listInfo" id="patientDrugAllergy">{{patientDrugAllergy}}</div>
           </div>
         </div>
       </div>
@@ -117,20 +119,7 @@
       timeout: 5000,
       success: function (response) {
         if (response.status == 200) {
-          id = response['response']['data'][0]['id'];
-          console.log(id);
-          document.getElementById('patientName').value = response['response']['data'][0]['name'];
-          document.getElementById('patientID').value = response['response']['data'][0]['pid'];
-          document.getElementById('patientGender').value = response['response']['data'][0]['gender'];
-          document.getElementById('patientDob').value = response['response']['data'][0]['dob'];
-          document.getElementById('patientBloodType').value = response['response']['data'][0]['bloodType'];
-          document.getElementById('patientPhone').value = response['response']['data'][0]['phone'];
-          document.getElementById('patientAddress').value = response['response']['data'][0]['address'];
-          document.getElementById('patientSpecialDisease').value = response['response']['data'][0][
-            'specialDisease'
-          ];
-          document.getElementById('patientDrugAllergy').value = response['response']['data'][0]['drugAllergy'];
-          console.log(id)
+          updateHTML(response.response.data);
         }
       },
       error: function () {
@@ -139,6 +128,19 @@
     });
   }
   getPatientData()
+
+  function updateHTML(data) {
+    console.log(data[0]['name'])
+    $("#patientName").html(data[0]['name']);
+    $("#patientID").html(data[0]['pid']);
+    $("#patientGender").html(data[0]['gender']);
+    $("#patientDob").html(data[0]['dob']);
+    $("#patientBloodType").html(data[0]['bloodType']);
+    $("#patientPhone").html(data[0]['phone']);
+    $("#patientAddress").html(data[0]['address']);
+    $("#patientDrugAllergy").html(data[0]['drugAllergy']);
+    $("#patientSpecialDisease").html(data[0]['specialDisease']);
+  }
   $(".logo").click(function () {
     window.location.href = 'appointment.html';
   });
@@ -164,7 +166,7 @@
     window.location.href = 'patient.html';
   });
   $(".recordTable").click(function () {
-    window.location.href = 'record.html';
+    window.location.href = 'record.html?patient_id=' + id;
   });
   $("#submit").click(function () {
     window.location.href = 'editPatient.html';
