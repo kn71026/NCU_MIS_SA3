@@ -73,12 +73,11 @@ public class OutpatientHelper {
                 /** 將 ResultSet 之資料取出 */
                 int id = rs.getInt("id");
                 int int_doctor_id = Integer.parseInt(doctor_id);
-                String days = rs.getString("days");
                 String clinic_hours = rs.getString("clinic_hours");
                 String doctor_name = rs.getString("doctor_name");
 
                 /** 將每一筆病患資料產生一名新Member物件 */
-                o = new OutPatient(id, int_doctor_id, days, clinic_hours, doctor_name);
+                o = new OutPatient(id, int_doctor_id, clinic_hours, doctor_name);
 
                 /** 取出該名病患之資料並封裝至 JSONsonArray 內 */
                 jsa.put(o.getData());
@@ -155,11 +154,10 @@ public class OutpatientHelper {
                 /** 將 ResultSet 之資料取出 */
                 int id = rs.getInt("id");
                 int doctor_id = rs.getInt("doctor_id");
-                String days = rs.getString("days");
                 String doctor_name = rs.getString("doctor_name");
 
                 /** 將每一筆病患資料產生一名新Member物件 */
-                o = new OutPatient(id, doctor_id, days, clinic_hours, doctor_name);
+                o = new OutPatient(id, doctor_id, clinic_hours, doctor_name);
 
                 /** 取出該名病患之資料並封裝至 JSONsonArray 內 */
                 jsa.put(o.getData());
