@@ -62,6 +62,8 @@
 </body>
 
 <script type="text/javascript" crossorigin="anonymous">
+  if (!(localStorage.getItem("isLogin"))) window.location.href = "index.html";
+
   // 取得網址參數
   var url_string = window.location.href;
   var url = new URL(url_string);
@@ -80,7 +82,7 @@
       table_html += '<div class="listContent doctor">' + value['doctor_name'] + '</div>';
       table_html += '<div class="listContent clinic_hours">' + value['clinic_hours'] + '</div>';
       table_html += '<div class="listContent appointment_number">' + value['appointment_number'] + '</div>';
-      var anumber=  value['appointment_number'];
+      var anumber = value['appointment_number'];
       table_html += '<div class="listContent checker" style="margin-left: 2%;"><input type="checkbox" name="checkboxs" value="' + value['done'] + '" id="' + value['id'] + '"' + '></div></div>';
     })
 
@@ -183,13 +185,13 @@
     obj = document.getElementsByName("checkboxs");
     check_value = [];
     for (i in obj) {
-      if (obj[i].checked){
+      if (obj[i].checked) {
         check_value.push(obj[i].id);
         check_value.push(obj[i].value);
+      }
+      return check_value;
     }
-    return check_value;
   }
-}
 
   getAllAppointment();
 
@@ -197,7 +199,7 @@
   $(".passNumBtn").click(function () {
     id = sendInfo()[0];
     visited_date = sendInfo()[1];
-    passAppointment(id,visited_date);
+    passAppointment(id, visited_date);
     $.ajax({
       type: "GET",
       url: "http://140.115.81.245:8080/NCU_MIS_SA/api/appointment.do?searching_date=2020-11-05",
@@ -221,7 +223,7 @@
   $(".deleteBtn").click(function () {
     id = sendInfo()[0];
     done = sendInfo()[1];
-    alert(id+" "+done);
+    alert(id + " " + done);
     deleteAppointment(id, done);
   });
 

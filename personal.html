@@ -39,11 +39,11 @@
                 <div class="title position">職位</div>
             </div>
             <div id="infoContainer">
-                <div class="info name">楊先名</div>
-                <div class="info dob">1999/01/01</div>
-                <div class="info phone">0912345678</div>
-                <div class="info address">桃園區</div>
-                <div class="info position">醫師</div>
+                <div class="info name" id="name"></div>
+                <div class="info dob" id="dob"></div>
+                <div class="info phone" id="phone"></div>
+                <div class="info address" id="address"></div>
+                <div class="info position" id="position"></div>
             </div>
         </div>
         <div id="tableContainer">
@@ -94,11 +94,119 @@
                 </tbody>
             </table>
         </div>
-        <button type="button" class="btn editBtn" style="cursor: pointer;">修改密碼</button>
+        <!--<button type="button" class="btn editBtn" style="cursor: pointer;">修改密碼</button>-->
     </div>
 </body>
 
 <script type="text/javascript" crossorigin="anonymous">
+    if (!(localStorage.getItem("isLogin"))) window.location.href = "index.html";
+
+    var id = localStorage.getItem("id");
+    var title = localStorage.getItem("title");
+
+    function updateTable(data) {
+        $.each(data, function (index, value) {
+            $("#name").append(value["name"]);
+            $("#dob").append(value["dob"]);
+            $("#phone").append("0" + value["phone"]);
+            $("#address").append(value["address"]);
+            if (title == "doctor") $("#position").append("醫生");
+            else if (title == "pharmacist") $("#position").append("藥師");
+            else if (title == "staff") $("#position").append("櫃台行政");
+        })
+    }
+
+    function updateOutpatient(data) {
+        // code
+    }
+
+    function getOutpatientByID() {
+        $.ajax({
+            type: "GET",
+            url: "http://140.115.81.245:8080/NCU_MIS_SA/api/outpatient.do",
+            data: "id=" + id,
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+                if (response.status == 200) {
+                    console.log(response);
+                }
+            },
+            error: function () {
+                alert("查無資料");
+            }
+        });
+    }
+
+    function getDoctorByID() {
+        $.ajax({
+            type: "GET",
+            url: "http://140.115.81.245:8080/NCU_MIS_SA/api/doctor.do",
+            data: "id=" + id,
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+                if (response.status == 200) {
+                    updateTable(response.response.data);
+                    getOutpatientByID();
+                }
+            },
+            error: function () {
+                alert("查無資料");
+            }
+        });
+    }
+
+    function getPharmacistByID() {
+        $.ajax({
+            type: "GET",
+            url: "http://140.115.81.245:8080/NCU_MIS_SA/api/pharmacist.do",
+            data: "id=" + id,
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+                if (response.status == 200) {
+                    updateTable(response.response.data);
+                    $("#tableContainer").hide();
+                }
+            },
+            error: function () {
+                alert("查無資料");
+            }
+        });
+    }
+
+    function getStaffByID() {
+        $.ajax({
+            type: "GET",
+            url: "http://140.115.81.245:8080/NCU_MIS_SA/api/administration.do",
+            data: "id=" + id,
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+                if (response.status == 200) {
+                    updateTable(response.response.data);
+                    $("#tableContainer").hide();
+                }
+            },
+            error: function () {
+                alert("查無資料");
+            }
+        });
+    }
+
+    if (title == "doctor") getDoctorByID();
+    else if (title == "pharmacist") getPharmacistByID();
+    else if (title == "staff") getStaffByID();
+
     $(".logo").click(function () {
         window.location.href = 'appointment.html';
     });

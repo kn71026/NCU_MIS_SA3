@@ -53,6 +53,8 @@
   </div>
 </body>
 <script type="text/javascript" crossorigin="anonymous">
+  if (!(localStorage.getItem("isLogin"))) window.location.href = "index.html";
+
   Date.prototype.format = function (fmt) {
     var o = {
       "M+": this.getMonth() + 1, //月份

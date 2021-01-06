@@ -107,6 +107,8 @@
 </body>
 
 <script type="text/javascript" crossorigin="anonymous">
+    if (!(localStorage.getItem("isLogin"))) window.location.href = "index.html";
+
     $(".logo").click(function () {
         window.location.href = 'appointment.html';
     });

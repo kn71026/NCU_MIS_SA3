@@ -103,6 +103,8 @@
   </div>
 </body>
 <script type="text/javascript" crossorigin="anonymous">
+  if (!(localStorage.getItem("isLogin"))) window.location.href = "index.html";
+
   var url_string = window.location.href;
   var url = new URL(url_string);
   var id = url.searchParams.get("patient_id");
