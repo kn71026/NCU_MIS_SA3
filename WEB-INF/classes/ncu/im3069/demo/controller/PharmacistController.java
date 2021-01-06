@@ -57,7 +57,7 @@ public class PharmacistController extends HttpServlet {
             pharmacist_id = pmh.getIDByAccount(account);
             resp.put("status", "200");
             resp.put("message", "成功登入！id=" + pharmacist_id);
-            resp.put("id=", pharmacist_id);
+            resp.put("id", pharmacist_id);
 
             Cookie ck = new Cookie("pharmacist_id", String.valueOf(pharmacist_id));
             response.addCookie(ck);

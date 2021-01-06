@@ -42,7 +42,7 @@ public class AdministrationController extends HttpServlet {
         String password = jso.getString("password");
 
         /** 後端檢查是否有欄位為空值，若有則回傳錯誤訊息 */
-        if (account.isEmpty() || password.isEmpty() ) {
+        if (account.isEmpty() || password.isEmpty()) {
             /** 以字串組出JSON格式之資料 */
             String resp = "{\"status\": \'400\', \"message\": \'欄位不能有空值\', \'response\': \'\'}";
             /** 透過JsonReader物件回傳到前端（以字串方式） */
@@ -57,9 +57,9 @@ public class AdministrationController extends HttpServlet {
             administration_id = adh.getIDByAccount(account);
             resp.put("status", "200");
             resp.put("message", "成功登入！id=" + administration_id);
-            resp.put("id",  administration_id);
+            resp.put("id", administration_id);
 
-            Cookie ck = new Cookie("administration_id",String.valueOf(administration_id));
+            Cookie ck = new Cookie("administration_id", String.valueOf(administration_id));
             response.addCookie(ck);
 
             /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
@@ -85,7 +85,7 @@ public class AdministrationController extends HttpServlet {
         JsonReader jsr = new JsonReader(request);
         /** 若直接透過前端AJAX之data以key=value之字串方式進行傳遞參數，可以直接由此方法取回資料 */
         String id = jsr.getParameter("id");
-       // String name = jsr.getParameter("name");
+        // String name = jsr.getParameter("name");
         /** 判斷該字串是否存在，若存在代表要取回個別櫃台行政之資料，否則代表要取回全部資料庫內櫃台行政之資料 */
         if (id.isEmpty()) {
             /** 透過MemberHelper物件之getAll()方法取回所有櫃台行政之資料，回傳之資料為JSONObject物件 */
