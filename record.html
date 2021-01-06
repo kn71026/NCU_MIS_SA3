@@ -164,7 +164,7 @@
   }
   $("#addRecord").click(function () {
     console.log(pid);
-    window.location.href = 'aR.html?patient_id=' + pid;
+    window.location.href = 'addRecord.html?patient_id=' + pid;
   });
   $(".logo").click(function () {
     window.location.href = 'appointment.html';
@@ -191,7 +191,7 @@
     window.location.href = 'patient.html';
   });
   $(".patientInfo").click(function () {
-    window.location.href = 'certainPatient.html';
+    window.location.href = 'certainPatient.html?patient_id=' + pid;
   });
   $(".list").click(function () {
     window.location.href = 'certainRecord.html';

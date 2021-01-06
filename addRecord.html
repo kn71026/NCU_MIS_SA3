@@ -5,10 +5,9 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>新增看診紀錄</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="statics/css/addRecord.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="statics/css/addRecord.css">
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
     integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
@@ -41,83 +40,120 @@
       </div>
       <div class="subFunction patientInfo">
         <i class="fas fa-play"></i>
-        <p style="cursor: pointer;">病患基本資料</p>
+        <p style="text-decoration: underline;">病患基本資料</p>
       </div>
       <div class="subFunction recordTable">
         <i class="fas fa-play"></i>
-        <p style="text-decoration: underline;">看診紀錄列表</p>
+        <p style="cursor: pointer;">看診紀錄列表</p>
       </div>
     </div>
-    <form>
-      <div id="listTitleContainer">
-        <div class="listTitle addRecord">新增看診紀錄</div>
-        <input type="button" value="確定新增" id="submit">
+    <div id="listTitleContainer">
+      <div class="listTitle addRecord">新增看診紀錄</div>
+      <input type="button" value="新增" id="submit">
+    </div>
+    <div id="infoContainer">
+      <div class="info">
+        <fieldset disabled>
+          <div class="infoContent form-group row">
+            <div class="listTitle col-sm-3 col-form-label">姓名</div>
+            <input type="text" class="listInfo form-control col-sm-9" name="name" id="patientName"
+              style="padding: 5px;">
+          </div>
+        </fieldset>
       </div>
-      <div id="infoContainer">
-        <div class="infoContent">
-          <div class="infoContent row">
-            <div class="col-sm-4">姓名</div>
-            <div class="listInfo col-sm-4" id="patientName">王小明</div>
+      <fieldset disabled>
+        <div class="infoContent form-group row">
+          <label for="disabledTextInput" class="col-sm-3 col-form-label">身分證字號</label>
+          <input type="text" id="patientID" class="listInfo form-control col-9" style="padding: 5px;">
+        </div>
+      </fieldset>
+      <fieldset disabled>
+        <div class="infoContent form-group row">
+          <div class="listTitle col-sm-3 col-form-label">性別</div>
+          <select class="listInfo form-control col-sm-9" id="patientGender" name="gender">
+            <option value="男" selected="selected">男</option>
+            <option value="女">女</option>
+          </select>
+        </div>
+      </fieldset>
+      <fieldset disabled>
+        <div class="infoContent form-group row">
+          <div class="listTitle col-sm-3 col-form-label ">出生年月日</div>
+          <input class="listInfo  form-control col-sm-9" name="dob" type="date" id="patientDob" required>
+        </div>
+      </fieldset>
+      <fieldset disabled>
+        <div class="infoContent form-group row">
+          <div class="listTitle  col-sm-3 col-form-label">血型</div>
+          <input class="listInfo  form-control col-sm-9" name="bloodType" type="text" id="patientBloodType" required>
+        </div>
+      </fieldset>
+      <fieldset disabled>
+        <div class="infoContent form-group row">
+          <div class="listTitle  col-sm-3 col-form-label">聯絡電話</div>
+          <input class="listInfo  form-control col-sm-9" name="phone" type="text" id="patientPhone" required>
+        </div>
+      </fieldset>
+      <fieldset disabled>
+        <div class="infoContent form-group row">
+          <div class="listTitle  col-sm-3 col-form-label">聯絡地址</div>
+          <input class="listInfo  form-control col-sm-9" name="address" type="text" id="patientAddress" required>
+        </div>
+      </fieldset>
+      <fieldset disabled>
+        <div class="infoContent form-group row">
+          <div class="listTitle  col-sm-3 col-form-label">特殊疾病</div>
+          <input class="listInfo  form-control col-sm-9" name="specialDisease" type="text" id="patientSpecialDisease"
+            required>
+        </div>
+      </fieldset>
+      <fieldset disabled>
+        <div class="infoContent form-group row">
+          <div class="listTitle  col-sm-3 col-form-label">過敏藥物</div>
+          <input class="listInfo  form-control col-sm-9" name="drugAllergy" type="text" id="patientDrugAllergy"
+            required>
+        </div>
+      </fieldset>
+      <form id="addRecordForm" accept-charset="UTF-8">
+        <div style="display: none;"><input type="hidden" name="_method" value="POST"></div>
+        <div id="formTable">
+          <div class="infoContent form-group row">
+            <div class="listTitle col-sm-3 col-form-label ">看診日期</div>
+            <input class="listInfo  form-control col-sm-9" name="visited_date" type="date" id="recordVisited_date"
+              required>
           </div>
-          <div class="infoContent row">
-            <div class="col-sm-4">身分證字號</div>
-            <div class="listInfo col-sm-4" id="patientID">A123456789</div>
+          <div class="infoContent form-group row">
+            <label class="listTitle col-sm-3 col-form-label" for="symptoms">症狀</label>
+            <input class="listInfo form-control col-sm-9" type="text" name="symptoms" id="symptoms"></input>
           </div>
-          <div class="infoContent row">
-            <div class="col-sm-4 col-sm-4">性別</div>
-            <div class="listInfo col-sm-4" id="patientGender">男</div>
+          <div class="infoContent form-group row">
+            <label class="listTitle col-sm-3 col-form-label" for="days">已出現天數</label>
+            <select id="days" name="days" class="listInfo form-control col-sm-9">
+              <option value="1~3天">1~3天</option>
+              <option value="3~7天">3~7天</option>
+              <option value="超過7天">超過7天</option>
+            </select>
           </div>
-          <div class="infoContent row">
-            <div class="col-sm-4">看診日期</div>
-            <div class="listInfo  col-sm-4" id="date">20201220</div>
+          <div class="infoContent form-group row">
+            <label class="listTitle col-sm-3 col-form-label" for="degree">嚴重程度</label>
+            <select id="degree" name="degree" class="listInfo col-sm-9 form-control">
+              <option value="普通">普通</option>
+              <option value="輕微">輕微</option>
+              <option value="中等">中等</option>
+              <option value="嚴重">嚴重</option>
+            </select>
           </div>
-          <div class="infoContent row">
-            <div class="col-sm-4">特殊病史</div>
-            <div class="listInfo  col-sm-4" id="patientSpecialDisease">高血壓</div>
+          <div class="infoContent form-group row">
+            <label class="listTitle col-sm-3 col-form-label" for="prescription">處方箋</label>
+            <input class="listInfo col-sm-9 form-control" name="prescription" id="prescription"></input>
           </div>
-          <div class="infoContent row">
-            <div class="col-sm-4">過敏藥物</div>
-            <div class="listInfo  col-sm-4" id="patientDrugAllergy">無</div>
-          </div>
-          <div id="formContainer">
-            <form id="addRecordForm" accept-charset="UTF-8">
-              <div style="display: none;"><input type="hidden" name="_method" value="POST"></div>
-              <div id="formTable">
-                <div class="form-group row">
-                  <label class=" col-sm-4 col-form-label" for="symptoms">症狀</label>
-                  <input class="form-control col-sm-6" type="text" name="symptoms" id="symptoms"></input>
-                </div>
-                <div class="form-group row">
-                  <label class="col-sm-4 col-form-label" for="days">已出現天數</label>
-                  <select id="days" name="days" class="form-control col-sm-6">
-                    <option value="1~3天">1~3天</option>
-                    <option value="3~7天">3~7天</option>
-                    <option value="超過7天">超過7天</option>
-                  </select>
-                </div>
-                <div class="form-group row">
-                  <label class="col-sm-4 col-form-label" for="degree">嚴重程度</label>
-                  <select id="degree" name="degree" class="col-sm-6 form-control">
-                    <option value="普通">普通</option>
-                    <option value="輕微">輕微</option>
-                    <option value="中等">中等</option>
-                    <option value="嚴重">嚴重</option>
-                  </select>
-                </div>
-                <div class="form-group row">
-                  <label class="col-sm-4 col-form-label" for="prescription">處方箋</label>
-                  <input class="col-sm-6 form-control" name="prescription" id="prescription"></input>
-                </div>
-                <div class="form-group row">
-                  <label class="col-sm-4 col-form-label" for="note">其他備註</label>
-                  <input class="col-sm-6 form-control" name="note" id="note"></input>
-                </div>
-              </div>
-            </form>
+          <div class="infoContent form-group row">
+            <label class="listTitle col-sm-3 col-form-label" for="note">其他備註</label>
+            <input class="listInfo col-sm-9 form-control" name="note" id="note"></input>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
     <div id="appointmentContainer">
       <p id="todaysAppointment">目前掛號</p>
       <div id="appointmentTitleContainer">
@@ -134,41 +170,55 @@
       </div>
     </div>
   </div>
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">新增成功!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">跳轉到看診紀錄頁面</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info" id="gotoRecord">GO!!</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 <script type="text/javascript" crossorigin="anonymous">
-  // var url_string = window.location.href;
-  // var url = new URL(url_string);
-  // var pid = url.searchParams.get("patient_id");
-  // console.log(pid)
   var url_string = window.location.href;
   var url = new URL(url_string);
-  var id = url.searchParams.get("id");
+  var id = url.searchParams.get("patient_id");
+  console.log(id)
+
   function getPatientData() {
-    id = 1
     $.ajax({
       type: "GET",
-      url: "http://140.115.81.245/NCU_MIS_SA/api/patient.do",
-      data: "id=" + id,
+      url: "http://140.115.81.245:8080/NCU_MIS_SA/api/patient.do",
       crossDomain: true,
+      data: "id=" + id,
       cache: false,
       dataType: 'json',
       timeout: 5000,
       success: function (response) {
         if (response.status == 200) {
-          // id = response['response']['data'][0]['id'];
-          // console.log(id);
-          // document.getElementById('patientName').value = response['response']['data'][0]['name'];
-          // document.getElementById('patientID').value = response['response']['data'][0]['pid'];
-          // document.getElementById('patientGender').value = response['response']['data'][0]['gender'];
-          // document.getElementById('patientDob').value = response['response']['data'][0]['dob'];
-          // document.getElementById('patientBloodType').value = response['response']['data'][0]['bloodType'];
-          // document.getElementById('patientPhone').value = response['response']['data'][0]['phone'];
-          // document.getElementById('patientAddress').value = response['response']['data'][0]['address'];
-          // document.getElementById('patientSpecialDisease').value = response['response']['data'][0][
-          //   'specialDisease'
-          // ];
-          // document.getElementById('patientDrugAllergy').value = response['response']['data'][0]['drugAllergy'];
-          console.log("123");
+          id = response['response']['data'][0]['id'];
+          console.log(id);
+          document.getElementById('patientName').value = response['response']['data'][0]['name'];
+          document.getElementById('patientID').value = response['response']['data'][0]['pid'];
+          document.getElementById('patientGender').value = response['response']['data'][0]['gender'];
+          document.getElementById('patientDob').value = response['response']['data'][0]['dob'];
+          document.getElementById('patientBloodType').value = response['response']['data'][0]['bloodType'];
+          document.getElementById('patientPhone').value = response['response']['data'][0]['phone'];
+          document.getElementById('patientAddress').value = response['response']['data'][0]['address'];
+          document.getElementById('patientSpecialDisease').value = response['response']['data'][0][
+            'specialDisease'
+          ];
+          document.getElementById('patientDrugAllergy').value = response['response']['data'][0]['drugAllergy'];
         }
       },
       error: function () {
@@ -177,6 +227,66 @@
     });
   }
   getPatientData();
+
+  function addRecord(id) {
+    var symptoms = $('#symptoms').val();
+    var patient_id = $('#patientID').val();
+    var days = $('#days').val();
+    var visited_date = $('#recordVisited_date').val();
+    var degree = $('#degree').val();
+    var Medicine_id = $('#prescription').val();
+    var note = $('#note').val();
+    var doctor = "韓雅玲";
+    var data_object = {
+      "symptoms": symptoms,
+      "patient_id": id,
+      "degree": degree,
+      "days": days,
+      "visited_date": visited_date,
+      "Medicine_id": Medicine_id,
+      "note": note,
+      "doctor": doctor,
+      "edited_by": "測試"
+    };
+    // 將JSON格式轉換成字串
+    var data_string = JSON.stringify(data_object);
+    // 發出POST的PUT請求
+    $.ajax({
+      type: "POST",
+      url: "http://140.115.81.245:8080/NCU_MIS_SA/api/record.do",
+      data: data_string,
+      crossDomain: true,
+      cache: false,
+      dataType: 'json',
+      timeout: 5000,
+      success: function (response) {
+        $('#flashMessage').html(response.message);
+        $('#flashMessage').show();
+        if (response.status == 200) {
+          console.log("更新成功")
+          editsuccess();
+        }
+      },
+      error: function () {
+        alert("無法連線到伺服器！");
+      }
+    });
+  }
+
+  function editsuccess() {
+    $('#exampleModalCenter').modal('show');
+  }
+  $('#submit').click(function () {
+    addRecord(id);
+  });
+  $('#gotoRecord').click(function () {
+    window.location.href = 'record.html?patient_id=' + id;
+  });
+
+  function updateHTML(data) {
+    $("#patientName").html(data['name']);
+    $("#patientID").html(data['pid']);
+  }
   $(".logo").click(function () {
     window.location.href = 'appointment.html';
   });
@@ -201,11 +311,8 @@
   $(".patientTable").click(function () {
     window.location.href = 'patient.html';
   });
-  $(".patientInfo").click(function () {
-    window.location.href = 'certainPatient.html';
-  });
   $(".recordTable").click(function () {
-    window.location.href = 'record.html';
+    window.location.href = 'record.html?patient_id=' + id;
   });
 
 </script>
