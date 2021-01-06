@@ -3,7 +3,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title></title>
+  <title>新增看診紀錄</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <link rel="stylesheet" type="text/css" href="statics/css/addRecord.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -136,10 +136,47 @@
   </div>
 </body>
 <script type="text/javascript" crossorigin="anonymous">
+  // var url_string = window.location.href;
+  // var url = new URL(url_string);
+  // var pid = url.searchParams.get("patient_id");
+  // console.log(pid)
   var url_string = window.location.href;
   var url = new URL(url_string);
-  var pid = url.searchParams.get("pid");
-  console.log(pid)
+  var id = url.searchParams.get("id");
+  function getPatientData() {
+    id = 1
+    $.ajax({
+      type: "GET",
+      url: "http://140.115.81.245/NCU_MIS_SA/api/patient.do",
+      data: "id=" + id,
+      crossDomain: true,
+      cache: false,
+      dataType: 'json',
+      timeout: 5000,
+      success: function (response) {
+        if (response.status == 200) {
+          // id = response['response']['data'][0]['id'];
+          // console.log(id);
+          // document.getElementById('patientName').value = response['response']['data'][0]['name'];
+          // document.getElementById('patientID').value = response['response']['data'][0]['pid'];
+          // document.getElementById('patientGender').value = response['response']['data'][0]['gender'];
+          // document.getElementById('patientDob').value = response['response']['data'][0]['dob'];
+          // document.getElementById('patientBloodType').value = response['response']['data'][0]['bloodType'];
+          // document.getElementById('patientPhone').value = response['response']['data'][0]['phone'];
+          // document.getElementById('patientAddress').value = response['response']['data'][0]['address'];
+          // document.getElementById('patientSpecialDisease').value = response['response']['data'][0][
+          //   'specialDisease'
+          // ];
+          // document.getElementById('patientDrugAllergy').value = response['response']['data'][0]['drugAllergy'];
+          console.log("123");
+        }
+      },
+      error: function () {
+        alert("無法連線到伺服器！");
+      }
+    });
+  }
+  getPatientData();
   $(".logo").click(function () {
     window.location.href = 'appointment.html';
   });

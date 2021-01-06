@@ -163,7 +163,8 @@
     });
   }
   $("#addRecord").click(function () {
-    window.location.href = 'addRecord.html?pid=' + this.pid;
+    console.log(pid);
+    window.location.href = 'aR.html?patient_id=' + pid;
   });
   $(".logo").click(function () {
     window.location.href = 'appointment.html';
