@@ -30,10 +30,10 @@
                 <img src="statics/icon/play-button-arrowhead.png" width="17px">
                 <p style="text-decoration: underline">人事清單列表</p>
             </div>
-            <div class="subFunction add">
+            <!--<div class="subFunction add">
                 <img src="statics/icon/plus.png" width="17px">
                 <p style="cursor: pointer;">新增人事</p>
-            </div>
+            </div>-->
             <div id="search">
                 <input type="text" id="searchTarget" placeholder="搜尋" />
             </div>
@@ -218,9 +218,9 @@
         window.location.href = 'logout.html';
     });
 
-    $(".add").click(function () {
-        window.location.href = 'addHr.html';
-    });
+    //$(".add").click(function () {
+    //    window.location.href = 'addHr.html';
+    //});
 
     $("#searchTarget").bind("keypress", {}, keypressInBox);
 

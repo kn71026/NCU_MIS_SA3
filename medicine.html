@@ -24,7 +24,7 @@
     </div>
 
     <div id="container">
-        <button type="button" class="btn deleteBtn">刪除</button>
+        <button type="button" class="btn deleteBtn" onclick="deleteAction()">刪除</button>
         <div id="functions">
             <div id="titleOfSystem">藥品管理系統</div>
             <div class="subFunction table">
@@ -58,13 +58,13 @@
         $("#listContainer").empty();
         var table_html = '';
         $.each(data, function (index, value) {
-            table_html += '<div class="list" onClick="dirToEdit(this.id)" id="' + value['id'] + '">';
-            table_html += '<div class="listContent id">' + value['id'] + '</div>';
-            table_html += '<div class="listContent name">' + value['name'] + '</div>';
-            table_html += '<div class="listContent quantity">' + value['quantity'] + '</div>';
-            table_html += '<div class="listContent category">' + value['category'] + '</div>';
-            table_html += '<div class="listContent update">' + value['modify_date'] + '</div>';
-            table_html += '<div class="listContent checker" style="margin-left: 2%;"><input type="checkbox" id="functionChecker"></div></div>';
+            table_html += '<div class="list">';
+            table_html += '<div class="listContent id" onClick="dirToEdit(this.id)" id="' + value['id'] + '">' + value['id'] + '</div>';
+            table_html += '<div class="listContent name" onClick="dirToEdit(this.id)" id="' + value['id'] + '">' + value['name'] + '</div>';
+            table_html += '<div class="listContent quantity" onClick="dirToEdit(this.id)" id="' + value['id'] + '">' + value['quantity'] + '</div>';
+            table_html += '<div class="listContent category" onClick="dirToEdit(this.id)" id="' + value['id'] + '">' + value['category'] + '</div>';
+            table_html += '<div class="listContent update" onClick="dirToEdit(this.id)" id="' + value['id'] + '">' + value['modify_date'] + '</div>';
+            table_html += '<div class="listContent checker" style="margin-left: 2%;"><input type="checkbox" name="deleteck" id="' + value["id"] + '"></div></div>';
         })
         $("#listContainer").append(table_html);
     }
@@ -90,6 +90,37 @@
 
     getAllMedicine();
 
+    function deleteMedicineByID(medicineID) {
+        var dataObject = { "id": medicineID };
+        var dataString = JSON.stringify(dataObject);
+        $.ajax({
+            type: "DELETE",
+            url: "http://140.115.81.245:8080/NCU_MIS_SA/api/medicine.do",
+            data: dataString,
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+                if (response.status == 200) {
+                    location.reload();
+                }
+            },
+            error: function () {
+                alert("Fail to delete");
+            }
+        });
+    }
+
+    function deleteAction() {
+        var cks = document.getElementsByName("deleteck");
+        for (var i = 0; i < cks.length; i++) {
+            if (cks[i].checked) {
+                console.log(cks[i].id);
+                deleteMedicineByID(cks[i].id);
+            }
+        }
+    }
     // page routing
     $(".logo").click(function () {
         window.location.href = 'appointment.html';
