@@ -81,7 +81,7 @@
       table_html += '<div class="listContent clinic_hours">' + value['clinic_hours'] + '</div>';
       table_html += '<div class="listContent appointment_number">' + value['appointment_number'] + '</div>';
       var anumber=  value['appointment_number'];
-      table_html += '<div class="listContent checker" style="margin-left: 2%;"><input type="checkbox" name="checkboxs" value="' + value['appointment_number'] + '" id="' + value['id'] + '"' + '></div></div>';
+      table_html += '<div class="listContent checker" style="margin-left: 2%;"><input type="checkbox" name="checkboxs" value="' + value['done'] + '" id="' + value['id'] + '"' + '></div></div>';
     })
 
     $("#listContainer").append(table_html);
@@ -197,8 +197,24 @@
   $(".passNumBtn").click(function () {
     id = sendInfo()[0];
     visited_date = sendInfo()[1];
-    alert(id+ " "+visited_date);
     passAppointment(id,visited_date);
+    $.ajax({
+      type: "GET",
+      url: "http://140.115.81.245:8080/NCU_MIS_SA/api/appointment.do?searching_date=2020-11-05",
+      crossDomain: true,
+      cache: false,
+      dataType: 'json',
+      timeout: 5000,
+      success: function (response) {
+        if (response.status == 200) {
+          updateTable(response.response.data);
+        }
+        console.log(response);
+      },
+      error: function () {
+        alert("無法連線到伺服器！");
+      }
+    });
   });
 
   //刪除

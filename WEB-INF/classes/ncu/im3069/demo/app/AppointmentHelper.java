@@ -156,11 +156,14 @@ public class AppointmentHelper {
                 String visited_date = rs.getString("visited_date");
                 int appointment_number = rs.getInt("appointment_number");
                 String clinic_hours = rs.getString("clinic_hours");
-                String doctor_name = getDoctorName(clinic_hours);
-                
+                String doctor_name = getDoctorName(rs.getString("clinic_hours"));
+
                 /** 將每一筆掛號資料產生一名新Appointment物件 */
                 a = new Appointment(id, pid, name, dob, visited_date, appointment_number, clinic_hours, doctor_name);
-                
+
+                // a = new Appointment(id, pid, name, dob, visited_date, appointment_number,
+                // clinic_hours, doctor_name);
+
                 /** 取出該名會員之資料並封裝至 JSONsonArray 內 */
                 jsa.put(a.getData());
             }
@@ -198,14 +201,14 @@ public class AppointmentHelper {
      */
     public String getDoctorName(String clinic_hours) {
         /** 新建一個 Appointment 物件之 a 變數，用於紀錄每一位查詢回之看診醫師資料 */
-        Appointment a = null;
+        // Appointment a = null;
         /** 記錄實際執行之SQL指令 */
         String exexcute_sql = "";
         /** 紀錄SQL總行數 */
-        int row = 0;
+        // int row = 0;
         /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
         ResultSet rs = null;
-        String doctor_name;
+        String doctor_name = null;
 
         try {
             /** 取得資料庫之連線 */
@@ -227,12 +230,10 @@ public class AppointmentHelper {
             /** 透過 while 迴圈移動pointer，取得每一筆回傳資料 */
             while (rs.next()) {
                 /** 每執行一次迴圈表示有一筆資料 */
-                row += 1;
+                // row += 1;
 
                 /** 將 ResultSet 之資料取出 */
                 doctor_name = rs.getString("doctor_name");
-
-                
             }
 
         } catch (SQLException e) {
@@ -255,7 +256,7 @@ public class AppointmentHelper {
      * @param pid 病患編號
      * @return the JSON object 回傳SQL執行結果與該病患編號之病患資料
      */
-    public JSONObject getByID(String id, String searching_date) {
+    public JSONObject getByID(String id) {
         /** 新建一個 Appointment 物件之 a 變數，用於紀錄每一位查詢回之掛號資料 */
         Appointment a = null;
         /** 用於儲存所有檢索回之病患，以JSONArray方式儲存 */

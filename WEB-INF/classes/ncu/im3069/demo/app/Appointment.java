@@ -51,11 +51,12 @@ public class Appointment {
     }
 
     // /**
-    //  * 實例化（Instantiates）一個新的（new）Order 物件<br>
-    //  * 採用多載（overload）方法進行，此建構子用於顯示掛號
-    //  */
+    // * 實例化（Instantiates）一個新的（new）Order 物件<br>
+    // * 採用多載（overload）方法進行，此建構子用於顯示掛號
+    // */
 
-    public Appointment(int id, String pid, String name, String dob, String visited_date, int appointment_number, String clinic_hours, String doctor_name) {
+    public Appointment(int id, String pid, String name, String dob, String visited_date, int appointment_number,
+            String clinic_hours, String doctor_name) {
         this.id = id;
         this.pid = pid;
         this.name = name;
