@@ -213,7 +213,7 @@
           document.getElementById('patientGender').value = response['response']['data'][0]['gender'];
           document.getElementById('patientDob').value = response['response']['data'][0]['dob'];
           document.getElementById('patientBloodType').value = response['response']['data'][0]['bloodType'];
-          document.getElementById('patientPhone').value = response['response']['data'][0]['phone'];
+          document.getElementById('patientPhone').value = "0" + response['response']['data'][0]['phone'];
           document.getElementById('patientAddress').value = response['response']['data'][0]['address'];
           document.getElementById('patientSpecialDisease').value = response['response']['data'][0][
             'specialDisease'
