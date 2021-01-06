@@ -42,7 +42,7 @@ public class AppointmentController extends HttpServlet {
             jsr.response(resp, response);
 
         } else {
-            JSONObject query = ah.getByID(id, searching_date);
+            JSONObject query = ah.getByID(id);
             JSONObject resp = new JSONObject();
             /** 新建一個JSONObject用於將回傳之資料進行封裝 */
             resp.put("status", "200");
@@ -105,15 +105,10 @@ public class AppointmentController extends HttpServlet {
 
         /** 取出經解析到JSONObject之Request參數 */
         int id = jso.getInt("id");
-        String name = jso.getString("name");
-        String pid = jso.getString("pid");
-        String dob = jso.getString("dob");
-        int appointment_number = jso.getInt("appointment_number");
         String visited_date = jso.getString("visited_date");
-        String clinic_hours = jso.getString("clinic_hours");
 
         /** 透過傳入之參數，新建一個以這些參數之掛號物件 */
-        Appointment a = new Appointment(id, pid, name, dob, visited_date, appointment_number, clinic_hours);
+        Appointment a = new Appointment(id, visited_date);
 
         /** 透過AppointmentHelper物件的passAppointment()方法至資料庫更新掛號資料，回傳之資料為JSONObject物件 */
         JSONObject data = ah.passAppointment(a);

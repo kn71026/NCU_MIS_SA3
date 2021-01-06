@@ -2,98 +2,240 @@
 <html>
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title></title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="statics/css/appointment.css">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title></title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="statics/css/appointment.css">
 </head>
 
 <body>
-    <div id="logoBar">
-        <img class="logo" src="statics/icon/Charlie_the_unicorn.png" style="cursor: pointer;">
-        <h1 class="logo" style="cursor: pointer;">Charlie Clinic</h1>
+  <div id="logoBar">
+    <img class="logo" src="statics/icon/Charlie_the_unicorn.png" style="cursor: pointer;">
+    <h1 class="logo" style="cursor: pointer;">Charlie Clinic</h1>
+  </div>
+
+  <div id="navBar">
+    <div class="page appointment" style="background-color: rgb(178, 166, 142);">掛號管理系統</div>
+    <div class="page patient">病歷管理系統</div>
+    <div class="page medicine">藥品管理系統</div>
+    <div class="page hr">人事管理系統</div>
+    <div class="page personal" id="personal">個人資料頁面</div>
+    <div class="page logout"><button id="logoutBtn" type="button">登出</button></div>
+  </div>
+
+  <div id="container">
+    <button type="button" class="btn passNumBtn">過號</button>
+    <button type="button" class="btn deleteBtn">刪除</button>
+    <div id="functions">
+      <div id="titleOfSystem"><input type="date" id="searching_date"
+          style="background: none; font-size: 13px; font-weight: bold; border: 0;">
+      </div>
+      <div class="subFunction table">
+        <img src="statics/icon/play-button-arrowhead.png" width="17px">
+        <p style="text-decoration: underline">掛號清單列表</p>
+      </div>
+      <div class="subFunction add">
+        <img src="statics/icon/plus.png" width="17px">
+        <p style="cursor: pointer;">新增掛號</p>
+      </div>
+      <div id="search">
+        <input type="text" id="searchTarget" placeholder="搜尋" />
+      </div>
+      <div id="schedule">
+        看診進度
+        <p>109</p>
+      </div>
+    </div>
+    <div id="listTitleContainer">
+      <div class="listTitle name">姓名</div>
+      <div class="listTitle pid">身分證字號</div>
+      <div class="listTitle doctor">看診醫師</div>
+      <div class="listTitle time">時段</div>
+      <div class="listTitle number">看診序號</div>
+      <div class="listTitle checker">選取</div>
+    </div>
+    <div id="listContainer">
     </div>
 
-    <div id="navBar">
-        <div class="page appointment" style="background-color: rgb(178, 166, 142);">掛號管理系統</div>
-        <div class="page patient">病歷管理系統</div>
-        <div class="page medicine">藥品管理系統</div>
-        <div class="page hr">人事管理系統</div>
-        <div class="page personal">個人資料頁面</div>
-        <div class="page logout"><button id="logoutBtn" type="button">登出</button></div>
-    </div>
+  </div>
 
-    <div id="container">
-        <button type="button" class="btn passNumBtn">過號</button>
-        <button type="button" class="btn deleteBtn">刪除</button>
-        <div id="functions">
-            <div id="titleOfSystem"><input type="date" id="appointmentDate"
-                    style="background: none; font-size: 13px; font-weight: bold; border: 0;">
-            </div>
-            <div class="subFunction table">
-                <img src="statics/icon/play-button-arrowhead.png" width="17px">
-                <p style="text-decoration: underline">掛號清單列表</p>
-            </div>
-            <div class="subFunction add">
-                <img src="statics/icon/plus.png" width="17px">
-                <p style="cursor: pointer;">新增掛號</p>
-            </div>
-            <div id="search">
-                <input type="text" id="searchTarget" placeholder="搜尋" />
-            </div>
-            <div id="schedule">
-                看診進度
-                <p>109</p>
-            </div>
-        </div>
-        <div id="listTitleContainer">
-            <div class="listTitle name">姓名</div>
-            <div class="listTitle id">身分證字號</div>
-            <div class="listTitle doctor">看診醫師</div>
-            <div class="listTitle time">時段</div>
-            <div class="listTitle number">看診序號</div>
-            <div class="listTitle checker">選取</div>
-        </div>
-        <div id="listContainer">
-            <div class="list">
-                <div class="listContent name">周靖軒</div>
-                <div class="listContent id">A123456789</div>
-                <div class="listContent doctor">顏婷蓁 醫師</div>
-                <div class="listContent time">上午</div>
-                <div class="listContent number">001</div>
-                <div class="listContent checker"><input type="checkbox" id="functionChecker"></div>
-            </div>
-        </div>
-    </div>
 </body>
 
 <script type="text/javascript" crossorigin="anonymous">
-    $(".logo").click(function () {
-        window.location.href = 'appointment.html';
-    });
+  // 取得網址參數
+  var url_string = window.location.href;
+  var url = new URL(url_string);
+  var id = url.searchParams.get("id");
+  var searching_date = url.searchParams.get("searching_date");
+  var sql_num = 0;
 
-    $(".appointment").click(function () {
-        window.location.href = 'appointment.html';
-    });
-    $(".patient").click(function () {
-        window.location.href = 'patient.html';
-    });
-    $(".medicine").click(function () {
-        window.location.href = 'medicine.html';
-    });
-    $(".hr").click(function () {
-        window.location.href = 'humanResource.html';
-    });
-    $(".personal").click(function () {
-        window.location.href = 'personal.html';
-    });
-    $('#logoutBtn').click(function () {
-        window.location.href = 'logout.html';
-    });
+  // 更新掛號列表表格
+  function updateTable(data) {
+    $("#listContainer").empty();
+    var table_html = '';
+    $.each(data, function (index, value) {
+      table_html += '<div class="list">';
+      table_html += '<div class="listContent name">' + value['name'] + '</div>';
+      table_html += '<div class="listContent pid">' + value['pid'] + '</div>';
+      table_html += '<div class="listContent doctor">' + value['doctor_name'] + '</div>';
+      table_html += '<div class="listContent clinic_hours">' + value['clinic_hours'] + '</div>';
+      table_html += '<div class="listContent appointment_number">' + value['appointment_number'] + '</div>';
+      var anumber=  value['appointment_number'];
+      table_html += '<div class="listContent checker" style="margin-left: 2%;"><input type="checkbox" name="checkboxs" value="' + value['appointment_number'] + '" id="' + value['id'] + '"' + '></div></div>';
+    })
 
-    $(".add").click(function () {
-        window.location.href = 'addAppointment.html';
+    $("#listContainer").append(table_html);
+  }
+
+  function getAllAppointment() {
+    // 發出POST的GET請求取得所有掛號列表
+    $.ajax({
+      type: "GET",
+      url: "http://140.115.81.245:8080/NCU_MIS_SA/api/appointment.do?searching_date=2020-11-05",
+      crossDomain: true,
+      cache: false,
+      dataType: 'json',
+      timeout: 5000,
+      success: function (response) {
+        if (response.status == 200) {
+          updateTable(response.response.data);
+        }
+        console.log(response);
+      },
+      error: function () {
+        alert("無法連線到伺服器！");
+      }
     });
+  }
+
+  function passAppointment(id, visited_date) {
+    var check = window.confirm("確認病患過號？");
+    if (check == true) {
+      console.log("You pressed OK!");
+      var request = {
+        'id': id,
+        'visited_date': visited_date
+      };
+
+      var data_string = JSON.stringify(request);
+      $.ajax({
+        type: "PUT",
+        url: "http://140.115.81.245:8080/NCU_MIS_SA/api/appointment.do",
+        crossDomain: true,
+        data: data_string,
+        cache: false,
+        dataType: 'json',
+        timeout: 5000,
+        success: function (response) {
+          if (response.status == 200) {
+            $("#flashMessage").html("成功! 已經成功處理過號...");
+            $("#flashMessage").show();
+            getAllAppointment();
+          }
+          console.log(response);
+        },
+        error: function () {
+          alert("無法連線到伺服器！");
+        }
+      });
+    } else {
+      console.log("You pressed Cancel!");
+    }
+  }
+
+
+  function deleteAppointment(id, done) {
+    var check = window.confirm("確認刪除掛號？");
+    if (check == true) {
+      console.log("You pressed OK!");
+      var request = {
+        'id': id,
+        "done": done
+      };
+      var data_string = JSON.stringify(request);
+      $.ajax({
+        type: "DELETE",
+        url: "http://140.115.81.245:8080/NCU_MIS_SA/api/appointment.do",
+        crossDomain: true,
+        data: data_string,
+        cache: false,
+        dataType: 'json',
+        timeout: 5000,
+        success: function (response) {
+          if (response.status == 200) {
+            $("#flashMessage").html("成功! 已經成功刪除掛號...");
+            $("#flashMessage").show();
+            getAllAppointment();
+          }
+          console.log(response);
+        },
+        error: function () {
+          alert("無法連線到伺服器！");
+        }
+      });
+    } else {
+      console.log("You pressed Cancel!");
+    }
+  }
+
+
+  function sendInfo() {
+    obj = document.getElementsByName("checkboxs");
+    check_value = [];
+    for (i in obj) {
+      if (obj[i].checked){
+        check_value.push(obj[i].id);
+        check_value.push(obj[i].value);
+    }
+    return check_value;
+  }
+}
+
+  getAllAppointment();
+
+  //過號
+  $(".passNumBtn").click(function () {
+    id = sendInfo()[0];
+    visited_date = sendInfo()[1];
+    alert(id+ " "+visited_date);
+    passAppointment(id,visited_date);
+  });
+
+  //刪除
+  $(".deleteBtn").click(function () {
+    id = sendInfo()[0];
+    done = sendInfo()[1];
+    alert(id+" "+done);
+    deleteAppointment(id, done);
+  });
+
+  $(".logo").click(function () {
+    window.location.href = 'appointment.html';
+  });
+
+  $(".appointment").click(function () {
+    window.location.href = 'appointment.html';
+  });
+  $(".patient").click(function () {
+    window.location.href = 'patient.html';
+  });
+  $(".medicine").click(function () {
+    window.location.href = 'medicine.html';
+  });
+  $(".hr").click(function () {
+    window.location.href = 'humanResource.html';
+  });
+  $("#personal").click(function () {
+    window.location.href = 'personal.html';
+  });
+  $('#logoutBtn').click(function () {
+    window.location.href = 'logout.html';
+  });
+
+  $(".add").click(function () {
+    window.location.href = 'addAppointment.html';
+  });
+
 </script>
 
 </html>
