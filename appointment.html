@@ -13,7 +13,6 @@
     <img class="logo" src="statics/icon/Charlie_the_unicorn.png" style="cursor: pointer;">
     <h1 class="logo" style="cursor: pointer;">Charlie Clinic</h1>
   </div>
-
   <div id="navBar">
     <div class="page appointment" style="background-color: rgb(178, 166, 142);">掛號管理系統</div>
     <div class="page patient">病歷管理系統</div>
@@ -22,7 +21,6 @@
     <div class="page personal" id="personal">個人資料頁面</div>
     <div class="page logout"><button id="logoutBtn" type="button">登出</button></div>
   </div>
-
   <div id="container">
     <button type="button" class="btn passNumBtn">過號</button>
     <button type="button" class="btn deleteBtn">刪除</button>
@@ -41,9 +39,7 @@
       <div id="search">
         <input type="text" id="searchTarget" placeholder="搜尋" />
       </div>
-      <div id="schedule">
-        看診進度
-        <p>109</p>
+      <div id="schedule"> 看診進度 <p>109</p>
       </div>
     </div>
     <div id="listTitleContainer">
@@ -56,21 +52,16 @@
     </div>
     <div id="listContainer">
     </div>
-
   </div>
-
 </body>
-
 <script type="text/javascript" crossorigin="anonymous">
   if (!(localStorage.getItem("isLogin"))) window.location.href = "index.html";
-
   // 取得網址參數
   var url_string = window.location.href;
   var url = new URL(url_string);
   var id = url.searchParams.get("id");
   var searching_date = url.searchParams.get("searching_date");
   var sql_num = 0;
-
   // 更新掛號列表表格
   function updateTable(data) {
     $("#listContainer").empty();
@@ -83,9 +74,10 @@
       table_html += '<div class="listContent clinic_hours">' + value['clinic_hours'] + '</div>';
       table_html += '<div class="listContent appointment_number">' + value['appointment_number'] + '</div>';
       var anumber = value['appointment_number'];
-      table_html += '<div class="listContent checker" style="margin-left: 2%;"><input type="checkbox" name="checkboxs" value="' + value['done'] + '" id="' + value['id'] + '"' + '></div></div>';
+      table_html +=
+        '<div class="listContent checker" style="margin-left: 2%;"><input type="checkbox" name="checkboxs" value="' +
+        value['done'] + '" id="' + value['id'] + '"' + '></div></div>';
     })
-
     $("#listContainer").append(table_html);
   }
 
@@ -118,7 +110,6 @@
         'id': id,
         'visited_date': visited_date
       };
-
       var data_string = JSON.stringify(request);
       $.ajax({
         type: "PUT",
@@ -144,7 +135,6 @@
       console.log("You pressed Cancel!");
     }
   }
-
 
   function deleteAppointment(id, done) {
     var check = window.confirm("確認刪除掛號？");
@@ -180,70 +170,65 @@
     }
   }
 
-
   function sendInfo() {
     var obj = document.getElementsByName("checkboxs");
     check_value = [];
     for (var i = 0; i < obj.length; i++) {
-      if (obj[i].checked){
-
-    for (i in obj) {
       if (obj[i].checked) {
-        check_value.push(obj[i].id);
-        console.log(obj[i].id);
-
-      $.ajax({
-        type: "GET",
-        url: "http://140.115.81.245:8080/NCU_MIS_SA/api/appointment.do",
-        crossDomain: true,
-        data: "id=" + obj[i].id,
-        cache: false,
-        dataType: 'json',
-        timeout: 5000,
-        success: function (response) {
-          if (response.status == 200) {
-            visited_date = response.response.data[i].visited_date;
+        for (i in obj) {
+          if (obj[i].checked) {
+            check_value.push(obj[i].id);
+            console.log(obj[i].id);
+            $.ajax({
+              type: "GET",
+              url: "http://140.115.81.245:8080/NCU_MIS_SA/api/appointment.do",
+              crossDomain: true,
+              data: "id=" + obj[i].id,
+              cache: false,
+              dataType: 'json',
+              timeout: 5000,
+              success: function (response) {
+                if (response.status == 200) {
+                  visited_date = response.response.data[i].visited_date;
+                }
+                console.log(response);
+              },
+              error: function () {
+                alert("無法連線到伺服器！");
+              }
+            });
+            check_value.push(obj[i].value);
+            check_value.push(obj[i].visited_date);
           }
-          console.log(response);
-        },
-        error: function () {
-          alert("無法連線到伺服器！");
+          return check_value;
         }
-      });
-
-        check_value.push(obj[i].value);
-        check_value.push(obj[i].visited_date);
-
+        getAllAppointment();
+        //過號
+        $(".passNumBtn").click(function () {
+          id = sendInfo()[0];
+          visited_date = sendInfo()[1];
+          passAppointment(id, visited_date);
+          $.ajax({
+            type: "GET",
+            url: "http://140.115.81.245:8080/NCU_MIS_SA/api/appointment.do?searching_date=2020-11-05",
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+              if (response.status == 200) {
+                updateTable(response.response.data);
+              }
+              console.log(response);
+            },
+            error: function () {
+              alert("無法連線到伺服器！");
+            }
+          });
+        });
       }
-    return check_value;
+    }
   }
-
-  getAllAppointment();
-
-  //過號
-  $(".passNumBtn").click(function () {
-    id = sendInfo()[0];
-    visited_date = sendInfo()[1];
-    passAppointment(id, visited_date);
-    $.ajax({
-      type: "GET",
-      url: "http://140.115.81.245:8080/NCU_MIS_SA/api/appointment.do?searching_date=2020-11-05",
-      crossDomain: true,
-      cache: false,
-      dataType: 'json',
-      timeout: 5000,
-      success: function (response) {
-        if (response.status == 200) {
-          updateTable(response.response.data);
-        }
-        console.log(response);
-      },
-      error: function () {
-        alert("無法連線到伺服器！");
-      }
-    });
-  });
-
   //刪除
   $(".deleteBtn").click(function () {
     id = sendInfo()[0];
@@ -251,11 +236,9 @@
     alert(id + " " + done);
     deleteAppointment(id, done);
   });
-
   $(".logo").click(function () {
     window.location.href = 'appointment.html';
   });
-
   $(".appointment").click(function () {
     window.location.href = 'appointment.html';
   });
@@ -274,7 +257,6 @@
   $('#logoutBtn').click(function () {
     window.location.href = 'logout.html';
   });
-
   $(".add").click(function () {
     window.location.href = 'addAppointment.html';
   });
