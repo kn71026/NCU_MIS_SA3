@@ -75,6 +75,12 @@
 </body>
 
 <script type="text/javascript" crossorigin="anonymous">
+    if (!(localStorage.getItem("isLogin"))) window.location.href = "index.html";
+    if (localStorage.getItem("title") != "doctor") {
+        alert("無訪問權限");
+        history.go(-1);
+    }
+
     $(".logo").click(function () {
         window.location.href = 'appointment.html';
     });

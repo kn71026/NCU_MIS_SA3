@@ -189,7 +189,7 @@
     width: 15%;
 }
 
-.id {
+.pid {
     width: 20%;
 }
 
@@ -197,15 +197,15 @@
     width: 22.5%;
 }
 
-.time {
+.clinic_hours {
     width: 12%;
 }
 
-.number {
+.appointment_number {
     width: 17.5%;
 }
 
-#listContainer .number {
+#listContainer .appointment_number {
     color: rgb(190, 35, 35);
 }
 

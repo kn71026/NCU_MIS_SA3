@@ -51,6 +51,8 @@
 
 <script type="text/javascript" crossorigin="anonymous">
     //functions
+    if (!(localStorage.getItem("isLogin"))) window.location.href = "index.html";
+
     function updateTable(data, title) {
         if (title == "doctor") $("#listContainer").empty();
         var table_html = '';

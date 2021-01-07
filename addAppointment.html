@@ -108,6 +108,37 @@
     var $form = $('#submit');
     $form.click(function () {
       submit();
+    if (!(localStorage.getItem("isLogin"))) window.location.href = "index.html";
+    if (localStorage.getItem("title") != "staff") {
+        alert("無訪問權限");
+        history.go(-1);
+    }
+    // pages routing
+    $(".logo").click(function () {
+        window.location.href = 'appointment.html';
+    });
+
+    $(".appointment").click(function () {
+        window.location.href = 'appointment.html';
+    });
+    $(".patient").click(function () {
+        window.location.href = 'patient.html';
+    });
+    $(".medicine").click(function () {
+        window.location.href = 'medicine.html';
+    });
+    $(".hr").click(function () {
+        window.location.href = 'humanResource.html';
+    });
+    $(".personal").click(function () {
+        window.location.href = 'personal.html';
+    });
+    $('#logoutBtn').click(function () {
+        window.location.href = 'logout.html';
+    });
+
+    $(".table").click(function () {
+        window.location.href = 'appointment.html';
     });
 
     function submit() {

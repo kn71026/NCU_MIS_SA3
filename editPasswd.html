@@ -38,4 +38,34 @@
     </div>
 </body>
 
+<script type="text/javascript" crossorigin="anonymous">
+    if (!(localStorage.getItem("isLogin"))) window.location.href = "index.html";
+
+    var title = localStorage.getItem("title");
+
+    function updateDoctorPassword() {
+        $.ajax({
+            type: "POST",
+            url: "http://140.115.81.245:8080/NCU_MIS_SA/api/outpatient.do",
+            data: "id=" + id,
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+                if (response.status == 200) {
+                    console.log(response);
+                }
+            },
+            error: function () {
+                alert("查無資料");
+            }
+        });
+    }
+
+    if (title == "doctor")
+    else if (title == "pharmacist")
+    else if (title == "staff")
+</script>
+
 </html>

@@ -72,6 +72,8 @@
 
 <script type="text/javascript" crossorigin="anonymous">
     // function
+    if (!(localStorage.getItem("isLogin"))) window.location.href = "index.html";
+
     var getUrlString = location.href;
     var url = new URL(getUrlString);
     var id = url.searchParams.get('id');

@@ -50,8 +50,8 @@
       <div class="listTitle name">姓名</div>
       <div class="listTitle pid">身分證字號</div>
       <div class="listTitle doctor">看診醫師</div>
-      <div class="listTitle time">時段</div>
-      <div class="listTitle number">看診序號</div>
+      <div class="listTitle clinic_hours">時段</div>
+      <div class="listTitle appointment_number">看診序號</div>
       <div class="listTitle checker">選取</div>
     </div>
     <div id="listContainer">
@@ -62,6 +62,8 @@
 </body>
 
 <script type="text/javascript" crossorigin="anonymous">
+  if (!(localStorage.getItem("isLogin"))) window.location.href = "index.html";
+
   // 取得網址參數
   var url_string = window.location.href;
   var url = new URL(url_string);
@@ -80,7 +82,7 @@
       table_html += '<div class="listContent doctor">' + value['doctor_name'] + '</div>';
       table_html += '<div class="listContent clinic_hours">' + value['clinic_hours'] + '</div>';
       table_html += '<div class="listContent appointment_number">' + value['appointment_number'] + '</div>';
-      var anumber=  value['appointment_number'];
+      var anumber = value['appointment_number'];
       table_html += '<div class="listContent checker" style="margin-left: 2%;"><input type="checkbox" name="checkboxs" value="' + value['done'] + '" id="' + value['id'] + '"' + '></div></div>';
     })
 
@@ -185,6 +187,8 @@
     for (var i = 0; i < obj.length; i++) {
       if (obj[i].checked){
 
+    for (i in obj) {
+      if (obj[i].checked) {
         check_value.push(obj[i].id);
         console.log(obj[i].id);
 
@@ -213,24 +217,38 @@
       }
     return check_value;
   }
-}
 
   getAllAppointment();
 
   //過號
   $(".passNumBtn").click(function () {
     id = sendInfo()[0];
-    visited_date = sendInfo()[2];
-
-    passAppointment(id,visited_date);
-
+    visited_date = sendInfo()[1];
+    passAppointment(id, visited_date);
+    $.ajax({
+      type: "GET",
+      url: "http://140.115.81.245:8080/NCU_MIS_SA/api/appointment.do?searching_date=2020-11-05",
+      crossDomain: true,
+      cache: false,
+      dataType: 'json',
+      timeout: 5000,
+      success: function (response) {
+        if (response.status == 200) {
+          updateTable(response.response.data);
+        }
+        console.log(response);
+      },
+      error: function () {
+        alert("無法連線到伺服器！");
+      }
+    });
   });
 
   //刪除
   $(".deleteBtn").click(function () {
     id = sendInfo()[0];
     done = sendInfo()[1];
-    alert(id+" "+done);
+    alert(id + " " + done);
     deleteAppointment(id, done);
   });
 
