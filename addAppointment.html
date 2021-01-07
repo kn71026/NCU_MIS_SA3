@@ -108,79 +108,78 @@
     var $form = $('#submit');
     $form.click(function () {
       submit();
-    if (!(localStorage.getItem("isLogin"))) window.location.href = "index.html";
-    if (localStorage.getItem("title") != "staff") {
+      if (!(localStorage.getItem("isLogin"))) window.location.href = "index.html";
+      if (localStorage.getItem("title") != "staff") {
         alert("無訪問權限");
         history.go(-1);
-    }
-    // pages routing
-    $(".logo").click(function () {
-        window.location.href = 'appointment.html';
+      }
     });
-
-    $(".appointment").click(function () {
-        window.location.href = 'appointment.html';
-    });
-    $(".patient").click(function () {
-        window.location.href = 'patient.html';
-    });
-    $(".medicine").click(function () {
-        window.location.href = 'medicine.html';
-    });
-    $(".hr").click(function () {
-        window.location.href = 'humanResource.html';
-    });
-    $(".personal").click(function () {
-        window.location.href = 'personal.html';
-    });
-    $('#logoutBtn').click(function () {
-        window.location.href = 'logout.html';
-    });
-
-    $(".table").click(function () {
-        window.location.href = 'appointment.html';
-    });
-
-    function submit() {
-      console.log("submit")
-      var name = $('#patientName').val();
-      var pid = $('#patientId').val();
-      var dob = $('#patientDob').val();
-      var visited_date = $('#visited_date').val();
-      var clinic_hours = $('#clinic_hours').val();
-      // 將資料組成JSON格式
-      var data_object = {
-        "name": name,
-        "pid": pid,
-        "dob": dob,
-        "visited_date": visited_date,
-        "clinic_hours": clinic_hours,
-      };
-      console.log(data_object)
-      // 將JSON格式轉換成字串
-      var data_string = JSON.stringify(data_object);
-      // 發出POST的AJAX請求
-      $.ajax({
-        type: "POST",
-        url: "http://140.115.81.245:8080/NCU_MIS_SA/api/appointment.do",
-        data: data_string,
-        crossDomain: true,
-        cache: false,
-        dataType: 'json',
-        timeout: 5000,
-        success: function (response) {
-          $('#flashMessage').html(response.message);
-          $('#flashMessage').show();
-          if (response.status == 200) {
-            console.log("新增成功")
-          }
-        },
-        error: function () {
-          alert("無法連線到伺服器！");
-        }
-      });
-    }
   });
+  // pages routing
+  $(".logo").click(function () {
+    window.location.href = 'appointment.html';
+  });
+  $(".appointment").click(function () {
+    window.location.href = 'appointment.html';
+  });
+  $(".patient").click(function () {
+    window.location.href = 'patient.html';
+  });
+  $(".medicine").click(function () {
+    window.location.href = 'medicine.html';
+  });
+  $(".hr").click(function () {
+    window.location.href = 'humanResource.html';
+  });
+  $(".personal").click(function () {
+    window.location.href = 'personal.html';
+  });
+  $('#logoutBtn').click(function () {
+    window.location.href = 'logout.html';
+  });
+  $(".table").click(function () {
+    window.location.href = 'appointment.html';
+  });
+
+  function submit() {
+    console.log("submit")
+    var name = $('#patientName').val();
+    var pid = $('#patientId').val();
+    var dob = $('#patientDob').val();
+    var visited_date = $('#visited_date').val();
+    var clinic_hours = $('#clinic_hours').val();
+    // 將資料組成JSON格式
+    var data_object = {
+      "name": name,
+      "pid": pid,
+      "dob": dob,
+      "visited_date": visited_date,
+      "clinic_hours": clinic_hours,
+    };
+    console.log(data_object)
+    // 將JSON格式轉換成字串
+    var data_string = JSON.stringify(data_object);
+    // 發出POST的AJAX請求
+    $.ajax({
+      type: "POST",
+      url: "http://140.115.81.245:8080/NCU_MIS_SA/api/appointment.do",
+      data: data_string,
+      crossDomain: true,
+      cache: false,
+      dataType: 'json',
+      timeout: 5000,
+      success: function (response) {
+        $('#flashMessage').html(response.message);
+        $('#flashMessage').show();
+        if (response.status == 200) {
+          console.log("新增成功")
+        }
+      },
+      error: function () {
+        alert("無法連線到伺服器！");
+      }
+    });
+  }
   $('#gotoAppointment').click(function () {
     window.location.href = 'appointment.html';
   });
