@@ -162,11 +162,6 @@
         <div class="appointmentTitle name">姓名</div>
       </div>
       <div id="appointmentListContainer">
-        <div class="appointmentList">
-          <div class="appointmentContent number">1</div>
-          <div class="appointmentContent id">A123456789</div>
-          <div class="appointmentContent name">江衍</div>
-        </div>
       </div>
     </div>
   </div>
@@ -278,6 +273,57 @@
       }
     });
   }
+
+  function getDay() {
+    var ddd = new Date();
+    var day = ddd.getDate();
+    var month = ddd.getMonth() + 1;
+    if (ddd.getMonth() < 10) {
+      var month = "0" + (ddd.getMonth() + 1);
+    }
+    if (ddd.getDate() < 10) {
+      day = "0" + ddd.getDate();
+    }
+    var datew = ddd.getFullYear() + "-" + month + "-" + day;
+    var datew = datew.toString();
+    $("[name=date]").val(datew);
+    return datew;
+  }
+
+  function updateAppointment(data) {
+    $("#appointmentListContainer").empty();
+    var table_html = '';
+    console.log("updating");
+    $.each(data, function (index, value) {
+      table_html += '<div class="appointmentList" style="padding-bottom: 15px;"><div class="appointmentContent number">' + value["appointment_number"] + '</div>';
+      table_html += '<div class="appointmentContent id">' + value["pid"] + '</div>';
+      table_html += '<div class="appointmentContent name">' + value["name"] + '</div></div>';
+    })
+    $("#appointmentListContainer").append(table_html);
+  }
+
+  function getAllAppointment() {
+    // 發出POST的GET請求取得所有掛號列表
+    $.ajax({
+      type: "GET",
+      url: "http://140.115.81.245:8080/NCU_MIS_SA/api/appointment.do?searching_date=" + getDay(),
+      crossDomain: true,
+      cache: false,
+      dataType: 'json',
+      timeout: 5000,
+      success: function (response) {
+        if (response.status == 200) {
+          updateAppointment(response.response.data);
+        }
+        console.log(response);
+      },
+      error: function () {
+        alert("無法連線到伺服器！");
+      }
+    });
+  }
+
+  getAllAppointment();
 
   function editsuccess() {
     $('#exampleModalCenter').modal('show');
