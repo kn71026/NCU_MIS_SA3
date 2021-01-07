@@ -61,7 +61,7 @@
 <script type="text/javascript" crossorigin="anonymous">
     // functions
     if (!(localStorage.getItem("isLogin"))) window.location.href = "index.html";
-    if (localStorage.getItem("title") != "doctor" || localStorage.getItem("title") != "pharmacist") {
+    if (localStorage.getItem("title") != "doctor" && localStorage.getItem("title") != "pharmacist") {
         alert("無訪問權限");
         history.go(-1);
     }
