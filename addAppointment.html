@@ -2,103 +2,162 @@
 <html>
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title></title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="statics/css/addTemplate.css">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title></title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="statics/css/addAppointment.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+  </script>
 </head>
 
-<body>
-    <div id="logoBar">
-        <img class="logo" src="statics/icon/Charlie_the_unicorn.png" style="cursor: pointer;">
-        <h1 class="logo" style="cursor: pointer;">Charlie Clinic</h1>
+<body style="margin: 8px;">
+  <div id="logoBar">
+    <img class="logo" src="statics/icon/Charlie_the_unicorn.png" style="cursor: pointer;">
+    <h1 class="logo" style="cursor: pointer;">Charlie Clinic</h1>
+  </div>
+  <div id="navBar">
+    <div class="page appointment" style="background:  rgb(178, 166, 142);">掛號管理系統</div>
+    <div class="page patient">病歷管理系統</div>
+    <div class="page medicine">藥品管理系統</div>
+    <div class="page hr">人事管理系統</div>
+    <div class="page personal">個人資料頁面</div>
+    <div class="page logout"><button id="logoutBtn" type="button" class="btn">登出</button></div>
+  </div>
+  <div id="container">
+    <div id="functions">
+      <div id="titleOfSystem">掛號管理系統</div>
+      <div class="subFunction table mt-3 mb-0">
+        <i class="fas fa-play"></i>
+        <p style="cursor: pointer;">掛號清單列表</p>
+      </div>
+      <div class="subFunction">
+        <i class="fas fa-plus text-success"></i>
+        <p style="text-decoration: underline">新增掛號</p>
+      </div>
     </div>
-
-    <div id="navBar">
-        <div class="page appointment" style="background-color: rgb(178, 166, 142);">掛號管理系統</div>
-        <div class="page patient">病歷管理系統</div>
-        <div class="page medicine">藥品管理系統</div>
-        <div class="page hr">人事管理系統</div>
-        <div class="page personal">個人資料頁面</div>
-        <div class="page logout"><button id="logoutBtn" type="button">登出</button></div>
-    </div>
-
-    <div id="container">
-        <div id="functions">
-            <div id="titleOfSystem">掛號管理系統</div>
-            <div class="subFunction table">
-                <img src="statics/icon/play-button-arrowhead.png" width="17px">
-                <p style="cursor: pointer;">掛號清單列表</p>
-            </div>
-            <div class="subFunction add">
-                <img src="statics/icon/plus.png" width="17px">
-                <p style="text-decoration: underline">新增掛號</p>
-            </div>
+    <div id="formContainer">
+      <form id="appointmentForm" accept-charset="UTF-8">
+        <div style="display:none;"><input type="hidden" name="_method" value="POST"></div>
+        <p id="formTitle">新增掛號</p>
+        <div id="formTable" style="padding: 2%;
+        height: 350px;">
+          <div style="display: none;"><input type="hidden" name="_method" value="POST"></div>
+          <div class="input  form-group row">
+            <label for="patientId" class="col-sm-2 col-form-label">身分證字號</label>
+            <input name="id" type="text" id="patientId" class="form-control col-sm-3" required>
+          </div>
+          <div class="input form-group row">
+            <label for="patientName " class="col-sm-2 col-form-label">姓名</label>
+            <input name="name" type="text" id="patientName" class="form-control col-sm-3" required>
+          </div>
+          <div class="input form-group row ">
+            <label for="patientDob" class="col-sm-2 col-form-label">出生年月日</label>
+            <input name="dob" type="date" id="patientDob" class="form-control col-sm-3" required>
+          </div>
+          <div class="input form-group row ">
+            <label for="date" class="col-sm-2 col-form-label">看診日期</label>
+            <input name="date" type="date" id="visited_date" class="form-control col-sm-3" required>
+          </div>
+          <div class="form-group row ">
+            <label for="clinic_hours" class="col-sm-2 col-form-label">看診時段</label>
+            <select name="clinic_hours" id="clinic_hours" required class="form-control col-sm-3">
+              <option value="上午">上午</option>
+              <option value="下午">下午</option>
+              <option value="腕上">腕上</option>
+            </select>
+          </div>
+          <div class="row">
+            <div class="col-sm-2"></div><input type="button" class="btn text-white col-sm-3" value="確定新增" id="submit"
+              data-toggle="modal" data-target="#exampleModalCenter" style="background: #916000; padding: 5px 15px;">
+          </div>
         </div>
-        <div id="formContainer">
-            <form id="appointmentForm" accept-charset="UTF-8">
-                <p id="formTitle">新增掛號</p>
-                <input type="button" value="掛號" id="submit" style="cursor: pointer;">
-                <div id="formTable">
-                    <div style="display: none;"><input type="hidden" name="_method" value="POST"></div>
-                    <div class="input id required">
-                        <label for="patientId">身分證字號</label>
-                        <input name="id" type="text" id="patientId" required>
-                    </div>
-                    <div class="input password required">
-                        <label for="patientName">姓名</label>
-                        <input name="name" type="text" id="patientName" required>
-                    </div>
-                    <div class="input dob required">
-                        <label for="patientDob">出生年月日</label>
-                        <input name="dob" type="date" id="patientDob" required>
-                    </div>
-                    <div class="input date required">
-                        <label for="date">看診日期</label>
-                        <input name="date" type="date" id="date" required>
-                    </div>
-                    <div class="input title required">
-                        <label for="time">看診時段</label>
-                        <select name="time" id="time" required>
-                            <option value="morning">上午</option>
-                            <option value="afternoon">下午</option>
-                        </select>
-                    </div>
-            </form>
-        </div>
+      </form>
     </div>
+  </div>
 </body>
-
 <script type="text/javascript" crossorigin="anonymous">
-    // pages routing
-    $(".logo").click(function () {
-        window.location.href = 'appointment.html';
+  $(document).ready(function () {
+    // 處理表單點擊事件
+    var $form = $('#submit');
+    $form.click(function () {
+      submit();
     });
 
-    $(".appointment").click(function () {
-        window.location.href = 'appointment.html';
-    });
-    $(".patient").click(function () {
-        window.location.href = 'patient.html';
-    });
-    $(".medicine").click(function () {
-        window.location.href = 'medicine.html';
-    });
-    $(".hr").click(function () {
-        window.location.href = 'humanResource.html';
-    });
-    $(".personal").click(function () {
-        window.location.href = 'personal.html';
-    });
-    $('#logoutBtn').click(function () {
-        window.location.href = 'logout.html';
-    });
-
-    $(".table").click(function () {
-        window.location.href = 'appointment.html';
-    });
-
-    // functions
+    function submit() {
+      console.log("submit")
+      var name = $('#patientName').val();
+      var pid = $('#patientId').val();
+      var dob = $('#patientDob').val();
+      var visited_date = $('#visited_date').val();
+      var clinic_hours = $('#clinic_hours').val();
+      // 將資料組成JSON格式
+      var data_object = {
+        "name": name,
+        "pid": pid,
+        "dob": dob,
+        "visited_date": visited_date,
+        "clinic_hours": clinic_hours,
+      };
+      console.log(data_object)
+      // 將JSON格式轉換成字串
+      var data_string = JSON.stringify(data_object);
+      // 發出POST的AJAX請求
+      $.ajax({
+        type: "POST",
+        url: "http://140.115.81.245:8080/NCU_MIS_SA/api/appointment.do",
+        data: data_string,
+        crossDomain: true,
+        cache: false,
+        dataType: 'json',
+        timeout: 5000,
+        success: function (response) {
+          $('#flashMessage').html(response.message);
+          $('#flashMessage').show();
+          if (response.status == 200) {
+            console.log("新增成功")
+          }
+        },
+        error: function () {
+          alert("無法連線到伺服器！");
+        }
+      });
+    }
+  });
+  // pages routing
+  $(".logo").click(function () {
+    window.location.href = 'appointment.html';
+  });
+  $(".appointment").click(function () {
+    window.location.href = 'appointment.html';
+  });
+  $(".patient").click(function () {
+    window.location.href = 'patient.html';
+  });
+  $(".medicine").click(function () {
+    window.location.href = 'medicine.html';
+  });
+  $(".hr").click(function () {
+    window.location.href = 'humanResource.html';
+  });
+  $(".personal").click(function () {
+    window.location.href = 'personal.html';
+  });
+  $('#logoutBtn').click(function () {
+    window.location.href = 'logout.html';
+  });
+  $(".table").click(function () {
+    window.location.href = 'appointment.html';
+  });
+  // functions
 
 </script>
 
