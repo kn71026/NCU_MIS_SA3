@@ -160,7 +160,7 @@
       success: function (response) {
         if (response.status == 200) {
           id = response['response']['data'][0]['id'];
-          console.log(id);
+          // console.log(id);
           document.getElementById('patientName').value = response['response']['data'][0]['name'];
           document.getElementById('patientID').value = response['response']['data'][0]['pid'];
           document.getElementById('patientGender').value = response['response']['data'][0]['gender'];

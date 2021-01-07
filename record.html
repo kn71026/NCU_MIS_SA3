@@ -103,7 +103,6 @@
   var url_string = window.location.href;
   var url = new URL(url_string);
   var pid = url.searchParams.get("patient_id");
-  console.log(pid)
 
   function updateTable(data) {
     $("#listContainer").empty();
@@ -165,7 +164,6 @@
     });
   }
   $("#addRecord").click(function () {
-    console.log(pid);
     window.location.href = 'addRecord.html?patient_id=' + pid;
   });
   $(".logo").click(function () {
