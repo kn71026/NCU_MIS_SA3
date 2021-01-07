@@ -79,7 +79,7 @@
     if(data[0] != null){
       document.getElementById("schedule_num").innerHTML=data[0].appointment_number;
     } else {
-      document.getElementById("schedule_num").innerHTML="0";
+      document.getElementById("schedule_num").innerHTML="無";
     }
 
     
@@ -124,6 +124,7 @@
     var check = window.confirm("確認病患過號？");
     if (check == true) {
       console.log("You pressed OK!");
+      
       var request = {
         'id': id,
         'visited_date': visited_date
@@ -258,11 +259,10 @@
             if (cks[i].checked) {
                 //console.log(cks[i].id);
                 id = cks[i].id;
-                visited_date = sendInfoById(1)[1];
+                visited_date = sendInfoById(id)[1];
                 //console.log(visited_date);
         }
     }
-
     passAppointment(id,visited_date);
   });
 
