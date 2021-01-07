@@ -131,7 +131,6 @@
   var url = new URL(url_string);
   var id = url.searchParams.get("id");
   var patient_id;
-  console.log(typeof (parseInt(id)));
 
   function getRecordData() {
     $.ajax({
@@ -145,6 +144,7 @@
         if (response.status == 200) {
           id = response['response']['data'][0]['id'];
           patient_id = response['response']['data'][0]['patient_id'];
+          console.log(patient_id)
           document.getElementById('visited_date').value = response['response']['data'][0]['visited_date'];
           document.getElementById('RecordSymptoms').value = response['response']['data'][0]['symptoms'];
           document.getElementById('RecordDegree').value = response['response']['data'][0]['degree'];
@@ -237,6 +237,7 @@
     updatePatient(id);
   });
   $('#gotoRecord').click(function () {
+    console.log(patient_id)
     window.location.href = 'record.html?patient_id=' + patient_id;
   });
 
@@ -269,7 +270,7 @@
     window.location.href = 'patient.html';
   });
   $(".recordTable").click(function () {
-    window.location.href = 'record.html?patient_id=' + id;
+    window.location.href = 'record.html?patient_id=' + patient_id;
   });
 
 </script>
