@@ -80,6 +80,9 @@ public class AppointmentHelper {
             pres.setString(6, clinic_hours);
             pres.setBoolean(7, done);
 
+            /** 執行查詢之SQL指令並記錄其回傳之資料 */
+            row = pres.executeUpdate();
+
             /** 紀錄真實執行的SQL指令，並印出 **/
             exexcute_sql = pres.toString();
             System.out.println(exexcute_sql);
