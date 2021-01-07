@@ -11,6 +11,8 @@ public class Login {
     /** password 人事密碼 */
     private String password;
 
+    private String job;
+
      /** lh，LoginHelper之物件與Login相關之資料庫方法（Sigleton） */
      private LoginHelper lh = LoginHelper.getHelper();
     
@@ -22,7 +24,8 @@ public class Login {
      * @param account  人事帳號
      * @param password 人事密碼
      */
-    public Login(String account, String password) {
+    public Login(String job, String account, String password) {
+        this.job = job;
         this.account = account;
         this.password = password;
     }
@@ -45,6 +48,10 @@ public class Login {
         return this.password;
     }
 
+    public String getJob(){
+        return this.job;
+    }
+
     /**
      * 取得該 人事所有資料
      *
@@ -53,6 +60,7 @@ public class Login {
     public JSONObject getData() {
         /** 透過JSONObject將該 醫師所需之資料全部進行封裝 */
         JSONObject jso = new JSONObject();
+        jso.put("job", getJob());
         jso.put("account", getAccount());
         jso.put("password", getPassword());
         return jso;
