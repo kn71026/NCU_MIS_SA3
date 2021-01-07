@@ -10,9 +10,6 @@ public class OutPatient {
     /** doctor_id，醫師編號 */
     private int doctor_id;
 
-    /** days，看診星期 */
-    private String days;
-
     /** clinic_hours，看診時段 */
     private String clinic_hours;
 
@@ -27,10 +24,9 @@ public class OutPatient {
      * 採用多載（overload）方法進行，此建構子用於新增門診
      */
 
-    public OutPatient(int id, int doctor_id, String days, String clinic_hours, String doctor_name) {
+    public OutPatient(int id, int doctor_id, String clinic_hours, String doctor_name) {
         this.id = id;
         this.doctor_id = doctor_id;
-        this.days = days;
         this.clinic_hours = clinic_hours;
         this.doctor_name = doctor_name;
     }
@@ -51,15 +47,6 @@ public class OutPatient {
      */
     public int getDoctorID() {
         return this.doctor_id;
-    }
-
-    /**
-     * 取得看診星期
-     *
-     * @return the days 回傳看診星期
-     */
-    public String getDays() {
-        return this.days;
     }
 
     /**
@@ -90,7 +77,6 @@ public class OutPatient {
         JSONObject jso = new JSONObject();
         jso.put("id", getID());
         jso.put("doctor_id", getDoctorID());
-        jso.put("days", getDays());
         jso.put("clinic_hours", getClinicHours());
         jso.put("doctor_name", getDoctorName());
         return jso;

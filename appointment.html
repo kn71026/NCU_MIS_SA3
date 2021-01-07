@@ -180,13 +180,37 @@
 
 
   function sendInfo() {
-    obj = document.getElementsByName("checkboxs");
+    var obj = document.getElementsByName("checkboxs");
     check_value = [];
-    for (i in obj) {
+    for (var i = 0; i < obj.length; i++) {
       if (obj[i].checked){
+
         check_value.push(obj[i].id);
+        console.log(obj[i].id);
+
+      $.ajax({
+        type: "GET",
+        url: "http://140.115.81.245:8080/NCU_MIS_SA/api/appointment.do",
+        crossDomain: true,
+        data: "id=" + obj[i].id,
+        cache: false,
+        dataType: 'json',
+        timeout: 5000,
+        success: function (response) {
+          if (response.status == 200) {
+            visited_date = response.response.data[i].visited_date;
+          }
+          console.log(response);
+        },
+        error: function () {
+          alert("無法連線到伺服器！");
+        }
+      });
+
         check_value.push(obj[i].value);
-    }
+        check_value.push(obj[i].visited_date);
+
+      }
     return check_value;
   }
 }
@@ -196,25 +220,10 @@
   //過號
   $(".passNumBtn").click(function () {
     id = sendInfo()[0];
-    visited_date = sendInfo()[1];
+    visited_date = sendInfo()[2];
+
     passAppointment(id,visited_date);
-    $.ajax({
-      type: "GET",
-      url: "http://140.115.81.245:8080/NCU_MIS_SA/api/appointment.do?searching_date=2020-11-05",
-      crossDomain: true,
-      cache: false,
-      dataType: 'json',
-      timeout: 5000,
-      success: function (response) {
-        if (response.status == 200) {
-          updateTable(response.response.data);
-        }
-        console.log(response);
-      },
-      error: function () {
-        alert("無法連線到伺服器！");
-      }
-    });
+
   });
 
   //刪除

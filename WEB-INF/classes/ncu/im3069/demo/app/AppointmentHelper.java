@@ -131,14 +131,13 @@ public class AppointmentHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT * FROM `sa_project`.`appointment` WHERE `done` = true AND `visited_date` = ?";
+            String sql = "SELECT * FROM `sa_project`.`appointment` WHERE `done` = true AND `visited_date` = ? ORDER BY appointment_number";
             /** 將參數回填至SQL指令當中，若無則不用只需要執行 prepareStatement */
             pres = conn.prepareStatement(sql);
             pres.setString(1, searching_date);
 
             /** 執行查詢之SQL指令並記錄其回傳之資料 */
             rs = pres.executeQuery();
-
             /** 紀錄真實執行的SQL指令，並印出 **/
             exexcute_sql = pres.toString();
             System.out.println(exexcute_sql);
