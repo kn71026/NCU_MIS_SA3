@@ -63,33 +63,33 @@
                 <tbody id="tableInfo">
                     <tr>
                         <td>上午班</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td class="mon morning"></td>
+                        <td class="tue morning"></td>
+                        <td class="wed morning"></td>
+                        <td class="thu morning"></td>
+                        <td class="fri morning"></td>
+                        <td class="sat morning"></td>
+                        <td class="sun morning"></td>
                     </tr>
                     <tr>
                         <td>下午班</td>
-                        <td></td>
-                        <td><img src="statics/icon/check.png" style="width: 30px;"></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td class="mon afternoon"></td>
+                        <td class="tue afternoon"></td>
+                        <td class="wed afternoon"></td>
+                        <td class="thu afternoon"></td>
+                        <td class="fri afternoon"></td>
+                        <td class="sat afternoon"></td>
+                        <td class="sun afternoon"></td>
                     </tr>
                     <tr>
                         <td>晚班</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td class="mon evening"></td>
+                        <td class="tue evening"></td>
+                        <td class="wed evening"></td>
+                        <td class="thu evening"></td>
+                        <td class="fri evening"></td>
+                        <td class="sat evening"></td>
+                        <td class="sun evening"></td>
                     </tr>
                 </tbody>
             </table>
@@ -117,21 +117,23 @@
     }
 
     function updateOutpatient(data) {
-        // code
+        if (data[0].clinic_hours == "上午") $(".morning").append('<img src="statics/icon/check.png" style="width: 30px;">');
+        if (data[0].clinic_hours == "下午") $(".afternoon").append('<img src="statics/icon/check.png" style="width: 30px;">');
+        if (data[0].clinic_hours == "晚上") $(".evening").append('<img src="statics/icon/check.png" style="width: 30px;">');
     }
 
     function getOutpatientByID() {
         $.ajax({
             type: "GET",
             url: "http://140.115.81.245:8080/NCU_MIS_SA/api/outpatient.do",
-            data: "id=" + id,
+            data: "doctor_id=" + id,
             crossDomain: true,
             cache: false,
             dataType: 'json',
             timeout: 5000,
             success: function (response) {
                 if (response.status == 200) {
-                    console.log(response);
+                    updateOutpatient(response.response.data);
                 }
             },
             error: function () {
